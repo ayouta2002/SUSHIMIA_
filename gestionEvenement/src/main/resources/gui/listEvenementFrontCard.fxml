@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.listEvenementCardFrontController">
+    <children>
+        <VBox alignment="CENTER" layoutX="7.0" layoutY="10.0" prefHeight="227.0" prefWidth="263.0">
+            <children>
+            <HBox prefHeight="67.0" prefWidth="142.0">
+               <children>
+                  <ImageView fx:id="imgEve" fitHeight="80.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <Pane prefHeight="98.0" prefWidth="186.0" />
+                <HBox alignment="CENTER" prefHeight="28.0" prefWidth="84.0">
+                    <children>
+                        <Label fx:id="labelNomEve" contentDisplay="CENTER" prefHeight="30.0" prefWidth="126.0" text="Nom" textFill="#720000" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true">
+                            <font>
+                                <Font name="Cambria Bold" size="16.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                            <padding>
+                                <Insets left="15.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                    <opaqueInsets>
+                        <Insets left="20.0" right="20.0" />
+                    </opaqueInsets>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label fx:id="labelDateDebutEve" text="dateDebut" />
+                  <Label fx:id="labelDateFinEve" text="dateFin" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label fx:id="labelDescriptionEve" text="Description" />
+                    </children>
+                </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnReserver" mnemonicParsing="false" onAction="#ajouterReservationFront" text="Réserver" />
+               </children>
+            </HBox>
+            </children>
+        </VBox>
+    </children>
+    <styleClass>
+        <String fx:value="cr" />
+        <String fx:value="ct" />
+    </styleClass>
+</AnchorPane>
