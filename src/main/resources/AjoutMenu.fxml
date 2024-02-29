@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="584.0" prefWidth="903.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AjoutMenuControllers">
+   <children>
+      <AnchorPane opacity="0.48" prefHeight="103.0" prefWidth="923.0" style="-fx-background-color: #f5c422;" />
+      <ImageView fitHeight="50.0" fitWidth="70.0" layoutX="804.0" layoutY="507.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Capture%20d’écran%202024-02-23%20101812.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="39.0" fitWidth="39.0" layoutX="50.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/annuler.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="18.0" layoutY="150.0" opacity="0.67" prefHeight="415.0" prefWidth="306.0" style="-fx-background-color: #d41c1c;">
+         <children>
+            <ImageView fx:id="fimage" fitHeight="95.0" fitWidth="110.0" layoutX="14.0" layoutY="266.0" onMouseClicked="#image_add" pickOnBounds="true" preserveRatio="true" />
+            <Button layoutX="163.0" layoutY="370.0" mnemonicParsing="false" onAction="#UpdateMenu" prefHeight="33.0" prefWidth="94.0" text="modifier">
+               <font>
+                  <Font name="Cooper Black" size="11.0" />
+               </font>
+            </Button>
+            <Button layoutX="59.0" layoutY="370.0" mnemonicParsing="false" onAction="#AddPlat" prefHeight="34.0" prefWidth="104.0" text="ajouter">
+               <font>
+                  <Font name="Cooper Black" size="12.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
+      <Label layoutX="43.0" layoutY="197.0" prefHeight="18.0" prefWidth="47.0" text="nom" textFill="#181816">
+         <font>
+            <Font name="Algerian" size="12.0" />
+         </font></Label>
+      <Label layoutX="38.0" layoutY="253.0" prefHeight="18.0" prefWidth="70.0" text="description">
+         <font>
+            <Font name="Algerian" size="10.0" />
+         </font></Label>
+      <Label layoutX="40.0" layoutY="301.0" prefHeight="18.0" prefWidth="47.0" text="prix">
+         <font>
+            <Font name="Algerian" size="11.0" />
+         </font></Label>
+      <Label layoutX="39.0" layoutY="344.0" prefHeight="18.0" prefWidth="62.0" text="quantite">
+         <font>
+            <Font name="Algerian" size="11.0" />
+         </font></Label>
+      <TextField fx:id="ftnomplat" layoutX="151.0" layoutY="189.0" />
+      <TextField fx:id="ftdescriptionplat" layoutX="150.0" layoutY="243.0" />
+      <TextField fx:id="ftprixplat" layoutX="150.0" layoutY="291.0" />
+      <TextField fx:id="ftquantiteplat" layoutX="151.0" layoutY="338.0" />
+      <Label layoutX="36.0" layoutY="387.0" prefHeight="18.0" prefWidth="84.0" text="nom_categorie">
+         <font>
+            <Font name="Algerian" size="11.0" />
+         </font></Label>
+      <TextField fx:id="ftnomcategorie" layoutX="150.0" layoutY="387.0" />
+      <TableView fx:id="tabplat" layoutX="381.0" layoutY="189.0" prefHeight="200.0" prefWidth="530.0">
+        <columns>
+          <TableColumn fx:id="tvnom" prefWidth="68.0" text="nom" />
+          <TableColumn fx:id="tvdes" prefWidth="82.4000244140625" text="description" />
+            <TableColumn fx:id="tvprix" prefWidth="75.0" text="prix" />
+            <TableColumn fx:id="tvquantite" prefWidth="75.0" text="quantite" />
+            <TableColumn fx:id="tvnomcategorie" prefWidth="75.0" text="nom_categorie" />
+            <TableColumn fx:id="tvaction" prefWidth="75.0" text="action" />
+            <TableColumn fx:id="tvimage" prefWidth="75.0" text="image" />
+        </columns>
+      </TableView>
+      <Button layoutX="405.0" layoutY="399.0" mnemonicParsing="false" onAction="#DeletePlat" prefHeight="26.0" prefWidth="219.0" text="supprimer">
+         <font>
+            <Font name="Cooper Black" size="13.0" />
+         </font></Button>
+      <TextField fx:id="suppid" layoutX="655.0" layoutY="399.0" prefHeight="26.0" prefWidth="202.0" />
+      <Button layoutX="46.0" layoutY="31.0" mnemonicParsing="false" onAction="#retourplat" opacity="0.0" prefHeight="39.0" prefWidth="47.0" text="retour" />
+      <Label layoutX="298.0" layoutY="28.0" text="gestion des plat">
+         <font>
+            <Font name="Cooper Black" size="42.0" />
+         </font>
+      </Label>
+      <Button fx:id="closebutton" layoutX="811.0" layoutY="512.0" mnemonicParsing="false" onAction="#closeplat" opacity="0.0" prefHeight="39.0" prefWidth="47.0" text="Button" />
+      <ImageView fitHeight="162.0" fitWidth="163.0" layoutX="761.0" layoutY="-19.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Red_Black_Simple_Spicy_Food_Restaurant_Logo___1_-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="489.0" layoutY="125.0" mnemonicParsing="false" onAction="#search" text="rechercher" />
+      <TextField fx:id="ftrecherche" layoutX="612.0" layoutY="125.0" onKeyTyped="#searchkey" />
+   </children>
+</AnchorPane>

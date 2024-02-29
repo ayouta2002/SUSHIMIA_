@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1430.0" styleClass="bgProductsAdmin" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AfficherMenu">
+    <children>
+        <ImageView fitHeight="40.0" fitWidth="308.0" layoutX="511.0" layoutY="12.0">
+
+        </ImageView>
+        <BorderPane layoutX="728.0" layoutY="479.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <right>
+                <VBox fx:id="chosen" prefHeight="436.0" prefWidth="237.0" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="70.0" right="61.0" top="90.0" />
+                    </BorderPane.margin>
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="62.0" prefWidth="194.0">
+                            <children>
+                                <Label prefHeight="41.0" prefWidth="130.0" text="Name">
+                                    <font>
+                                        <Font name="Hoefler Text" size="32.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="Nom_plat" />
+                                <HBox prefHeight="62.0" prefWidth="5.0" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="182.0" prefWidth="237.0">
+                            <children>
+                                <ImageView fx:id="img" fitHeight="150.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true" />
+                            </children>
+                        </HBox>
+                        <VBox prefHeight="84.0" prefWidth="237.0">
+                            <children>
+                                <Label fx:id="Description" text="Description">
+                                    <font>
+                                        <Font name="Hoefler Text" size="18.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets left="15.0" top="5.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <TextField fx:id="des_plat" />
+                            </children>
+                        </VBox>
+                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="237.0">
+                            <children>
+                                <Label fx:id="prix" text="Prix">
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <TextField fx:id="prix_plat" prefHeight="26.0" prefWidth="154.0" />
+                            </children>
+                        </HBox>
+                        <VBox alignment="CENTER" prefHeight="73.0" prefWidth="237.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="33.0" prefWidth="237.0" />
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </right>
+            <center>
+                <ScrollPane fx:id="scroll" prefHeight="542.0" prefWidth="1022.0" style="-fx-background-color: transparent; -fx-background: transparent;" styleClass="transparent" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="125.0" left="45.0" right="65.0" top="75.0" />
+                    </BorderPane.margin>
+                    <content>
+                        <GridPane fx:id="grid" prefHeight="125.0" prefWidth="114.0">
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </ScrollPane>
+            </center>
+            <top>
+                <HBox alignment="CENTER" prefHeight="58.0" prefWidth="1430.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <TextField fx:id="searchInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="232.0" promptText="Search..." styleClass="transparent" />
+
+
+                        <Pane prefHeight="58.0" prefWidth="83.0">
+                            <children>
+                                <ChoiceBox fx:id="filtreOptions" layoutX="20.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="47.0">
+                                    <styleClass>
+                                        <String fx:value="filtre" />
+                                        <String fx:value="transparent" />
+                                    </styleClass>
+                                </ChoiceBox>
+                            </children>
+                        </Pane>
+                    </children>
+                </HBox>
+            </top>
+            <bottom>
+                <Pane prefHeight="114.0" prefWidth="1342.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <ImageView fitHeight="60.0" fitWidth="750.0" layoutX="264.0" layoutY="30.0">
+
+                        </ImageView>
+                    </children>
+                </Pane>
+            </bottom>
+        </BorderPane>
+    </children>
+</AnchorPane>
