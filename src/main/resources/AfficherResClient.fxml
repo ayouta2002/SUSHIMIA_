@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="586.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.AfficherResClientController">
+   <children>
+      <Label layoutX="278.0" layoutY="24.0" text="Vos Reservations">
+         <font>
+            <Font name="Cooper Black" size="32.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tabreservation" layoutX="35.0" layoutY="128.0" prefHeight="294.0" prefWidth="811.0">
+        <columns>
+          <TableColumn fx:id="reszone" prefWidth="119.20000457763672" text="Zone" />
+          <TableColumn fx:id="tableres" prefWidth="80.80001831054688" text="Table_id" />
+            <TableColumn fx:id="dateres" prefWidth="224.800048828125" text="Date de reservation" />
+            <TableColumn fx:id="dateconf" minWidth="0.0" prefWidth="208.80007934570312" text="Date de confirmation" />
+            <TableColumn fx:id="actionres" prefWidth="174.4000244140625" text="Action" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

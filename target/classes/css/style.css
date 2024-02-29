@@ -1,0 +1,11 @@
+.my-alert {
+    -fx-background-color: rgba(252, 199, 137, 0.75);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Helvetica', Sans-serif; /* Replace 'YourDesiredFont' with the actual font name */
+    -fx-border-color: #6b0808;
+    -fx-border-width: 11px;
+    -fx-border-radius: 0px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(40, 160, 211, 0.6), 10, 0, 0, 0);
+}

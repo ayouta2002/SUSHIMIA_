@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="666.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.ConfirmationDeReservationController">
+   <children>
+      <Label layoutX="218.0" layoutY="22.0" prefHeight="48.0" prefWidth="511.0" text="Votre reservation est confirmée">
+         <font>
+            <Font name="Cooper Black" size="31.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="211.0" layoutY="215.0" opacity="0.36" prefHeight="282.0" prefWidth="542.0" style="-fx-background-color: #edf295;" />
+      <Label fx:id="Ldate" layoutX="603.0" layoutY="258.0" text="Label">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="Lzone" layoutX="603.0" layoutY="343.0" text="Label">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="Ltable_id" layoutX="603.0" layoutY="438.0" text="Label">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="252.0" layoutY="260.0" prefHeight="34.0" prefWidth="314.0" text="Date et heure de reservation :">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label layoutX="252.0" layoutY="347.0" text="Zone :">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label layoutX="252.0" layoutY="445.0" text="Table_id :">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label layoutX="297.0" layoutY="219.0" prefHeight="18.0" prefWidth="178.0" text="Date et heure de confirmation" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane onMousePressed="#click" prefHeight="243.0" prefWidth="256.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.ZoneItemController">
+   <children>
+      <ImageView fitHeight="243.0" fitWidth="280.0" layoutX="9.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/item.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="21.0" layoutY="28.0" prefHeight="134.0" prefWidth="209.0">
+         <children>
+            <ImageView fx:id="img" fitHeight="137.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </VBox>
+      <Label fx:id="Nom_zone" layoutX="82.0" layoutY="188.0" text="Label" textFill="#c71717">
+         <font>
+            <Font name="Cooper Black" size="22.0" />
+         </font></Label>
+   </children>
+</AnchorPane>
