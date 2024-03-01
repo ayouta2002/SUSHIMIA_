@@ -11,15 +11,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -86,7 +83,7 @@ public class AffichageZoneController implements Initializable {
         /* Image image = new Image(p.getImage());
         img.setImage(image);
         System.out.println(p.getImage());*/
-        String imagePath = "C:\\xampp\\htdocs\\Imagezones" + p.getImage();
+        String imagePath = "C:\\xampp\\htdocs\\Imagezones\\" + p.getImage();
         try {
             img.setImage(new Image(new FileInputStream(imagePath)));
         } catch (FileNotFoundException e) {
@@ -106,38 +103,37 @@ public class AffichageZoneController implements Initializable {
             }
         };
 
-        int c = 0;
-        int l = 0;
-        try {
-            for (int i = 0; i < zonesList.size(); i++) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/Item.fxml"));
-                AnchorPane anchorPane = fxmlLoader.load();
+       int column = 0;
+       int row = 1;
+       try {
+           for (int i = 0; i < zonesList.size(); i++) {
+               FXMLLoader fxmlLoader = new FXMLLoader();
+               fxmlLoader.setLocation(getClass().getResource("/Item.fxml"));
+               AnchorPane anchorPane = fxmlLoader.load();
 
-                ZoneItemController zoneController = fxmlLoader.getController();
-                zoneController.setData(zonesList.get(i), myListener);
-                if (c > 2) {
-                    c = 0;
-                    l++;
-                }
-                grid.add(anchorPane, c++, l);
-                //grid weight
-                grid.setMinWidth(215);
-                grid.setPrefWidth(215);
-                grid.setMaxWidth(215);//
-                //height
-                grid.setMinHeight(170);
-                grid.setPrefHeight(170);
-                grid.setMaxHeight(170);//
-                grid.setLayoutY(10);
+               ZoneItemController zoneController = fxmlLoader.getController();
+               zoneController.setData(zonesList.get(i), myListener);
 
+               if (column == 2) {
+                   column = 0;
+                   row++;
+               }
 
-                GridPane.setMargin(anchorPane, new Insets(215, 0, 0, 65));
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+               grid.add(anchorPane, column++, row);
+               GridPane.setMargin(anchorPane, new Insets(10));
+           }
+       } catch (IOException ex) {
+           System.out.println(ex.getMessage());
+       }
+       grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+       grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+       grid.setHgap(10);
+       grid.setVgap(10);
+       scroll.setFitToWidth(true);
+       scroll.setContent(grid);
+       grid.requestLayout();
+   }
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -146,13 +142,29 @@ public class AffichageZoneController implements Initializable {
 
     @FXML
     void ResZone(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReservationClient.fxml"));
-        Parent root = loader.load();
-        Nom_zone.getScene().setRoot(root);
+        String nomZone = Nom_zone.getText();
 
-        ReservationClientController apc = loader.getController();
-        apc.setLnomzone(Nom_zone.getText());
+        if (!nomZone.isEmpty()) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReservationClient.fxml"));
+            Parent root = loader.load();
 
+            // Assuming you have a controller in ReservationClient.fxml, you can set values or perform actions
+            ReservationClientController apc = loader.getController();
+            apc.setLnomzone(nomZone);
+
+            // Switch to the new interface
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            // Show an alert if tfnomzone is empty
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Bienvenue");
+            alert.setContentText("Choisir votre zone");
+            alert.showAndWait();
+        }
     }
 
     @FXML

@@ -6,17 +6,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="627.0" prefWidth="899.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.MenuuController">
+<AnchorPane prefHeight="627.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.MenuuController">
    <children>
-      <AnchorPane layoutX="188.0" layoutY="322.0" opacity="0.58" prefHeight="126.0" prefWidth="538.0" style="-fx-background-color: #f7ce46;" />
-      <AnchorPane layoutX="186.0" layoutY="166.0" opacity="0.58" prefHeight="136.0" prefWidth="537.0" style="-fx-background-color: #f7ce46;" />
-      <Button layoutX="207.0" layoutY="187.0" mnemonicParsing="false" onAction="#gestiondestables" prefHeight="94.0" prefWidth="394.0" text="Gestion des tables">
+      <AnchorPane prefHeight="87.0" prefWidth="909.0" style="-fx-background-color: #6b2517;" />
+      <AnchorPane layoutX="185.0" layoutY="451.0" opacity="0.58" prefHeight="126.0" prefWidth="538.0" style="-fx-background-color: #f7ce46;" />
+      <AnchorPane layoutX="188.0" layoutY="301.0" opacity="0.58" prefHeight="126.0" prefWidth="538.0" style="-fx-background-color: #f7ce46;" />
+      <AnchorPane layoutX="186.0" layoutY="145.0" opacity="0.58" prefHeight="136.0" prefWidth="537.0" style="-fx-background-color: #f7ce46;" />
+      <Button layoutX="207.0" layoutY="166.0" mnemonicParsing="false" onAction="#gestiondestables" prefHeight="94.0" prefWidth="394.0" text="Gestion des tables">
          <font>
             <Font name="Cooper Black" size="36.0" />
          </font>
       </Button>
-      <Button layoutX="208.0" layoutY="340.0" mnemonicParsing="false" onAction="#gestiondeszones" prefHeight="87.0" prefWidth="394.0" text="Gestion des zones">
+      <Button layoutX="208.0" layoutY="319.0" mnemonicParsing="false" onAction="#gestiondeszones" prefHeight="87.0" prefWidth="394.0" text="Gestion des zones">
          <font>
             <Font name="Cooper Black" size="36.0" />
          </font>
@@ -26,14 +27,24 @@
             <Image url="@images/logo.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="87.0" fitWidth="94.0" layoutX="619.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="87.0" fitWidth="94.0" layoutX="619.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/table.gif" />
          </image>
       </ImageView>
-      <ImageView fitHeight="87.0" fitWidth="104.0" layoutX="621.0" layoutY="343.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="87.0" fitWidth="104.0" layoutX="621.0" layoutY="322.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/zones.gif" />
+         </image>
+      </ImageView>
+      <Button layoutX="206.0" layoutY="471.0" mnemonicParsing="false" onAction="#listRes" prefHeight="87.0" prefWidth="394.0" text="Liste des reservations">
+         <font>
+            <Font name="Cooper Black" size="31.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="94.0" fitWidth="113.0" layoutX="617.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/11201873.gif" />
          </image>
       </ImageView>
    </children>

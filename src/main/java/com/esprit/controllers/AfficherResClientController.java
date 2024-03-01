@@ -7,14 +7,21 @@ import com.esprit.services.ZonesService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.sql.Date;
 import java.util.List;
@@ -43,8 +50,28 @@ public class AfficherResClientController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rafraichirTableView();
+        tabreservation.setEditable(true);
 
+         //tableres.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
+        reszone.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
+        // dateres.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
+        // dateconf.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
+        modifiertable();
+    }
 
+    public void modifiertable() {
+        reszone.setOnEditCommit(event -> {
+            // Obtenez la réservation à partir de l'événement
+            Reservation reservation = event.getRowValue();
+
+            // Mettez à jour la zone avec la nouvelle valeur
+            reservation.setZone(event.getNewValue());
+            reservation.setTable_id(Integer.parseInt(event.getNewValue()));
+
+            // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
+            ReservationService reservationService = new ReservationService();
+            reservationService.modifier(reservation);
+        });
     }
 
     private void afficherReservationsClient(int idClient) {
@@ -59,7 +86,7 @@ public class AfficherResClientController implements Initializable {
     private void rafraichirTableView() {
         ReservationService reservationService = new ReservationService();
         // Configurer les colonnes du TableView
-        dateconf.setCellValueFactory(new PropertyValueFactory<>("date"));
+       // dateconf.setCellValueFactory(new PropertyValueFactory<>("date"));
         dateres.setCellValueFactory(new PropertyValueFactory<>("dateR"));
         reszone.setCellValueFactory(new PropertyValueFactory<>("zone"));
         tableres.setCellValueFactory(new PropertyValueFactory<>("table_id"));
@@ -100,5 +127,4 @@ public class AfficherResClientController implements Initializable {
         // Afficher les réservations du client statique
         afficherReservationsClient(idClientStatic);
     }
-
 }

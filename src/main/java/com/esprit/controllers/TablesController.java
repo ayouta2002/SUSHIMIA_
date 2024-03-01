@@ -1,7 +1,9 @@
 package com.esprit.controllers;
 
+import com.esprit.models.Reservation;
 import com.esprit.models.Tab;
 import com.esprit.models.Zones;
+import com.esprit.services.ReservationService;
 import com.esprit.services.TableService;
 import com.esprit.services.ZonesService;
 import javafx.collections.FXCollections;
@@ -16,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -50,7 +53,10 @@ public class TablesController implements Initializable {
         rafraichirTableView();
         initializeTableView();
         FillForm();
+        tabtable.setEditable(true);
+
     }
+
 
     public void initializeTableView() {
         TableService tableService = new TableService();

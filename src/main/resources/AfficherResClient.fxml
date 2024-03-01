@@ -3,25 +3,31 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="586.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.AfficherResClientController">
    <children>
-      <Label layoutX="278.0" layoutY="24.0" text="Vos Reservations">
+      <AnchorPane layoutY="-4.0" prefHeight="71.0" prefWidth="862.0" style="-fx-background-color: #6b2517;" />
+      <Label layoutX="283.0" layoutY="16.0" text="Vos Reservations" textFill="WHITE">
          <font>
             <Font name="Cooper Black" size="32.0" />
          </font>
       </Label>
-      <TableView fx:id="tabreservation" layoutX="35.0" layoutY="128.0" prefHeight="294.0" prefWidth="811.0">
+      <TableView fx:id="tabreservation" layoutX="126.0" layoutY="128.0" prefHeight="375.0" prefWidth="610.0">
         <columns>
           <TableColumn fx:id="reszone" prefWidth="119.20000457763672" text="Zone" />
           <TableColumn fx:id="tableres" prefWidth="80.80001831054688" text="Table_id" />
-            <TableColumn fx:id="dateres" prefWidth="224.800048828125" text="Date de reservation" />
-            <TableColumn fx:id="dateconf" minWidth="0.0" prefWidth="208.80007934570312" text="Date de confirmation" />
-            <TableColumn fx:id="actionres" prefWidth="174.4000244140625" text="Action" />
+            <TableColumn fx:id="dateres" prefWidth="236.79998779296875" text="Date de reservation" />
+            <TableColumn fx:id="actionres" prefWidth="172.00003051757812" text="Action" />
         </columns>
       </TableView>
+      <ImageView fitHeight="192.0" fitWidth="216.0" layoutX="-27.0" layoutY="-30.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

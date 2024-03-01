@@ -1,6 +1,8 @@
 package com.esprit.controllers;
 
+import com.esprit.models.Reservation;
 import com.esprit.models.Zones;
+import com.esprit.services.ReservationService;
 import com.esprit.services.ZonesService;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -10,12 +12,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.esprit.utils.DataSource;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
@@ -36,6 +40,8 @@ import java.sql.Statement;
 import java.util.*;
 
 import javafx.scene.image.Image;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 
 public class AjoutZoneController implements Initializable {
@@ -111,7 +117,7 @@ public class AjoutZoneController implements Initializable {
                         selectedFile = new File(file.getAbsolutePath());
                         System.out.println("Drag and drop file done and path=" + file.getAbsolutePath());//file.getAbsolutePath(😕"C:\Users\X\Desktop\ScreenShot.6.png"
                         image_zone.setImage(new Image("file:" + file.getAbsolutePath()));
-                        File destinationFile = new File("C:\\xampp\\htdocs\\Imagezones" + file.getName());
+                        File destinationFile = new File("C:\\xampp\\htdocs\\Imagezones\\" + file.getName());
                         try {
                             // Copy the selected file to the destination file
                             Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -259,14 +265,14 @@ public class AjoutZoneController implements Initializable {
        }
 
        // Contrôle de saisie pour la description
-       if (!isStringValid(description)) {
+     /*  if (!isStringValid(description)) {
            Alert alert = new Alert(Alert.AlertType.ERROR);
            alert.setTitle("Erreur de saisie");
            alert.setHeaderText(null);
            alert.setContentText("Veuillez saisir une description valide.");
            alert.showAndWait();
            return;
-       }
+       }*/
 
        int capacite;
        try {
@@ -284,10 +290,12 @@ public class AjoutZoneController implements Initializable {
        ZonesService zs = new ZonesService();
        zs.ajouter(new Zones(nom, description, capacite, url_image));
 
-       Alert alert = new Alert(Alert.AlertType.INFORMATION);
-       alert.setTitle("Zone Ajoutée");
-       alert.setContentText("Zone Ajoutée !");
-       alert.show();
+       Notifications.create()
+               .darkStyle()
+               .title("zone Ajouté avec succès")
+               .position(Pos.TOP_RIGHT) // Modifier la position ici
+               .hideAfter(Duration.seconds(20))
+               .show();
        initializeTableView();
        resetFormulaire();
    }
@@ -321,14 +329,14 @@ public class AjoutZoneController implements Initializable {
             }
 
             // Contrôle de saisie pour la description
-            if (!isStringValid(descriptionzoneValue)) {
+           /* if (!isStringValid(descriptionzoneValue)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur de saisie");
                 alert.setHeaderText(null);
                 alert.setContentText("Veuillez saisir une description valide.");
                 alert.showAndWait();
                 return;
-            }
+            }*/
 
             Zones nouvellesValeursZones = new Zones(idzoneModifier, nomzoneValue, descriptionzoneValue, capacityzoneValue,imageValue);
             ZonesService zonesService = new ZonesService(); // Créez une instance de la classe ZonesService si elle n'existe pas déjà

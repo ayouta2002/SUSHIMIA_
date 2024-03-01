@@ -9,6 +9,8 @@ public class Reservation {
     private String zone;
     private int table_id;
     private Date dateR;
+    private Date date;
+
 
 
     public Reservation(int id_R, int id_C, String zone, int table_id, Date dateR) {
@@ -17,6 +19,7 @@ public class Reservation {
         this.zone = zone;
         this.table_id = table_id;
         this.dateR = dateR;
+
     }
 
     public Reservation(int id_C, String zone, int table_id, Date dateR) {
@@ -62,6 +65,10 @@ public class Reservation {
 
     public Date getDateR() {
         return dateR;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public void setDateR(Date dateR) {

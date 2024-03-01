@@ -4,7 +4,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane onMousePressed="#click" prefHeight="243.0" prefWidth="256.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.ZoneItemController">
@@ -14,14 +13,10 @@
             <Image url="@images/item.png" />
          </image>
       </ImageView>
-      <VBox layoutX="21.0" layoutY="28.0" prefHeight="134.0" prefWidth="209.0">
-         <children>
-            <ImageView fx:id="img" fitHeight="137.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </VBox>
-      <Label fx:id="Nom_zone" layoutX="82.0" layoutY="188.0" text="Label" textFill="#c71717">
+      <Label fx:id="Nom_zone" layoutX="97.0" layoutY="188.0" text="Label" textFill="#c71717">
          <font>
             <Font name="Cooper Black" size="22.0" />
          </font></Label>
+      <ImageView fx:id="img" fitHeight="124.0" fitWidth="186.0" layoutX="35.0" layoutY="43.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

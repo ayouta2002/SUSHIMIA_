@@ -5,9 +5,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -15,111 +15,105 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="1044.0" styleClass="bgProductsAdmin" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.AffichageZoneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="1130.0" styleClass="bgProductsAdmin" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.AffichageZoneController">
    <children>
+      <ImageView fitHeight="421.0" fitWidth="370.0" layoutX="720.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/item.png" />
+         </image>
+      </ImageView>
       <ImageView fitHeight="40.0" fitWidth="308.0" layoutX="511.0" layoutY="12.0">
 
       </ImageView>
-      <BorderPane layoutX="728.0" layoutY="479.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <right>
-            <VBox fx:id="chosen" prefHeight="314.0" prefWidth="238.0" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="70.0" right="61.0" top="90.0" />
-               </BorderPane.margin>
+      <Pane layoutX="-8.0" layoutY="-5.0" prefHeight="87.0" prefWidth="1138.0" style="-fx-background-color: #6b2517;">
+         <children>
+            <Label layoutX="389.0" layoutY="24.0" text="Les Zones disponibles" textFill="WHITE">
+               <font>
+                  <Font name="Cooper Black" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <ScrollPane fx:id="scroll" layoutX="10.0" layoutY="122.0" prefHeight="351.0" prefWidth="686.0">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="62.0" prefWidth="194.0">
-                     <children>
-                        <Label prefHeight="41.0" prefWidth="130.0" text="Nom ">
-                           <font>
-                              <Font name="Hoefler Text" size="32.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="Nom_zone" disable="true" />
-                        <HBox prefHeight="62.0" prefWidth="5.0" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="182.0" prefWidth="237.0">
-                     <children>
-                        <ImageView fx:id="img" fitHeight="150.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </HBox>
-                  <VBox prefHeight="84.0" prefWidth="237.0">
-                     <children>
-                        <Label fx:id="Description" text="Description">
-                           <font>
-                              <Font name="Hoefler Text" size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="15.0" top="5.0" />
-                           </VBox.margin>
-                        </Label>
-                        <TextField fx:id="des_zone" disable="true" />
-                     </children>
-                  </VBox>
-                  <HBox alignment="CENTER" prefHeight="90.0" prefWidth="238.0">
-                     <children>
-                        <Label fx:id="capacite" text="capacite">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField fx:id="cap_zone" disable="true" prefHeight="26.0" prefWidth="154.0" />
-                     </children>
-                  </HBox>
-                  <VBox alignment="CENTER" prefHeight="73.0" prefWidth="237.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="33.0" prefWidth="237.0" />
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
-         </right>
-         <center>
-            <ScrollPane fx:id="scroll" prefHeight="542.0" prefWidth="1022.0" style="-fx-background-color: transparent; -fx-background: transparent;" styleClass="transparent" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="125.0" left="45.0" right="65.0" top="75.0" />
-               </BorderPane.margin>
-               <content>
                   <GridPane fx:id="grid" prefHeight="210.0" prefWidth="238.0">
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
                      </rowConstraints>
                   </GridPane>
-               </content>
-            </ScrollPane>
-         </center>
-         <top>
-            <HBox alignment="CENTER" prefHeight="72.0" prefWidth="1044.0" BorderPane.alignment="CENTER">
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+      <VBox fx:id="chosen" layoutX="747.0" layoutY="117.0" prefHeight="340.0" prefWidth="300.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="62.0" prefWidth="194.0">
                <children>
-                  <AnchorPane prefHeight="72.0" prefWidth="1134.0" style="-fx-background-color: #6b2517;">
-                     <children>
-                        <Label layoutX="410.0" layoutY="12.0" text="Nos Zones" textFill="WHITE">
-                           <font>
-                              <Font name="Cooper Black" size="37.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-
-
-                  <Pane prefHeight="58.0" prefWidth="83.0" />
+                  <Label prefHeight="47.0" prefWidth="85.0" text="Nom ">
+                     <font>
+                        <Font name="Hoefler Text" size="32.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="Nom_zone" disable="true" />
+                  <HBox prefHeight="62.0" prefWidth="5.0" />
                </children>
             </HBox>
-         </top>
-         <bottom>
-            <Pane prefHeight="114.0" prefWidth="1342.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="182.0" prefWidth="237.0">
                <children>
-                  <ImageView fitHeight="60.0" fitWidth="750.0" layoutX="264.0" layoutY="30.0">
-
-                  </ImageView>
-                  <Button layoutX="758.0" layoutY="3.0" mnemonicParsing="false" onAction="#ResZone" prefHeight="40.0" prefWidth="223.0" text="Reserver dans cette zone">
-                     <font>
-                        <Font size="16.0" />
-                     </font></Button>
-                  <Button layoutX="-6.0" layoutY="27.0" mnemonicParsing="false" onAction="#AfficherTTres" prefHeight="26.0" prefWidth="163.0" text="Afficher mes reservations" />
+                  <ImageView fx:id="img" fitHeight="150.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true" />
                </children>
-            </Pane>
-         </bottom>
-      </BorderPane>
+            </HBox>
+            <VBox prefHeight="129.0" prefWidth="300.0">
+               <children>
+                  <Label fx:id="Description" text="Description">
+                     <font>
+                        <Font name="Hoefler Text" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="des_zone" disable="true" prefHeight="80.0" prefWidth="300.0" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="90.0" prefWidth="238.0">
+               <children>
+                  <Label fx:id="capacite" text="capacite">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="cap_zone" disable="true" prefHeight="26.0" prefWidth="154.0" />
+               </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="73.0" prefWidth="237.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="33.0" prefWidth="237.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <Button layoutX="811.0" layoutY="496.0" mnemonicParsing="false" onAction="#AfficherTTres" prefHeight="40.0" prefWidth="202.0" text="Afficher mes reservations">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="811.0" layoutY="443.0" mnemonicParsing="false" onAction="#ResZone" prefHeight="40.0" prefWidth="201.0" text="Reserver dans cette zone">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="186.0" fitWidth="231.0" layoutX="-40.0" layoutY="-23.0">
+         <image>
+            <Image url="@images/logo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="190.0" layoutY="574.0" text="Découvrez nos différentes zones conçues pour vous offrir une expérience gastronomique unique.">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
