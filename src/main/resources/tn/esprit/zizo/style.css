@@ -1,0 +1,50 @@
+.text-field {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.description-field {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+    -fx-font-family: Arial, sans-serif;
+}
+
+/* style.css */
+
+/* Button styling */
+.button {
+    -fx-background-color: #8B8000; /* Green */
+    -fx-border-radius: 5px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049; /* Darker Green */
+}
+
+/* Tableview styling */
+.table-view {
+    -fx-background-color: #f4f4f4;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #4CAF50; /* Green */
+}
+
+.table-view .column-header,
+.table-view .table-cell {
+    -fx-text-fill: #333;
+}
+
+.table-view .column-header .label {
+    -fx-font-weight: bold;
+}

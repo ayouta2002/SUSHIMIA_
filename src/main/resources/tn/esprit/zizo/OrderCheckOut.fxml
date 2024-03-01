@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="407.0" prefWidth="333.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.OrderCheckOutController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dedce4" height="407.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="1.5" width="336.0">
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#f72f78" />
+                  <Stop color="#fe7b1d" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+      </Rectangle>
+      <ComboBox fx:id="paymentOptionsList" layoutX="137.0" layoutY="103.0" prefHeight="25.0" prefWidth="177.0" />
+      <ComboBox fx:id="shippingOptionsList" layoutX="137.0" layoutY="148.0" prefHeight="25.0" prefWidth="177.0" />
+      <Text layoutX="17.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Option :" />
+      <Text layoutX="16.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shipping Option :" />
+      <TextArea fx:id="shippingAddress" layoutX="14.0" layoutY="219.0" prefHeight="135.0" prefWidth="304.0" />
+      <Text layoutX="15.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shipping Address :" />
+      <Button layoutX="135.0" layoutY="368.0" mnemonicParsing="false" onAction="#OnPayAction" prefHeight="25.0" prefWidth="63.0" text="Pay" />
+      <Text layoutX="83.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Check Out">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="25.0" fitWidth="99.0" layoutX="129.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+      </ImageView>
+      <ImageView fitHeight="25.0" fitWidth="99.0" layoutX="14.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true">
+      </ImageView>
+   </children>
+</AnchorPane>
