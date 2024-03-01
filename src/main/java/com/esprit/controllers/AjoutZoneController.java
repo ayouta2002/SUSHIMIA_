@@ -142,9 +142,10 @@ public class AjoutZoneController implements Initializable {
         fc.setInitialDirectory(new File(System.getProperty("user.home") + "\\Desktop"));
         fc.setTitle("Veuillez choisir l'image");
         fc.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Image", ".jpg", ".png"),
+
                 new FileChooser.ExtensionFilter("PNG", "*.png"),
-                new FileChooser.ExtensionFilter("JPG", "*.jpg")
+                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+        new FileChooser.ExtensionFilter("Image", ".jpg", ".png")
         );
         selectedFile = fc.showOpenDialog(null);
 
@@ -293,7 +294,7 @@ public class AjoutZoneController implements Initializable {
        Notifications.create()
                .darkStyle()
                .title("zone Ajouté avec succès")
-               .position(Pos.TOP_RIGHT) // Modifier la position ici
+               .position(Pos.BOTTOM_RIGHT) // Modifier la position ici
                .hideAfter(Duration.seconds(20))
                .show();
        initializeTableView();

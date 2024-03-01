@@ -34,10 +34,6 @@ import java.util.ResourceBundle;
 
 public class AffichageZoneController implements Initializable {
 
-
-
-
-
     @FXML
     private TextField Nom_zone;
 
@@ -90,7 +86,22 @@ public class AffichageZoneController implements Initializable {
             System.err.println("Error loading image: " + e.getMessage());
         }
     }
-   public void Update() {
+
+    public void Update1() {
+        ZonesService zones = new ZonesService();
+        zonesList = zones.afficher();
+        filterZones("");
+    }
+    private void filterZones(String keyword) {
+        List<Zones> filteredList = new ArrayList<>();
+
+        for (Zones zone : zonesList) {
+            if (zone.getNom().toLowerCase().contains(keyword.toLowerCase())) {
+                filteredList.add(zone);
+            }
+        }
+
+        grid.getChildren().clear();
         Zones p;
         ZonesService zones = new ZonesService();
         zonesList.clear();
@@ -102,42 +113,46 @@ public class AffichageZoneController implements Initializable {
                 setChosenZone(p);
             }
         };
+        int column = 0;
+        int row = 1;
 
-       int column = 0;
-       int row = 1;
-       try {
-           for (int i = 0; i < zonesList.size(); i++) {
-               FXMLLoader fxmlLoader = new FXMLLoader();
-               fxmlLoader.setLocation(getClass().getResource("/Item.fxml"));
-               AnchorPane anchorPane = fxmlLoader.load();
+        try {
+            for (int i = 0; i < filteredList.size(); i++) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/Item.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
 
-               ZoneItemController zoneController = fxmlLoader.getController();
-               zoneController.setData(zonesList.get(i), myListener);
+                ZoneItemController zoneController = fxmlLoader.getController();
+                zoneController.setData(filteredList.get(i), myListener);
 
-               if (column == 2) {
-                   column = 0;
-                   row++;
-               }
+                if (column == 2) {
+                    column = 0;
+                    row++;
+                }
 
-               grid.add(anchorPane, column++, row);
-               GridPane.setMargin(anchorPane, new Insets(10));
-           }
-       } catch (IOException ex) {
-           System.out.println(ex.getMessage());
-       }
-       grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-       grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-       grid.setHgap(10);
-       grid.setVgap(10);
-       scroll.setFitToWidth(true);
-       scroll.setContent(grid);
-       grid.requestLayout();
-   }
+                grid.add(anchorPane, column++, row);
+                GridPane.setMargin(anchorPane, new Insets(10));
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
 
+        grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        scroll.setContent(grid);
+        grid.requestLayout();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Update();
+
+        Update1();
+
+        searchInput.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterZones(newValue);
+        });
     }
 
     @FXML

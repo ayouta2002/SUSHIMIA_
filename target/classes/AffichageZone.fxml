@@ -95,12 +95,12 @@
             </VBox>
          </children>
       </VBox>
-      <Button layoutX="811.0" layoutY="496.0" mnemonicParsing="false" onAction="#AfficherTTres" prefHeight="40.0" prefWidth="202.0" text="Afficher mes reservations">
+      <Button layoutX="812.0" layoutY="504.0" mnemonicParsing="false" onAction="#AfficherTTres" prefHeight="40.0" prefWidth="202.0" text="Afficher mes reservations">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button layoutX="811.0" layoutY="443.0" mnemonicParsing="false" onAction="#ResZone" prefHeight="40.0" prefWidth="201.0" text="Reserver dans cette zone">
+      <Button layoutX="811.0" layoutY="455.0" mnemonicParsing="false" onAction="#ResZone" prefHeight="40.0" prefWidth="201.0" text="Reserver dans cette zone">
          <font>
             <Font size="16.0" />
          </font>
@@ -115,5 +115,6 @@
             <Font size="17.0" />
          </font>
       </Label>
+      <TextField fx:id="searchInput" layoutX="219.0" layoutY="82.0" prefHeight="26.0" prefWidth="300.0" promptText="recherche" />
    </children>
 </AnchorPane>

@@ -23,6 +23,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -44,7 +46,8 @@ public class TablesController implements Initializable {
     private TextField tfcaptab;
     @FXML
     private Button CloseButton;
-
+    @FXML
+    private ListView<String> nomlistview;
     @FXML
     private TextField tfzone_idtab;
 
@@ -53,11 +56,9 @@ public class TablesController implements Initializable {
         rafraichirTableView();
         initializeTableView();
         FillForm();
+        rafraichirListView1();
         tabtable.setEditable(true);
-
     }
-
-
     public void initializeTableView() {
         TableService tableService = new TableService();
         List<Tab> allTables = tableService.afficher();
@@ -122,14 +123,14 @@ public class TablesController implements Initializable {
 
     @FXML
     void AddTable(ActionEvent event) {
-        String nom_zone = tfzone_idtab.getText().trim();
+        String nom_zone = nomlistview.getSelectionModel().getSelectedItem();
         String capacitetab = tfcaptab.getText().trim();
 
-        if (nom_zone.isEmpty() || capacitetab.isEmpty()) {
+        if (nom_zone == null || capacitetab.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de saisie");
             alert.setHeaderText(null);
-            alert.setContentText("Veuillez remplir tous les champs.");
+            alert.setContentText("Veuillez sélectionner une zone et remplir tous les champs.");
             alert.showAndWait();
             return;
         }
@@ -152,7 +153,7 @@ public class TablesController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de saisie");
             alert.setHeaderText(null);
-            alert.setContentText("Le nom de zone saisi n'existe pas. Veuillez saisir un nom de zone valide.");
+            alert.setContentText("Le nom de zone sélectionné n'existe pas. Veuillez sélectionner un nom de zone valide.");
             alert.showAndWait();
             return;
         }
@@ -167,7 +168,6 @@ public class TablesController implements Initializable {
         initializeTableView();
         resetFormulaire();
     }
-
 
     @FXML
     void UpDateTable(ActionEvent event) {
@@ -262,5 +262,21 @@ public class TablesController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }}
+
+    public void rafraichirListView1() {
+        ZonesService zonesService = new ZonesService();
+        List<Zones> allZones = zonesService.afficher();
+
+        // Créer une observable list pour les noms de zones
+        ObservableList<String> zoneNames = FXCollections.observableArrayList();
+
+        // Ajouter tous les noms de zones à la liste observable
+        for (Zones zone : allZones) {
+            zoneNames.add(zone.getNom());
+        }
+
+        // Associer la liste observable à la ListView
+        nomlistview.setItems(zoneNames);
+    }
 }
 
