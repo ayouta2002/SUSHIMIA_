@@ -16,7 +16,7 @@
 }
 
 .close:hover{
-    -fx-background-color: #dfd401;
+    -fx-background-color: #f5c422;
 }
 
 .minimize{
@@ -29,7 +29,7 @@
 }
 
 .nav-form{
-    -fx-background-color: #dfd401;
+    -fx-background-color: #f5c422;
 }
 
 .nav-btn{
@@ -51,7 +51,7 @@
 }
 
 .btn{
-    -fx-background-color: #dfd401;
+    -fx-background-color: #f5c422;
     -fx-background-radius: 8px;
     -fx-text-fill: #fff;
     -fx-font-size:14px;
@@ -67,7 +67,7 @@
 
 .table-view{
     -fx-background-color: transparent;
-    -fx-border-color: #dfd401;
+    -fx-border-color: #f5c422;
     -fx-border-radius: 8px;
     -fx-padding: 0px;
 }
@@ -78,7 +78,7 @@
 }
 
 .table-view .column-header-background{
-    -fx-background-color: #dfd401;
+    -fx-background-color: #f5c422;
     -fx-background-insets: 0 0 0 0;
     -fx-background-radius: 8px 8px 0px 0px;
 }
@@ -95,7 +95,7 @@
 
 .search{
     -fx-background-color: transparent;
-    -fx-border-color: #dfd401;
+    -fx-border-color: #f5c422;
     -fx-border-radius: 5px;
     -fx-font-size:13px;
     -fx-font-family:"Arial";
@@ -109,7 +109,7 @@
 
 .comboBox{
     -fx-background-color: linear-gradient(to bottom, #efefef, #eee);
-    -fx-border-color: #dfd401;
+    -fx-border-color: #f5c422;
     -fx-border-width: .8px;
     -fx-font-family: "Tahoma";
     -fx-border-radius: 4px;
@@ -121,7 +121,7 @@
 
 .textfield{
     -fx-background-color: linear-gradient(to bottom, #efefef, #eee);
-    -fx-border-color: #dfd401;
+    -fx-border-color: #f5c422;
     -fx-border-width: .8px;
     -fx-font-family: "Tahoma";
     -fx-border-radius: 4px;
@@ -129,7 +129,7 @@
 
 .textarea{
     -fx-background-color: linear-gradient(to bottom, #efefef, #eee);
-    -fx-border-color: #dfd401;
+    -fx-border-color: #f5c422;
     -fx-border-width: .8px;
     -fx-font-family: "Tahoma";
     -fx-border-radius: 4px;
@@ -154,7 +154,7 @@
 
 
 .label-ajout{
-    -fx-text-fill: #dfd401;
+    -fx-text-fill: #f5c422;
     -fx-font-size:12px;
     -fx-font-family:"System";
     -fx-font-weight: 800;

@@ -5,16 +5,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="gestionEvenement" prefHeight="508.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.gestionEvenementController">
+<AnchorPane fx:id="gestionEvenement" prefHeight="508.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.gestionEvenementController">
 
     <children>
-        <Label layoutX="297.0" layoutY="115.0" prefHeight="78.0" prefWidth="387.0" style="-fx-alignment: CENTER; -fx-font-family: Tahoma; -fx-font-size: 40px;" text="Gestion Evenements" textAlignment="CENTER" textFill="#dfd401">
+        <Button fx:id="btnListe" layoutX="258.0" layoutY="294.0" mnemonicParsing="false" onAction="#open_listEvenement" prefHeight="46.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="Afficher Evenements" />
+        <Button fx:id="btnAdd" layoutX="521.0" layoutY="294.0" mnemonicParsing="false" onAction="#open_addEvenement" prefHeight="46.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="Ajouter Evenement" />
+      <Label layoutX="132.0" layoutY="123.0" prefHeight="78.0" prefWidth="687.0" style="-fx-background-color: d41c1c;" />
+        <Label layoutX="282.0" layoutY="123.0" prefHeight="78.0" prefWidth="387.0" style="-fx-alignment: CENTER; -fx-font-family: Tahoma; -fx-font-size: 40px;" text="Gestion Evenements" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font size="34.0" />
             </font>
         </Label>
-        <Button fx:id="btnListe" layoutX="258.0" layoutY="294.0" mnemonicParsing="false" onAction="#open_listEvenement" prefHeight="46.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="Afficher Evenements" />
-        <Button fx:id="btnAdd" layoutX="521.0" layoutY="294.0" mnemonicParsing="false" onAction="#open_addEvenement" prefHeight="46.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="Ajouter Evenement" />
 
     </children>
 

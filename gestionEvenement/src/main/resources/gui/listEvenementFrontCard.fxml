@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.listEvenementCardFrontController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.listEvenementCardFrontController">
     <children>
         <VBox alignment="CENTER" layoutX="7.0" layoutY="10.0" prefHeight="227.0" prefWidth="263.0">
             <children>
@@ -23,7 +23,7 @@
             <Pane prefHeight="98.0" prefWidth="186.0" />
                 <HBox alignment="CENTER" prefHeight="28.0" prefWidth="84.0">
                     <children>
-                        <Label fx:id="labelNomEve" contentDisplay="CENTER" prefHeight="30.0" prefWidth="126.0" text="Nom" textFill="#720000" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true">
+                        <Label fx:id="labelNomEve" contentDisplay="CENTER" prefHeight="30.0" prefWidth="126.0" text="Nom" textFill="#f5c422" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true">
                             <font>
                                 <Font name="Cambria Bold" size="16.0" />
                             </font>

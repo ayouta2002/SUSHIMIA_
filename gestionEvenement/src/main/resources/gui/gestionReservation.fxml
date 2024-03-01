@@ -10,8 +10,8 @@
     <children>
         <Button fx:id="btnListe" layoutX="258.0" layoutY="294.0" mnemonicParsing="false" onAction="#open_listReservation" prefHeight="46.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="show Reservation" />
         <Button fx:id="btnAdd" layoutX="521.0" layoutY="294.0" mnemonicParsing="false" onAction="#open_addReservation" prefHeight="46.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="ADD reservation" />
-      <Label layoutY="1.0" prefHeight="100.0" prefWidth="964.0" style="-fx-background-color: d41c1c;" textFill="#d41c1c" />
-        <Label layoutX="316.0" layoutY="12.0" prefHeight="78.0" prefWidth="387.0" style="-fx-alignment: CENTER; -fx-font-family: Tahoma; -fx-font-size: 40px;" text="Gestion Reservations" textAlignment="CENTER" textFill="WHITE">
+      <Label layoutY="72.0" prefHeight="100.0" prefWidth="964.0" style="-fx-background-color: d41c1c;" textFill="#d41c1c" />
+        <Label layoutX="300.0" layoutY="82.0" prefHeight="78.0" prefWidth="387.0" style="-fx-alignment: CENTER; -fx-font-family: Tahoma; -fx-font-size: 40px;" text="Gestion Reservations" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font size="34.0" />
             </font>
