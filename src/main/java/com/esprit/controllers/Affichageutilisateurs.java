@@ -47,15 +47,6 @@ public class Affichageutilisateurs implements Initializable {
     private TableColumn<Utilisateurs, String> Role;
 
     @FXML
-    private TextField ftemail;
-
-    @FXML
-    private TextField ftnom;
-
-    @FXML
-    private TextField ftprenom;
-
-    @FXML
     private TableView<Utilisateurs> tabutilisateurs;
 
     private ServiceUtilisateurs su = new ServiceUtilisateurs();
@@ -64,8 +55,6 @@ public class Affichageutilisateurs implements Initializable {
 
     @FXML
     public void initializeTableViewT() {
-        FillForm();
-        ServiceUtilisateurs su = new ServiceUtilisateurs();
         List<Utilisateurs> allUtilisateurs = su.readAll();
 
         // Créer une observable list pour les utilisateurs affichées dans la table
@@ -129,8 +118,36 @@ public class Affichageutilisateurs implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rafraichirTableView();
         initializeTableViewT();
+        tabutilisateurs.setEditable(true);
+
+        Nom.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
+        Prenom.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
+        Email.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
+        Role.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
+
+        modifier();
+
     }
-        @FXML
+
+    public void modifier() {
+        Nom.setOnEditCommit(event -> {
+            Utilisateurs utilisateurs = event.getRowValue();
+            utilisateurs.setNom(event.getNewValue());
+            su.update(utilisateurs);
+        });
+        Prenom.setOnEditCommit(event -> {
+            Utilisateurs utilisateurs = event.getRowValue();
+            utilisateurs.setPrenom(event.getNewValue());
+            su.update(utilisateurs);
+        });
+        Email.setOnEditCommit(event -> {
+            Utilisateurs utilisateurs = event.getRowValue();
+            utilisateurs.setEmail(event.getNewValue());
+            su.update(utilisateurs);
+        });
+    }
+
+    @FXML
     void recherche(ActionEvent event) {
         // Récupérer le texte entré dans le champ de recherche
         String keyword = searchinput.getText().toLowerCase();
@@ -168,72 +185,4 @@ public class Affichageutilisateurs implements Initializable {
         // Afficher les utilisateurs filtrés dans la TableView
         tabutilisateurs.setItems(filteredUtilisateurs);
     }
-
-    private void FillForm() {
-        // Ajoutez un événement de clic sur la TableView pour mettre à jour le formulaire avec les valeurs de la ligne sélectionnée
-        tabutilisateurs.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) { // Vérifiez si un clic unique a été effectué
-                // Obtenez la ligne sélectionnée
-                Utilisateurs UtilisateursSelectionne = tabutilisateurs.getSelectionModel().getSelectedItem();
-                if (UtilisateursSelectionne != null) {
-                    // Mettez à jour le formulaire avec les valeurs de la ligne sélectionnée
-                    ftnom.setText(UtilisateursSelectionne.getNom());
-                    ftprenom.setText(UtilisateursSelectionne.getPrenom());
-                    ftemail.setText(String.valueOf(UtilisateursSelectionne.getEmail()));
-
-                    /*String imageValue = ZonesSelectionne.getImage();
-                    if (imageValue != null && !imageValue.isEmpty()) {
-                        Image image = new Image(imageValue);
-                        image_zone.setImage(image);
-                    }*/
-
-                    // Vous pouvez également mettre à jour d'autres champs du formulaire ici
-                }
-            }
-        });
-
-    }
-
-
-   @FXML
-    void MODIFIER(ActionEvent event) {
-
-        Connection connection = DataSource.getInstance().getCnx();  // Get connection
-        String nom = ftnom.getText();
-        String prenom = ftprenom.getText();
-        String email = ftemail.getText();
-
-        // Vérifier si les champs ne sont pas vides
-        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty()) {
-            // Afficher un message d'erreur si des champs sont vides
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Champs vides");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez remplir tous les champs.");
-            alert.showAndWait();
-
-        }else{
-        // Créer un objet Utilisateurs avec les nouvelles informations
-        Utilisateurs utilisateurs = new Utilisateurs(nom, prenom, email);
-
-        // Mettre à jour l'utilisateur dans la base de données
-        ServiceUtilisateurs su = new ServiceUtilisateurs();
-        try {
-            su.update(utilisateurs);
-            // Afficher un message de succès
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Mise à jour réussie");
-            alert.setHeaderText(null);
-            alert.setContentText("Les informations ont été mises à jour avec succès.");
-            alert.showAndWait();
-        } catch (RuntimeException e) {
-            // Afficher un message d'erreur en cas d'échec de la mise à jour
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de mise à jour");
-            alert.setHeaderText(null);
-            alert.setContentText("Erreur lors de la mise à jour des informations. Veuillez réessayer.");
-            alert.showAndWait();
-            e.printStackTrace(); // Afficher la stack trace de l'exception pour le débogage
-        }
-    }}
 }

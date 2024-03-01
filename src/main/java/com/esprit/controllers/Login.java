@@ -73,13 +73,13 @@ public class Login {
 
                 try {  // Handle FXML loading exceptions
                     if (role.equals("Admin")) {
-                        Parent page1 = FXMLLoader.load(getClass().getResource("/Affichageutilisateurs.fxml"));
+                        Parent page1 = FXMLLoader.load(getClass().getResource("/AcceuilAdmin.fxml"));
                         Scene scene = new Scene(page1);
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(scene);
                         stage.show();
                     } else if (role.equals("Client")) {
-                        Parent page1 = FXMLLoader.load(getClass().getResource("/PROFIL.fxml"));
+                        Parent page1 = FXMLLoader.load(getClass().getResource("/Acceuil.fxml"));
                         Scene scene = new Scene(page1);
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(scene);

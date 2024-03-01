@@ -49,7 +49,7 @@ public class ServiceUtilisateurs implements IService<Utilisateurs> {
     @Override
     public void update(Utilisateurs utilisateurs) {
         try {
-            String requete = "UPDATE utilisateurs SET nom=?, prenom=?, mot_de_passe=?, email=? WHERE id=?";
+            String requete = "UPDATE utilisateurs SET nom=?, prenom=?, mot_de_passe=?, email=?  WHERE id=?";
             PreparedStatement pst = connexion.prepareStatement(requete);
             pst.setString(1, utilisateurs.getNom());
             pst.setString(2, utilisateurs.getPrenom());
@@ -88,6 +88,19 @@ public class ServiceUtilisateurs implements IService<Utilisateurs> {
         }
         return list;
     }
+    public void deleteById(int idUtilisateur) {
+        try {
+            String requete = "DELETE FROM utilisateurs WHERE id=?";
+            PreparedStatement pst = connexion.prepareStatement(requete);
+            pst.setInt(1, idUtilisateur);
+            pst.executeUpdate();
+            System.out.println("Suppression avec succès");
+        } catch (SQLException ex) {
+            System.out.println("Erreur lors de la suppression : " + ex.getMessage());
+        }
+    }
+
+    // Autres méthodes de la classe
 }
 
    /* @Override

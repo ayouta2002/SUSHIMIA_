@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import javax.swing.text.html.ImageView;
 import java.awt.*;
@@ -126,12 +128,20 @@ public class Ajoututilisateurs implements Initializable {
         ServiceUtilisateurs su = new ServiceUtilisateurs();
         su.add(new Utilisateurs(nom, prenom, motDePasse, email, Role.valueOf(role)));
 
+
+        Notifications.create()
+                .darkStyle()
+                .title("user added successfully")
+                .hideAfter(Duration.seconds(10))
+                .show();
+
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Utilisateur ajouté!");
         alert.setContentText("Utilisateur ajouté");
         alert.show();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Affichageutilisateurs.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AcceuilAdmin.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

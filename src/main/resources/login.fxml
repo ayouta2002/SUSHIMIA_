@@ -41,14 +41,14 @@
          </font></Button>
       <ToggleButton fx:id="toggleButton" layoutX="294.0" layoutY="265.0" mnemonicParsing="false" onAction="#toggleButton" opacity="0.0" prefHeight="26.0" prefWidth="20.0" text="Show" />
       <Label fx:id="ShownPassword" layoutX="172.0" layoutY="295.0" text="shown password" />
-      <AnchorPane layoutX="-1.0" layoutY="-105.0" prefHeight="218.0" prefWidth="706.0" style="-fx-background-color: #cc5a12;">
+      <AnchorPane layoutX="-1.0" layoutY="-120.0" prefHeight="224.0" prefWidth="706.0" style="-fx-background-color: #960000;">
          <children>
-            <Label layoutX="277.0" layoutY="131.0" prefHeight="39.0" prefWidth="150.0" text="LOG IN" underline="true">
+            <Label layoutX="285.0" layoutY="164.0" prefHeight="39.0" prefWidth="150.0" text="LOG IN" underline="true">
                <font>
                   <Font name="Algerian" size="34.0" />
                </font>
             </Label>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="556.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="570.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
                </image>

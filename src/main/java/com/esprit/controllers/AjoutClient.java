@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import javax.swing.text.html.ImageView;
 import java.awt.*;
@@ -94,6 +96,12 @@ public class AjoutClient implements Initializable  {
         // Ajouter l'utilisateur
         ServiceUtilisateurs su = new ServiceUtilisateurs();
         su.add(new Utilisateurs(nom, prenom, motDePasse, email, Role.Client));
+
+        Notifications.create()
+                .darkStyle()
+                .title("user added successfully")
+                .hideAfter(Duration.seconds(10))
+                .show();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Utilisateur ajouté!");
