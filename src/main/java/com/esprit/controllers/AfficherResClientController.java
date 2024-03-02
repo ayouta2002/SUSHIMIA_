@@ -66,7 +66,7 @@ public class AfficherResClientController implements Initializable {
 
             // Mettez à jour la zone avec la nouvelle valeur
             reservation.setZone(event.getNewValue());
-            reservation.setTable_id(Integer.parseInt(event.getNewValue()));
+
 
             // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
             ReservationService reservationService = new ReservationService();

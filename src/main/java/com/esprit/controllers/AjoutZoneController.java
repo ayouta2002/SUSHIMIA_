@@ -38,7 +38,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-
+import animatefx.animation.Shake;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
@@ -247,21 +247,35 @@ public class AjoutZoneController implements Initializable {
        String capaciteStr = ftcapacite.getText().trim();
 
        if (nom.isEmpty() || description.isEmpty() || capaciteStr.isEmpty()) {
-           Alert alert = new Alert(Alert.AlertType.ERROR);
-           alert.setTitle("Erreur de saisie");
-           alert.setHeaderText(null);
-           alert.setContentText("Veuillez remplir tous les champs.");
-           alert.showAndWait();
+           ftnom.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 2px");
+           new Shake(ftnom).play();
+           ftdescription.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 2px");
+           new Shake(ftdescription).play();
+           ftcapacite.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 2px");
+           new Shake(ftcapacite).play();
+       }else{
+               ftnom.setStyle(null);
+           ftdescription.setStyle(null);
+           ftcapacite.setStyle(null);
+          Notifications.create()
+                   .darkStyle()
+                   .title(" Veuillez remplir tous les champs.")
+                   .position(Pos.CENTER) // Modifier la position ici
+                   .hideAfter(Duration.seconds(20))
+                   .show();
+
            return;
        }
 
        // Contrôle de saisie pour le nom
        if (!isStringValid(nom)) {
-           Alert alert = new Alert(Alert.AlertType.ERROR);
-           alert.setTitle("Erreur de saisie");
-           alert.setHeaderText(null);
-           alert.setContentText("Veuillez saisir un nom valide.");
-           alert.showAndWait();
+           Notifications.create()
+                   .darkStyle()
+                   .title("Veuillez saisir un nom valide.")
+                   .position(Pos.CENTER) // Modifier la position ici
+                   .hideAfter(Duration.seconds(20))
+                   .show();
+
            return;
        }
 
@@ -279,11 +293,13 @@ public class AjoutZoneController implements Initializable {
        try {
            capacite = Integer.parseInt(capaciteStr);
        } catch (NumberFormatException e) {
-           Alert alert = new Alert(Alert.AlertType.ERROR);
-           alert.setTitle("Erreur de saisie");
-           alert.setHeaderText(null);
-           alert.setContentText("Veuillez saisir une valeur numérique pour la capacité.");
-           alert.showAndWait();
+           Notifications.create()
+                   .darkStyle()
+                   .title("Veuillez saisir une valeur numérique pour la capacité.")
+                   .position(Pos.CENTER) // Modifier la position ici
+                   .hideAfter(Duration.seconds(20))
+                   .show();
+
            resetFormulaire();
            return;
        }
@@ -294,7 +310,7 @@ public class AjoutZoneController implements Initializable {
        Notifications.create()
                .darkStyle()
                .title("zone Ajouté avec succès")
-               .position(Pos.BOTTOM_RIGHT) // Modifier la position ici
+               .position(Pos.CENTER) // Modifier la position ici
                .hideAfter(Duration.seconds(20))
                .show();
        initializeTableView();
