@@ -12,12 +12,12 @@
       <AnchorPane layoutX="185.0" layoutY="451.0" opacity="0.58" prefHeight="126.0" prefWidth="538.0" style="-fx-background-color: #f7ce46;" />
       <AnchorPane layoutX="188.0" layoutY="301.0" opacity="0.58" prefHeight="126.0" prefWidth="538.0" style="-fx-background-color: #f7ce46;" />
       <AnchorPane layoutX="186.0" layoutY="145.0" opacity="0.58" prefHeight="136.0" prefWidth="537.0" style="-fx-background-color: #f7ce46;" />
-      <Button layoutX="207.0" layoutY="166.0" mnemonicParsing="false" onAction="#gestiondestables" prefHeight="94.0" prefWidth="394.0" text="Gestion des tables">
+      <Button layoutX="207.0" layoutY="166.0" mnemonicParsing="false" onAction="#gestiondestables" prefHeight="94.0" prefWidth="394.0" stylesheets="@css/style.css" text="Gestion des tables">
          <font>
             <Font name="Cooper Black" size="36.0" />
          </font>
       </Button>
-      <Button layoutX="208.0" layoutY="319.0" mnemonicParsing="false" onAction="#gestiondeszones" prefHeight="87.0" prefWidth="394.0" text="Gestion des zones">
+      <Button layoutX="208.0" layoutY="319.0" mnemonicParsing="false" onAction="#gestiondeszones" prefHeight="87.0" prefWidth="394.0" stylesheets="@css/style.css" text="Gestion des zones">
          <font>
             <Font name="Cooper Black" size="36.0" />
          </font>
@@ -37,7 +37,7 @@
             <Image url="@images/zones.gif" />
          </image>
       </ImageView>
-      <Button layoutX="206.0" layoutY="471.0" mnemonicParsing="false" onAction="#listRes" prefHeight="87.0" prefWidth="394.0" text="Liste des reservations">
+      <Button layoutX="206.0" layoutY="471.0" mnemonicParsing="false" onAction="#listRes" prefHeight="87.0" prefWidth="394.0" stylesheets="@css/style.css" text="Liste des reservations">
          <font>
             <Font name="Cooper Black" size="31.0" />
          </font>

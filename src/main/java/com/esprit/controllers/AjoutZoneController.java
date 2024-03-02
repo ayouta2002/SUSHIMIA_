@@ -42,7 +42,8 @@ import animatefx.animation.Shake;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
-
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 
 public class AjoutZoneController implements Initializable {
     @FXML
@@ -93,7 +94,15 @@ public class AjoutZoneController implements Initializable {
         rafraichirTableView();
         initializeTableView();
         FillForm();
+        tabzone.setEditable(true);
 
+
+        deszone.setCellFactory(TextFieldTableCell.<Zones>forTableColumn());
+        nomzone.setCellFactory(TextFieldTableCell.<Zones>forTableColumn());
+
+       //capzone.setCellFactory(TextFieldTableCell.<Zones>forTableColumn());
+
+        modifiertable();
         image_zone.setOnDragOver(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 Dragboard db = event.getDragboard();
@@ -135,7 +144,26 @@ public class AjoutZoneController implements Initializable {
 
     }
 
-
+    public void modifiertable() {
+        deszone.setOnEditCommit(event -> {
+            // Obtenez la réservation à partir de l'événement
+            Zones zones = event.getRowValue();
+            // Mettez à jour la zone avec la nouvelle valeur
+            zones.setDescription(event.getNewValue());
+            // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
+            ZonesService zonesService = new ZonesService();
+            zonesService.modifier(zones);
+        });
+        nomzone.setOnEditCommit(event -> {
+            // Obtenez la réservation à partir de l'événement
+            Zones zones = event.getRowValue();
+            // Mettez à jour la zone avec la nouvelle valeur
+            zones.setDescription(event.getNewValue());
+            // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
+            ZonesService zonesService = new ZonesService();
+            zonesService.modifier(zones);
+        });
+    }
     @FXML
     void image_add(MouseEvent event) {
         FileChooser fc = new FileChooser();
@@ -247,11 +275,11 @@ public class AjoutZoneController implements Initializable {
        String capaciteStr = ftcapacite.getText().trim();
 
        if (nom.isEmpty() || description.isEmpty() || capaciteStr.isEmpty()) {
-           ftnom.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 2px");
-           new Shake(ftnom).play();
-           ftdescription.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 2px");
+           ftnom.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+           new animatefx.animation.Bounce(ftnom).play();
+           ftdescription.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
            new Shake(ftdescription).play();
-           ftcapacite.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 2px");
+           ftcapacite.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
            new Shake(ftcapacite).play();
        }else{
                ftnom.setStyle(null);
