@@ -13,25 +13,30 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.controlsfx.control.Notifications;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -54,7 +59,10 @@ public class TablesController implements Initializable {
     private Button CloseButton;
     @FXML
     private ListView<String> nomlistview;
-
+    @FXML
+    private TextField Recherche;
+    private TableService ts =new TableService();
+    private ObservableList<Tab> displayedTable = FXCollections.observableArrayList(ts.afficher());
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rafraichirTableView();
@@ -130,11 +138,12 @@ public class TablesController implements Initializable {
         String capacitetab = tfcaptab.getText().trim();
 
         if (nom_zone == null || capacitetab.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez sélectionner une zone et remplir tous les champs.");
-            alert.showAndWait();
+            Notifications.create()
+                    .darkStyle()
+                    .title(" Veuillez sélectionner une zone et remplir les champs.")
+                    .position(Pos.CENTER) // Modifier la position ici
+                    .hideAfter(Duration.seconds(20))
+                    .show();
             return;
         }
 
@@ -142,32 +151,23 @@ public class TablesController implements Initializable {
         try {
             capacite = Integer.parseInt(capacitetab);
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez saisir une valeur numérique pour la capacité.");
-            alert.showAndWait();
+            Notifications.create()
+                    .darkStyle()
+                    .title(" Veuillez saisir une valeur numérique pour la capacité.")
+                    .position(Pos.CENTER) // Modifier la position ici
+                    .hideAfter(Duration.seconds(20))
+                    .show();
             return;
         }
-
-        // Vérifier si le nom de zone existe dans l'entité "zones"
-        ZonesService zoneService = new ZonesService();
-        if (!zoneService.zoneExists(nom_zone)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setHeaderText(null);
-            alert.setContentText("Le nom de zone sélectionné n'existe pas. Veuillez sélectionner un nom de zone valide.");
-            alert.showAndWait();
-            return;
-        }
-
         TableService ts = new TableService();
         ts.ajouter(new Tab(capacite, nom_zone));
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Table ajoutée");
-        alert.setContentText("Table ajoutée !");
-        alert.show();
+        Notifications.create()
+                .darkStyle()
+                .title(" Table ajoutee avec succees.")
+                .position(Pos.CENTER) // Modifier la position ici
+                .hideAfter(Duration.seconds(20))
+                .show();
         initializeTableView();
         resetFormulaire();
     }
@@ -183,11 +183,12 @@ public class TablesController implements Initializable {
           //  String Zonenomvalue = tfzone_idtab.getText().trim();
 
             if (capacitytableValueString.isEmpty() || Zonenomvalue.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de saisie");
-                alert.setHeaderText(null);
-                alert.setContentText("Veuillez remplir tous les champs.");
-                alert.showAndWait();
+                Notifications.create()
+                        .darkStyle()
+                        .title(" Veuillez remplir tous les champs.")
+                        .position(Pos.CENTER) // Modifier la position ici
+                        .hideAfter(Duration.seconds(20))
+                        .show();
                 return;
             }
 
@@ -195,22 +196,12 @@ public class TablesController implements Initializable {
             try {
                 capacitytableValue = Integer.parseInt(capacitytableValueString);
             } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de saisie");
-                alert.setHeaderText(null);
-                alert.setContentText("Veuillez saisir une valeur numérique pour la capacité.");
-                alert.showAndWait();
-                return;
-            }
-
-            // Vérifier si le nom de zone existe dans l'entité "zones"
-            ZonesService zoneService = new ZonesService();
-            if (!zoneService.zoneExists(Zonenomvalue)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de saisie");
-                alert.setHeaderText(null);
-                alert.setContentText("Le nom de zone saisi n'existe pas. Veuillez saisir un nom de zone valide.");
-                alert.showAndWait();
+                Notifications.create()
+                        .darkStyle()
+                        .title(" Veuillez saisir une valeur numérique pour la capacité.")
+                        .position(Pos.CENTER) // Modifier la position ici
+                        .hideAfter(Duration.seconds(20))
+                        .show();
                 return;
             }
 
@@ -363,10 +354,53 @@ public class TablesController implements Initializable {
 
                 contentStream.close();
                 document.save(file);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+    @FXML
+    void searche(KeyEvent event) {
+        // Récupérer le texte entré dans le champ de recherche
+        String keyword = Recherche.getText().toLowerCase();
+
+        // Créer une liste pour stocker les utilisateurs filtrés
+        ObservableList<Tab> filteredTab = FXCollections.observableArrayList();
+
+        // Parcourir toutes les zones affichées dans la TableView
+        for (Tab tab : displayedTable) {
+            // Vérifier si l'utilisateur a entré un seul caractère
+            if (keyword.length() == 1) {
+                // Si oui, filtrer les zones dont le nom commence par ce caractère
+                if (tab.getNom_zone().toLowerCase().startsWith(keyword)) {
+                    filteredTab.add(tab);
+                }
+            } else {
+                // Sinon, effectuer une recherche normale avec filtrage et tri
+                if (tab.getNom_zone().toLowerCase().contains(keyword) ||
+
+                        String.valueOf(tab.getCapacit_t()).toLowerCase().contains(keyword)) {
+                    filteredTab.add(tab);
+                }
+            }
+
+        }
+
+        // Si l'utilisateur n'a entré aucun caractère, afficher toutes les zones
+        if (keyword.isEmpty()) {
+            filteredTab.clear();
+            filteredTab.addAll(displayedTable);
+
+        }
+
+        // Trier les zones filtrées par nom
+        var comparator = Comparator.comparing(Tab::getNom_zone);
+        FXCollections.sort(filteredTab, comparator);
+
+        // Afficher les zones filtrées dans la TableView
+        tabtable.setItems(filteredTab);
+
     }
 }
 

@@ -13,9 +13,14 @@
 
 <AnchorPane prefHeight="681.0" prefWidth="976.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.TablesController">
    <children>
+      <ImageView fitHeight="56.0" fitWidth="71.0" layoutX="876.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/pdf-removebg-preview.png" />
+         </image>
+      </ImageView>
       <AnchorPane layoutX="-1.0" prefHeight="79.0" prefWidth="982.0" style="-fx-background-color: #6b2517;" />
       <AnchorPane layoutX="94.0" layoutY="165.0" opacity="0.53" prefHeight="318.0" prefWidth="282.0" style="-fx-background-color: #ccb65d;" />
-      <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="8.0" layoutY="580.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="8.0" layoutY="620.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/4822142-removebg-preview.png" />
          </image>
@@ -35,7 +40,7 @@
          </font></Label>
       <TextField fx:id="tfcaptab" layoutX="119.0" layoutY="336.0" />
       <Button layoutX="119.0" layoutY="385.0" mnemonicParsing="false" onAction="#AddTable" prefHeight="26.0" prefWidth="232.0" stylesheets="@css/style.css" text="Ajouter" />
-      <TableView fx:id="tabtable" layoutX="480.0" layoutY="134.0" prefHeight="282.0" prefWidth="406.0" stylesheets="@css/style.css">
+      <TableView fx:id="tabtable" layoutX="430.0" layoutY="163.0" prefHeight="282.0" prefWidth="406.0" stylesheets="@css/style.css">
         <columns>
           <TableColumn fx:id="idzonecol" prefWidth="137.60003662109375" text="Nom_zone" />
             <TableColumn fx:id="captabcol" prefWidth="133.5999755859375" text="capacitee" />
@@ -44,7 +49,7 @@
       </TableView>
       <Button layoutX="119.0" layoutY="421.0" mnemonicParsing="false" onAction="#UpDateTable" prefHeight="26.0" prefWidth="232.0" stylesheets="@css/style.css" text="Modifier" />
       <Button fx:id="CloseButton" layoutX="921.0" layoutY="9.0" mnemonicParsing="false" onAction="#Close" opacity="0.0" prefHeight="41.0" prefWidth="46.0" text="fermer" />
-      <Button layoutX="5.0" layoutY="586.0" mnemonicParsing="false" onAction="#menureturn" opacity="0.0" prefHeight="50.0" prefWidth="71.0" text="Retour au menu" />
+      <Button layoutX="5.0" layoutY="621.0" mnemonicParsing="false" onAction="#menureturn" opacity="0.0" prefHeight="50.0" prefWidth="71.0" text="Retour au menu" />
       <Label layoutX="258.0" layoutY="15.0" text="Gestion des Tables" textFill="WHITE">
          <font>
             <Font name="Cooper Black" size="42.0" />
@@ -56,6 +61,7 @@
          </image>
       </ImageView>
       <ListView fx:id="nomlistview" layoutX="122.0" layoutY="222.0" prefHeight="88.0" prefWidth="200.0" />
-      <Button fx:id="PDFtable" layoutX="351.0" layoutY="535.0" mnemonicParsing="false" onAction="#PDFtable" prefHeight="26.0" prefWidth="114.0" stylesheets="@css/style.css" text="PDF" />
+      <Button fx:id="PDFtable" layoutX="871.0" layoutY="171.0" mnemonicParsing="false" onAction="#PDFtable" opacity="0.0" prefHeight="64.0" prefWidth="56.0" stylesheets="@css/style.css" text="PDF" />
+      <TextField fx:id="Recherche" layoutX="430.0" layoutY="123.0" onKeyTyped="#searche" prefHeight="26.0" prefWidth="406.0" promptText="Recherche" />
    </children>
 </AnchorPane>

@@ -18,7 +18,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="1130.0" styleClass="bgProductsAdmin" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.AffichageZoneController">
    <children>
-      <ImageView fitHeight="421.0" fitWidth="370.0" layoutX="720.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="421.0" fitWidth="370.0" layoutX="720.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/item.png" />
          </image>
@@ -48,7 +48,7 @@
             </AnchorPane>
          </content>
       </ScrollPane>
-      <VBox fx:id="chosen" layoutX="747.0" layoutY="117.0" prefHeight="340.0" prefWidth="300.0">
+      <VBox fx:id="chosen" layoutX="749.0" layoutY="136.0" prefHeight="340.0" prefWidth="300.0">
          <children>
             <HBox alignment="CENTER" prefHeight="62.0" prefWidth="194.0">
                <children>
@@ -96,12 +96,12 @@
             </VBox>
          </children>
       </VBox>
-      <Button layoutX="812.0" layoutY="504.0" mnemonicParsing="false" onAction="#AfficherTTres" prefHeight="40.0" prefWidth="202.0" text="Afficher mes reservations">
+      <Button layoutX="812.0" layoutY="530.0" mnemonicParsing="false" onAction="#AfficherTTres" prefHeight="40.0" prefWidth="202.0" stylesheets="@css/style.css" text="Afficher mes reservations">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button layoutX="811.0" layoutY="455.0" mnemonicParsing="false" onAction="#ResZone" prefHeight="40.0" prefWidth="201.0" text="Reserver dans cette zone">
+      <Button layoutX="811.0" layoutY="486.0" mnemonicParsing="false" onAction="#ResZone" prefHeight="40.0" prefWidth="201.0" stylesheets="@css/style.css" text="Reserver dans cette zone">
          <font>
             <Font size="16.0" />
          </font>

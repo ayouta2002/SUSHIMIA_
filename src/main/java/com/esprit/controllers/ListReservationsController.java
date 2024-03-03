@@ -1,6 +1,7 @@
 package com.esprit.controllers;
 
 import com.esprit.models.Reservation;
+import com.esprit.models.Tab;
 import com.esprit.services.ReservationService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,19 +11,33 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-import java.awt.event.ActionEvent;
+//import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ListReservationsController implements Initializable {
 
+import javafx.event.ActionEvent;
+
+
+public class ListReservationsController implements Initializable {
+    @FXML
+    private Button PDFres;
     @FXML
     private TableColumn<Reservation, Date> col_Date;
 
@@ -72,8 +87,109 @@ public class ListReservationsController implements Initializable {
         col_Date.setCellValueFactory(new PropertyValueFactory<>("dateR"));
         tableRes.setItems(reservation);
     }
+    @FXML
+    void PDFres(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("Liste des reservation.pdf");
+        File file = fileChooser.showSaveDialog(null);
 
+        if (file != null) {
+            try (PDDocument document = new PDDocument()) {
+                PDPage page = new PDPage();
+                document.addPage(page);
 
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
+                TableView<Reservation> tableView = tableRes;
+
+                double tableWidth = 500; // Largeur de la table
+                double yStartNewPage = page.getMediaBox().getHeight() - 50; // Position de départ pour une nouvelle page
+                double yStart = yStartNewPage;
+                double bottomMargin = 70; // Marge inférieure
+                float fontSize = 12; // Taille de police
+
+                List<Double> colWidths = new ArrayList<>(); // Liste des largeurs des colonnes
+                double tableHeight = 0; // Hauteur de la table
+
+                // Récupère les largeurs des colonnes et calcule la hauteur totale de la table
+                for (TableColumn<Reservation, ?> col : tableRes.getColumns()) {
+                    double colWidth = col.getWidth();
+                    colWidths.add(colWidth);
+                    tableHeight = tableRes.getItems().size() * 20; // Supposons que chaque ligne a une hauteur de 20
+                }
+
+                // Vérifie si la table dépasse la page actuelle et crée une nouvelle page si nécessaire
+                if (yStart - tableHeight < bottomMargin) {
+                    contentStream.close();
+                    page = new PDPage();
+                    document.addPage(page);
+                    contentStream = new PDPageContentStream(document, page);
+                    yStart = yStartNewPage;
+                }
+
+                // Dessine les en-têtes de colonnes
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, fontSize);
+                double yPosition = yStart;
+                double xPosition = 0; // Position horizontale initiale
+                for (int i = 0; i < tableRes.getColumns().size(); i++) {
+                    TableColumn<Reservation, ?> col = tableRes.getColumns().get(i);
+                    double colWidth = colWidths.get(i);
+
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 15));
+                    contentStream.showText(col.getText());
+                    contentStream.endText();
+
+                    xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
+                }
+
+                // Dessine les lignes de données
+                contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+                yPosition -= 20; // Décale la position de départ pour les lignes de données
+                for (Reservation item : tableRes.getItems()) {
+                    yPosition -= 20;
+                    xPosition = 0; // Réinitialise la position horizontale pour chaque ligne
+
+                    for (int i = 0; i < tableRes.getColumns().size(); i++) {
+                        TableColumn<Reservation, ?> col = tableRes.getColumns().get(i);
+                        double colWidth = colWidths.get(i);
+
+                        Object cellData = col.getCellData(item);
+                        String cellValue = (cellData != null) ? cellData.toString() : "";
+
+                        contentStream.beginText();
+                        contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) yPosition);
+                        contentStream.showText(cellValue);
+                        contentStream.endText();
+
+                        xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
+                    }
+                }
+
+                contentStream.close();
+                document.save(file);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    void retourM(ActionEvent event) {
+
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menuu.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }}
 }
 

@@ -163,7 +163,7 @@ public class AjoutZoneController implements Initializable {
             // Obtenez la réservation à partir de l'événement
             Zones zones = event.getRowValue();
             // Mettez à jour la zone avec la nouvelle valeur
-            zones.setDescription(event.getNewValue());
+            zones.setNom(event.getNewValue());
             // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
             ZonesService zonesService = new ZonesService();
             zonesService.modifier(zones);
@@ -505,7 +505,6 @@ public class AjoutZoneController implements Initializable {
 
                 PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-                TableView<Zones> tableView = tabzone;
                 double tableWidth = 500; // Largeur de la table
                 double yStartNewPage = page.getMediaBox().getHeight() - 50; // Position de départ pour une nouvelle page
                 double yStart = yStartNewPage;
@@ -531,44 +530,36 @@ public class AjoutZoneController implements Initializable {
                     yStart = yStartNewPage;
                 }
 
-                // Dessine les en-têtes de colonnes
+                // Dessine les en-têtes de colonnes avec une couleur différente et une bordure
+                contentStream.setLineWidth(1.5f); // Épaisseur de la ligne
+                contentStream.setNonStrokingColor(100, 100, 100); // Couleur grise pour le texte
                 contentStream.setFont(PDType1Font.HELVETICA_BOLD, fontSize);
+
                 double yPosition = yStart;
                 double xPosition = 50; // Position horizontale initiale
                 for (int i = 0; i < tabzone.getColumns().size(); i++) {
                     TableColumn<Zones, ?> col = tabzone.getColumns().get(i);
                     double colWidth = colWidths.get(i);
 
+                    // Dessine une bordure autour de l'en-tête de colonne
+                    contentStream.setLineJoinStyle(1); // Style de jointure de ligne arrondi
+                    contentStream.addRect((float) xPosition, (float) (yPosition - 15), (float) colWidth, 15);
+                    contentStream.stroke(); // Dessine la bordure
+
                     contentStream.beginText();
-                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 15));
+                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 10));
                     contentStream.showText(col.getText());
                     contentStream.endText();
 
                     xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
                 }
 
-                // Dessine les lignes de données
+                // Dessine les lignes de données avec une police différente
                 contentStream.setFont(PDType1Font.HELVETICA, fontSize);
-                yPosition -= 20; // Décale la position de départ pour les lignes de données
-                for (Zones item : tabzone.getItems()) {
-                    yPosition -= 20;
-                    xPosition = 50; // Réinitialise la position horizontale pour chaque ligne
+                contentStream.setNonStrokingColor(0, 0, 0); // Revenir à la couleur noire pour le texte
 
-                    for (int i = 0; i < tabzone.getColumns().size(); i++) {
-                        TableColumn<Zones, ?> col = tabzone.getColumns().get(i);
-                        double colWidth = colWidths.get(i);
+                // ... Reste du code ...
 
-                        Object cellData = col.getCellData(item);
-                        String cellValue = (cellData != null) ? cellData.toString() : "";
-
-                        contentStream.beginText();
-                        contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) yPosition);
-                        contentStream.showText(cellValue);
-                        contentStream.endText();
-
-                        xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
-                    }
-                }
 
                 contentStream.close();
                 document.save(file);
