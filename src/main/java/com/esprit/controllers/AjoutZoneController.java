@@ -41,6 +41,10 @@ import java.util.*;
 import animatefx.animation.Shake;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.controlsfx.control.Notifications;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -72,7 +76,8 @@ public class AjoutZoneController implements Initializable {
 
     @FXML
     private TextField ftdescription;
-
+    @FXML
+    private Button PDFzone;
     @FXML
     private TextField ftnom;
     @FXML
@@ -489,8 +494,90 @@ public class AjoutZoneController implements Initializable {
     }
     @FXML
     void PDFzone(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("leszones.pdf");
+        File file = fileChooser.showSaveDialog(null);
 
+        if (file != null) {
+            try (PDDocument document = new PDDocument()) {
+                PDPage page = new PDPage();
+                document.addPage(page);
+
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+                TableView<Zones> tableView = tabzone;
+                double tableWidth = 500; // Largeur de la table
+                double yStartNewPage = page.getMediaBox().getHeight() - 50; // Position de départ pour une nouvelle page
+                double yStart = yStartNewPage;
+                double bottomMargin = 70; // Marge inférieure
+                float fontSize = 12; // Taille de police
+
+                List<Double> colWidths = new ArrayList<>(); // Liste des largeurs des colonnes
+                double tableHeight = 0; // Hauteur de la table
+
+                // Récupère les largeurs des colonnes et calcule la hauteur totale de la table
+                for (TableColumn<Zones, ?> col : tabzone.getColumns()) {
+                    double colWidth = col.getWidth();
+                    colWidths.add(colWidth);
+                    tableHeight = tabzone.getItems().size() * 20; // Supposons que chaque ligne a une hauteur de 20
+                }
+
+                // Vérifie si la table dépasse la page actuelle et crée une nouvelle page si nécessaire
+                if (yStart - tableHeight < bottomMargin) {
+                    contentStream.close();
+                    page = new PDPage();
+                    document.addPage(page);
+                    contentStream = new PDPageContentStream(document, page);
+                    yStart = yStartNewPage;
+                }
+
+                // Dessine les en-têtes de colonnes
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, fontSize);
+                double yPosition = yStart;
+                double xPosition = 50; // Position horizontale initiale
+                for (int i = 0; i < tabzone.getColumns().size(); i++) {
+                    TableColumn<Zones, ?> col = tabzone.getColumns().get(i);
+                    double colWidth = colWidths.get(i);
+
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 15));
+                    contentStream.showText(col.getText());
+                    contentStream.endText();
+
+                    xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
+                }
+
+                // Dessine les lignes de données
+                contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+                yPosition -= 20; // Décale la position de départ pour les lignes de données
+                for (Zones item : tabzone.getItems()) {
+                    yPosition -= 20;
+                    xPosition = 50; // Réinitialise la position horizontale pour chaque ligne
+
+                    for (int i = 0; i < tabzone.getColumns().size(); i++) {
+                        TableColumn<Zones, ?> col = tabzone.getColumns().get(i);
+                        double colWidth = colWidths.get(i);
+
+                        Object cellData = col.getCellData(item);
+                        String cellValue = (cellData != null) ? cellData.toString() : "";
+
+                        contentStream.beginText();
+                        contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) yPosition);
+                        contentStream.showText(cellValue);
+                        contentStream.endText();
+
+                        xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
+                    }
+                }
+
+                contentStream.close();
+                document.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 }
 
 

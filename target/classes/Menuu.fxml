@@ -22,7 +22,7 @@
             <Font name="Cooper Black" size="36.0" />
          </font>
       </Button>
-      <ImageView fitHeight="286.0" fitWidth="295.0" layoutX="-63.0" layoutY="-52.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="286.0" fitWidth="295.0" layoutX="-68.0" layoutY="-63.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/logo.png" />
          </image>

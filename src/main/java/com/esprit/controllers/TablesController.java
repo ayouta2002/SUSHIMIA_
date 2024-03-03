@@ -20,8 +20,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,9 +39,8 @@ public class TablesController implements Initializable {
 
     @FXML
     private TableColumn<Tab, Integer> captabcol;
-
-    /*@FXML
-    private TableColumn<Tab, Integer> id_tabcol;*/
+    @FXML
+    private Button PDFtable;
     @FXML
     private TableColumn<Tab, Void> action_tab;
     @FXML
@@ -48,8 +54,6 @@ public class TablesController implements Initializable {
     private Button CloseButton;
     @FXML
     private ListView<String> nomlistview;
-    @FXML
-    private TextField tfzone_idtab;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -81,7 +85,6 @@ public class TablesController implements Initializable {
 
         // Associer les propriétés des zones aux colonnes de la table view
 
-       // id_tabcol.setCellValueFactory(new PropertyValueFactory<>("table_id"));
         idzonecol.setCellValueFactory(new PropertyValueFactory<>("nom_zone"));
         captabcol.setCellValueFactory(new PropertyValueFactory<>("capacit_t"));
 
@@ -176,7 +179,8 @@ public class TablesController implements Initializable {
             int idtabModifier = TabsSelectionne.getTable_id();
 
             String capacitytableValueString = tfcaptab.getText().trim();
-            String Zonenomvalue = tfzone_idtab.getText().trim();
+            String Zonenomvalue = nomlistview.getSelectionModel().getSelectedItem();
+          //  String Zonenomvalue = tfzone_idtab.getText().trim();
 
             if (capacitytableValueString.isEmpty() || Zonenomvalue.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -229,7 +233,7 @@ public class TablesController implements Initializable {
                     // Mettez à jour le formulaire avec les valeurs de la ligne sélectionnée
 
                     tfcaptab.setText(String.valueOf(TabsSelectionne.getCapacit_t()));
-                    tfzone_idtab.setText(TabsSelectionne.getNom_zone());
+                   // nomlistview.getItems().setAll(TabsSelectionne.getNom_zone());
 
                     //ftcapacite.setText(ZonesSelectionne.getCapacity());
                     // Vous pouvez également mettre à jour d'autres champs du formulaire ici
@@ -237,7 +241,7 @@ public class TablesController implements Initializable {
             }
         });}
     private void resetFormulaire() {
-        tfzone_idtab.setText("");
+
         tfcaptab.setText("");
 
     }
@@ -277,6 +281,92 @@ public class TablesController implements Initializable {
 
         // Associer la liste observable à la ListView
         nomlistview.setItems(zoneNames);
+    }
+    @FXML
+    void PDFtable(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("LEStables.pdf");
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            try (PDDocument document = new PDDocument()) {
+                PDPage page = new PDPage();
+                document.addPage(page);
+
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+                TableView<Tab> tableView = tabtable;
+
+                double tableWidth = 500; // Largeur de la table
+                double yStartNewPage = page.getMediaBox().getHeight() - 50; // Position de départ pour une nouvelle page
+                double yStart = yStartNewPage;
+                double bottomMargin = 70; // Marge inférieure
+                float fontSize = 12; // Taille de police
+
+                List<Double> colWidths = new ArrayList<>(); // Liste des largeurs des colonnes
+                double tableHeight = 0; // Hauteur de la table
+
+                // Récupère les largeurs des colonnes et calcule la hauteur totale de la table
+                for (TableColumn<Tab, ?> col : tabtable.getColumns()) {
+                    double colWidth = col.getWidth();
+                    colWidths.add(colWidth);
+                    tableHeight = tabtable.getItems().size() * 20; // Supposons que chaque ligne a une hauteur de 20
+                }
+
+                // Vérifie si la table dépasse la page actuelle et crée une nouvelle page si nécessaire
+                if (yStart - tableHeight < bottomMargin) {
+                    contentStream.close();
+                    page = new PDPage();
+                    document.addPage(page);
+                    contentStream = new PDPageContentStream(document, page);
+                    yStart = yStartNewPage;
+                }
+
+                // Dessine les en-têtes de colonnes
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, fontSize);
+                double yPosition = yStart;
+                double xPosition = 50; // Position horizontale initiale
+                for (int i = 0; i < tabtable.getColumns().size(); i++) {
+                    TableColumn<Tab, ?> col = tabtable.getColumns().get(i);
+                    double colWidth = colWidths.get(i);
+
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 15));
+                    contentStream.showText(col.getText());
+                    contentStream.endText();
+
+                    xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
+                }
+
+                // Dessine les lignes de données
+                contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+                yPosition -= 20; // Décale la position de départ pour les lignes de données
+                for (Tab item : tabtable.getItems()) {
+                    yPosition -= 20;
+                    xPosition = 50; // Réinitialise la position horizontale pour chaque ligne
+
+                    for (int i = 0; i < tabtable.getColumns().size(); i++) {
+                        TableColumn<Tab, ?> col = tabtable.getColumns().get(i);
+                        double colWidth = colWidths.get(i);
+
+                        Object cellData = col.getCellData(item);
+                        String cellValue = (cellData != null) ? cellData.toString() : "";
+
+                        contentStream.beginText();
+                        contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) yPosition);
+                        contentStream.showText(cellValue);
+                        contentStream.endText();
+
+                        xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
+                    }
+                }
+
+                contentStream.close();
+                document.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 

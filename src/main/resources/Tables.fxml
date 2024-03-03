@@ -33,17 +33,16 @@
          <font>
             <Font name="Bodoni MT" size="20.0" />
          </font></Label>
-      <TextField fx:id="tfzone_idtab" layoutX="226.0" layoutY="121.0" />
       <TextField fx:id="tfcaptab" layoutX="119.0" layoutY="336.0" />
-      <Button layoutX="119.0" layoutY="385.0" mnemonicParsing="false" onAction="#AddTable" prefHeight="26.0" prefWidth="232.0" text="Ajouter" />
-      <TableView fx:id="tabtable" layoutX="480.0" layoutY="134.0" prefHeight="282.0" prefWidth="406.0">
+      <Button layoutX="119.0" layoutY="385.0" mnemonicParsing="false" onAction="#AddTable" prefHeight="26.0" prefWidth="232.0" stylesheets="@css/style.css" text="Ajouter" />
+      <TableView fx:id="tabtable" layoutX="480.0" layoutY="134.0" prefHeight="282.0" prefWidth="406.0" stylesheets="@css/style.css">
         <columns>
           <TableColumn fx:id="idzonecol" prefWidth="137.60003662109375" text="Nom_zone" />
             <TableColumn fx:id="captabcol" prefWidth="133.5999755859375" text="capacitee" />
             <TableColumn fx:id="action_tab" prefWidth="133.5999755859375" text="Action" />
         </columns>
       </TableView>
-      <Button layoutX="119.0" layoutY="421.0" mnemonicParsing="false" onAction="#UpDateTable" prefHeight="26.0" prefWidth="232.0" text="Modifier" />
+      <Button layoutX="119.0" layoutY="421.0" mnemonicParsing="false" onAction="#UpDateTable" prefHeight="26.0" prefWidth="232.0" stylesheets="@css/style.css" text="Modifier" />
       <Button fx:id="CloseButton" layoutX="921.0" layoutY="9.0" mnemonicParsing="false" onAction="#Close" opacity="0.0" prefHeight="41.0" prefWidth="46.0" text="fermer" />
       <Button layoutX="5.0" layoutY="586.0" mnemonicParsing="false" onAction="#menureturn" opacity="0.0" prefHeight="50.0" prefWidth="71.0" text="Retour au menu" />
       <Label layoutX="258.0" layoutY="15.0" text="Gestion des Tables" textFill="WHITE">
@@ -57,5 +56,6 @@
          </image>
       </ImageView>
       <ListView fx:id="nomlistview" layoutX="122.0" layoutY="222.0" prefHeight="88.0" prefWidth="200.0" />
+      <Button fx:id="PDFtable" layoutX="351.0" layoutY="535.0" mnemonicParsing="false" onAction="#PDFtable" prefHeight="26.0" prefWidth="114.0" stylesheets="@css/style.css" text="PDF" />
    </children>
 </AnchorPane>
