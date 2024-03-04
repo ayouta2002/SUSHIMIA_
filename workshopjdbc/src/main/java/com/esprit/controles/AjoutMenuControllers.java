@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,8 +35,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
-import javafx.util.Duration;
-import org.controlsfx.control.Notifications;
 
 
 import java.net.URL;
@@ -178,7 +175,7 @@ public class AjoutMenuControllers implements Initializable {
 
             // Create a new file in the destination directory
             File destinationFile = new File("C:\\xampp\\htdocs\\imageplat\\" + selectedFile.getName());
-
+            // url_image = "C:\\xampp\\htdocs\\image_trippie_cov\\" + file.getName();
             url_image = selectedFile.getName();
 
             try {
@@ -297,21 +294,18 @@ void AddPlat(ActionEvent event) throws IOException {
 
 
         // Afficher une boîte de dialogue d'information pour confirmer l'ajout du plat
-        Notifications.create()
-                .darkStyle()
-                .title( "Le plat a été ajouté avec succès !")
-                .position(Pos.TOP_RIGHT) // Modifier la position ici
-                .hideAfter(Duration.seconds(20))
-                .show();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Plat Ajouté");
+        alert.setHeaderText(null);
+        alert.setContentText("Le plat a été ajouté avec succès !");
+        alert.showAndWait();
     } catch (NumberFormatException e) {
         // Gérer les erreurs de conversion de chaîne en nombre
-        Notifications.create()
-                .darkStyle()
-                .title( "Veuillez saisir des valeurs numériques valides pour le prix, la quantité et l'ID de catégorie !")
-                .position(Pos.TOP_RIGHT) // Modifier la position ici
-                .hideAfter(Duration.seconds(20))
-                .show();
-
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText("Veuillez saisir des valeurs numériques valides pour le prix, la quantité et l'ID de catégorie !");
+        alert.showAndWait();
     } catch (Exception e) {
         // Gérer toute autre exception inattendue
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -324,13 +318,6 @@ void AddPlat(ActionEvent event) throws IOException {
 
     }
     rafraichirTableView();
-    ftnomplat.clear();
-    ftdescriptionplat.clear();
-    ftprixplat.clear();
-    ftquantiteplat.clear();
-    ftnomcategorie.clear();
-
-
 }
     @FXML
     void UpdateMenu(ActionEvent event) {
@@ -361,11 +348,6 @@ void AddPlat(ActionEvent event) throws IOException {
 
         platServiceService.modifier(nouvellesValeursPlat);
         rafraichirTableView();
-        ftnomplat.clear();
-        ftdescriptionplat.clear();
-        ftprixplat.clear();
-        ftquantiteplat.clear();
-        ftnomcategorie.clear();
 
 
 

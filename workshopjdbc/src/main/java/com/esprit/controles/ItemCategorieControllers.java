@@ -43,7 +43,7 @@ public class ItemCategorieControllers {
         this.myListener = myListener;
         Nom_zone.setText(nom_categorie);
         description.setText(description_categorie);
-        String fullurl = "C:\\xampp\\htdocs\\image_categorie\\" + image_categorie;
+        String fullurl = "C:\\xampp\\htdocs\\image_trippie_reclamation\\" + image_categorie;
 
         try {
             img.setImage(new Image(new FileInputStream(fullurl)));

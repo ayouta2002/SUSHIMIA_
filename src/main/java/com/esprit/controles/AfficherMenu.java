@@ -1,18 +1,15 @@
 package com.esprit.controles;
 
-import com.esprit.controles.itemcontrollers;
+import com.esprit.models.CategorieMenu;
 import com.esprit.models.Plat;
 
-import com.esprit.services.MyListener;
 import com.esprit.services.PlatService;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -22,6 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,13 +38,14 @@ public class AfficherMenu implements Initializable {
     private Label Description;
 
     @FXML
-    private TextField Nom_plat;
+    private TextField Nom_menu;
 
     @FXML
     private VBox chosen;
 
     @FXML
-    private TextField des_plat;
+    private TextField des_menu;
+
 
 
 
@@ -59,7 +59,9 @@ public class AfficherMenu implements Initializable {
     private Label prix;
 
     @FXML
-    private TextField prix_plat;
+    private TextField prix_menu;
+    @FXML
+    private TextField trecherche;
 
     @FXML
     private ScrollPane scroll;
@@ -68,52 +70,51 @@ public class AfficherMenu implements Initializable {
 
     private  int plat_id;
 
-    MyListener myListener;
-
-    public Plat selectedPlat;
-    private List<Plat> platList = new ArrayList<>();
-
-
-    private void setChosenZone(Plat p) {
-        selectedPlat = p;
-        plat_id = p.getId_plat();
-        Nom_plat.setText(p.getNom_plat());
-        des_plat.setText(p.getDescription_plat());
-        prix_plat.setText(Float.toString(p.getPrix()));
+    private List<Plat> recDataList = FXCollections.observableArrayList();
+    private PlatService rec = new PlatService();
+    private itemcontrollers.MyListener myListener;
 
 
-        Image image = new Image(p.getImage());
-        img.setImage(image);
-        System.out.println(p.getImage());
-        //image.setText(p.getImage());
-        // image = new Image(getClass().getResourceAsStream(m.getImage_produit()));
-        // imgProd_ch.setImage(image);
+    private void setChosenZone(Plat r) {
+
+        Nom_menu.setText(itemcontrollers.r.getNom_plat());
+        des_menu.setText(itemcontrollers.r.getDescription_plat());
+        prix_menu.setText(String.valueOf(itemcontrollers.r.getPrix()));
+        String imagePath = "C:\\xampp\\htdocs\\imageplat\\" + itemcontrollers.r.getImage();
+        try {
+            img.setImage(new Image(new FileInputStream(imagePath)));
+        } catch (FileNotFoundException e) {
+            System.err.println("Error loading image: " + e.getMessage());
+        }
+
     }
-    public void Update() {
-        Plat p;
-        PlatService plat = new PlatService();
-        platList.clear();
-        grid.getChildren().clear();
-        platList.addAll(plat.afficher());
-        myListener = new MyListener() {
-            @Override
-            public void onClickListener(Plat p) {
-                setChosenZone(p);
-            }
 
-
-        };
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("hello");
+        recDataList.addAll(rec.afficher());
+        System.out.println("load data");
+        if (recDataList.size() > 0) {
+            setChosenZone(recDataList.get(0));
+            myListener = new itemcontrollers.MyListener() {
+                @Override
+                public void onClick(Plat r) {
+                    System.out.println("mouse clicked");
+                    setChosenZone(r);
+                }
+            };
+        }
 
         int c = 0;
         int l = 0;
         try {
-            for (int i = 0; i < platList.size(); i++) {
+            for (int i = 0; i < recDataList.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/Item.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/item.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 itemcontrollers platController = fxmlLoader.getController();
-                platController.setData(platList.get(i), myListener);
+                platController.setData(recDataList.get(i).getId_plat(), recDataList.get(i).getNom_plat(), recDataList.get(i).getDescription_plat(), recDataList.get(i).getPrix(), recDataList.get(i).getQuantite(), recDataList.get(i).getNom_categorie(), recDataList.get(i).getImage(), myListener);
                 if (c > 2) {
                     c = 0;
                     l++;
@@ -135,11 +136,7 @@ public class AfficherMenu implements Initializable {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        Update();
+        trecherche.textProperty().addListener((observable, oldValue, newValue) -> search());
     }
 
 /*
@@ -163,4 +160,45 @@ public class AfficherMenu implements Initializable {
 
     }
 */
+@FXML
+void search() {
+    String searchTerm = trecherche.getText().trim().toLowerCase();
+    List<Plat> searchResults = new ArrayList<>();
+
+    for (Plat plat : recDataList) {
+        if (plat.getNom_plat().toLowerCase().contains(searchTerm) ) {
+            searchResults.add(plat);
+        }
+    }
+
+    displaySearchResults(searchResults);
+}
+
+    private void displaySearchResults(List<Plat> searchResults) {
+        // Clear the existing grid
+        grid.getChildren().clear();
+
+        int column = 0;
+        int row = 3;
+
+        for (Plat plat : searchResults) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/item.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+                itemcontrollers item = fxmlLoader.getController();
+                item.setData(plat.getId_plat(), plat.getNom_plat(), plat.getDescription_plat(),plat.getPrix(),plat.getQuantite(),plat.getNom_categorie(), plat.getImage(), myListener);
+
+                if (column == 2) {
+                    column = 0;
+                    row++;
+                }
+
+                grid.add(anchorPane, column++, row);
+                GridPane.setMargin(anchorPane, new Insets(10));
+            } catch (IOException e) {
+                System.out.println("Problem loading category details");
+            }
+        }
+    }
+
 }

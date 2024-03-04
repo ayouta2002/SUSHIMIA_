@@ -84,7 +84,7 @@ public class PlatService implements IService<Plat> {
     public List<Plat> recherchePlat(int id) {
         List<Plat> list = new ArrayList<>();
         try {
-            String req = "SELECT * FROM `plat` WHERE id_plat= " + id;
+            String req = "SELECT * FROM plat WHERE id_plat =" + id+ ";";
             Statement st = connection.createStatement();
             ResultSet RS = st.executeQuery(req);
             while (RS.next()) {

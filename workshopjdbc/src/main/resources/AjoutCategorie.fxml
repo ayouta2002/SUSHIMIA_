@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="583.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AjoutCategorieControllers">
+<AnchorPane prefHeight="583.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AjoutCategorieControllers">
    <children>
       <AnchorPane layoutX="-9.0" layoutY="-5.0" opacity="0.48" prefHeight="126.0" prefWidth="866.0" style="-fx-background-color: #f5c422;" />
       <ImageView fitHeight="81.0" fitWidth="61.0" layoutX="747.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
@@ -47,20 +47,18 @@
          </font></Label>
       <TextField fx:id="ftnomcategorie" layoutX="142.0" layoutY="253.0" prefHeight="26.0" prefWidth="127.0" />
       <TextField fx:id="ftdescriptioncategorie" layoutX="143.0" layoutY="303.0" prefHeight="26.0" prefWidth="127.0" />
-      <TableView fx:id="tabcategorie" layoutX="306.0" layoutY="202.0" prefHeight="266.0" prefWidth="528.0">
+      <TableView fx:id="tabcategorie" layoutX="464.0" layoutY="164.0" prefHeight="265.0" prefWidth="312.0">
         <columns>
           <TableColumn fx:id="cid" prefWidth="75.0" text="id" />
           <TableColumn fx:id="cnom" prefWidth="124.800048828125" text="nom_categorie" />
             <TableColumn fx:id="cdescription" prefWidth="111.19989013671875" text="description" />
-            <TableColumn fx:id="colimage" prefWidth="111.19989013671875" text="Image" />
-            <TableColumn fx:id="taction" prefWidth="111.19989013671875" text="Action" />
         </columns>
       </TableView>
-      <Button layoutX="460.0" layoutY="487.0" mnemonicParsing="false" onAction="#DeleteCategorie" prefHeight="26.0" prefWidth="182.0" text="Supprimer">
+      <Button layoutX="462.0" layoutY="461.0" mnemonicParsing="false" onAction="#DeleteCategorie" prefHeight="26.0" prefWidth="182.0" text="Supprimer">
          <font>
             <Font name="Cooper Black" size="13.0" />
          </font></Button>
-      <TextField fx:id="supp_ID" layoutX="656.0" layoutY="487.0" prefHeight="26.0" prefWidth="107.0" />
+      <TextField fx:id="supp_ID" layoutX="666.0" layoutY="461.0" prefHeight="26.0" prefWidth="107.0" />
       <Button fx:id="closebutton" layoutX="710.0" layoutY="527.0" mnemonicParsing="false" onAction="#Close" opacity="0.0" prefHeight="26.0" prefWidth="115.0" text="Fermer" />
       <Button layoutX="35.0" layoutY="39.0" mnemonicParsing="false" onAction="#retourcategorie" opacity="0.0" text="retour" />
       <Label layoutX="224.0" layoutY="37.0" text="gestion de categorie">
@@ -72,6 +70,5 @@
             <Image url="@images/Red_Black_Simple_Spicy_Food_Restaurant_Logo___1_-removebg-preview.png" />
          </image>
       </ImageView>
-      <TextField fx:id="chercher" layoutX="543.0" layoutY="143.0" onKeyTyped="#searchkey" />
    </children>
 </AnchorPane>

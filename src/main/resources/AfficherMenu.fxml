@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -35,7 +33,7 @@
                                         <Font name="Hoefler Text" size="32.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="Nom_plat" />
+                                <TextField fx:id="Nom_menu" />
                                 <HBox prefHeight="62.0" prefWidth="5.0" />
                             </children>
                         </HBox>
@@ -54,7 +52,7 @@
                                         <Insets left="15.0" top="5.0" />
                                     </VBox.margin>
                                 </Label>
-                                <TextField fx:id="des_plat" />
+                                <TextField fx:id="des_menu" />
                             </children>
                         </VBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="237.0">
@@ -64,7 +62,7 @@
                                         <Insets left="10.0" />
                                     </HBox.margin>
                                 </Label>
-                                <TextField fx:id="prix_plat" prefHeight="26.0" prefWidth="154.0" />
+                                <TextField fx:id="prix_menu" prefHeight="26.0" prefWidth="154.0" />
                             </children>
                         </HBox>
                         <VBox alignment="CENTER" prefHeight="73.0" prefWidth="237.0">
@@ -92,19 +90,10 @@
             <top>
                 <HBox alignment="CENTER" prefHeight="58.0" prefWidth="1430.0" BorderPane.alignment="CENTER">
                     <children>
-                        <TextField fx:id="searchInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="232.0" promptText="Search..." styleClass="transparent" />
 
 
-                        <Pane prefHeight="58.0" prefWidth="83.0">
-                            <children>
-                                <ChoiceBox fx:id="filtreOptions" layoutX="20.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="47.0">
-                                    <styleClass>
-                                        <String fx:value="filtre" />
-                                        <String fx:value="transparent" />
-                                    </styleClass>
-                                </ChoiceBox>
-                            </children>
-                        </Pane>
+                        <Pane prefHeight="58.0" prefWidth="83.0" />
+                  <TextField fx:id="trecherche" prefHeight="26.0" prefWidth="221.0" />
                     </children>
                 </HBox>
             </top>

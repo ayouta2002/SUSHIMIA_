@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane onMouseClicked="#Click" prefHeight="192.0" prefWidth="194.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.ItemCategorieControllers">
+
+<AnchorPane onMouseClicked="#Click" prefHeight="192.0" prefWidth="194.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.ItemCategorieControllers">
    <children>
-      <ImageView fitHeight="192.0" fitWidth="200.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/417913699_416143174110690_8187740165455629875_n.png" />
-         </image>
-      </ImageView>
       <Label fx:id="Nom_zone" layoutX="22.0" layoutY="14.0" text="Nom_zone" />
       <Label fx:id="description" layoutX="83.0" layoutY="160.0" text="description" />
       <ImageView fx:id="img" fitHeight="108.0" fitWidth="113.0" layoutX="41.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" />

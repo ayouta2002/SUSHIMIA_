@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -31,7 +29,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AfficherCtegorieControllers  {
+public class AfficherCtegorieControllers {
 
     @FXML
     private ResourceBundle resources;
@@ -50,8 +48,6 @@ public class AfficherCtegorieControllers  {
 
     @FXML
     private TextField des_plat;
-    @FXML
-    private TextField Chercher;
 
     @FXML
     private ChoiceBox<?> filtreOptions;
@@ -113,14 +109,13 @@ public class AfficherCtegorieControllers  {
 
                 GridPane.setMargin(anchorPane, new Insets(10));
         }
-        Chercher.textProperty().addListener((observable, oldValue, newValue) -> search());
     }
 
     private void setChosenRec(CategorieMenu r) {
 
         Nom_plat.setText(ItemCategorieControllers.r.getNom_categorie());
         des_plat.setText(ItemCategorieControllers.r.getDescription_categorie());
-        String imagePath = "C:\\xampp\\htdocs\\image_categorie\\" + ItemCategorieControllers.r.getImage_categorie();
+        String imagePath = "C:\\xampp\\htdocs\\image_trippie_reclamation\\" + ItemCategorieControllers.r.getImage_categorie();
         try {
             img.setImage(new Image(new FileInputStream(imagePath)));
         } catch (FileNotFoundException e) {
@@ -137,47 +132,5 @@ public class AfficherCtegorieControllers  {
         stage.setScene(scene);
         stage.show();
     }
-
-    @FXML
-    void search() {
-        String searchTerm = Chercher.getText().trim().toLowerCase();
-        List<CategorieMenu> searchResults = new ArrayList<>();
-
-        for (CategorieMenu categorieMenu : recDataList) {
-            if (categorieMenu.getNom_categorie().toLowerCase().contains(searchTerm) ) {
-                searchResults.add(categorieMenu);
-            }
-        }
-
-        displaySearchResults(searchResults);
-    }
-
-    private void displaySearchResults(List<CategorieMenu> searchResults) {
-        // Clear the existing grid
-        grid.getChildren().clear();
-
-        int column = 0;
-        int row = 3;
-
-        for (CategorieMenu categorieMenu : searchResults) {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ItemCategorie.fxml"));
-                AnchorPane anchorPane = fxmlLoader.load();
-                ItemCategorieControllers item = fxmlLoader.getController();
-                item.setData(categorieMenu.getId_categorie(), categorieMenu.getNom_categorie(), categorieMenu.getDescription_categorie(), categorieMenu.getImage_categorie(), myListener);
-
-                if (column == 2) {
-                    column = 0;
-                    row++;
-                }
-
-                grid.add(anchorPane, column++, row);
-                GridPane.setMargin(anchorPane, new Insets(10));
-            } catch (IOException e) {
-                System.out.println("Problem loading category details");
-            }
-        }
-    }
-
 
 }

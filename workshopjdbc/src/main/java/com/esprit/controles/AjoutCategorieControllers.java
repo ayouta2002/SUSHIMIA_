@@ -1,9 +1,7 @@
 package com.esprit.controles;
 
 import com.esprit.models.CategorieMenu;
-import com.esprit.models.Plat;
 import com.esprit.services.CategorieService;
-import com.esprit.services.PlatService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,8 +16,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -29,7 +29,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,8 +40,6 @@ public class AjoutCategorieControllers implements Initializable {
 
     @FXML
     private TextField ftnomcategorie;
-    @FXML
-    private TextField chercher;
 
     @FXML
     private TextField supp_ID;
@@ -50,8 +47,7 @@ public class AjoutCategorieControllers implements Initializable {
     private ImageView fimage;
     @FXML
     private Button closebutton;
-    @FXML
-    private TableColumn<CategorieMenu,String> colimage;
+
 
     @FXML
     private TableColumn<CategorieMenu,String > cdescription;
@@ -61,22 +57,13 @@ public class AjoutCategorieControllers implements Initializable {
 
     @FXML
     private TableColumn<CategorieMenu, String> cnom;
-    @FXML
-    private TableColumn<CategorieMenu, Float> taction;
-
-
 
     @FXML
     private TableView<CategorieMenu> tabcategorie;
-
     public String url_image;
     private String path;
     File selectedFile;
-    private CategorieMenu cs =new CategorieMenu();
-    private ObservableList<CategorieMenu> displayedCategorie = FXCollections.observableArrayList(new CategorieService().afficher());
-
     private ObservableList<CategorieMenu> listcategories = FXCollections.observableArrayList();
-
 
 
 /*
@@ -121,7 +108,7 @@ public class AjoutCategorieControllers implements Initializable {
                             selectedFile = new File(file.getAbsolutePath());
                             System.out.println("Drag and drop file done and path=" + file.getAbsolutePath());//file.getAbsolutePath("C:\Users\X\Desktop\ScreenShot.6.png"
                             fimage.setImage(new Image("file:" + file.getAbsolutePath()));
-                            File destinationFile = new File("C:\\xampp\\htdocs\\image_categorie\\" + file.getName());
+                            File destinationFile = new File("C:\\xampp\\htdocs\\imageplat\\" + file.getName());
                             try {
                                 // Copy the selected file to the destination file
                                 Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -159,7 +146,7 @@ public class AjoutCategorieControllers implements Initializable {
             fimage.setImage(image1);
 
             // Create a new file in the destination directory
-            File destinationFile = new File("C:\\xampp\\htdocs\\image_categorie\\" + selectedFile.getName());
+            File destinationFile = new File("C:\\xampp\\htdocs\\image_trippie_reclamation\\" + selectedFile.getName());
             url_image = selectedFile.getName();
 
             try {
@@ -205,88 +192,23 @@ public class AjoutCategorieControllers implements Initializable {
         cid.setCellValueFactory(new PropertyValueFactory<>("id_categorie"));
         cnom.setCellValueFactory(new PropertyValueFactory<>("nom_categorie"));
         cdescription.setCellValueFactory(new PropertyValueFactory<>("description_categorie"));
-        colimage.setCellValueFactory(new PropertyValueFactory<>("image_categorie"));
-        taction.setCellFactory(param -> {
-            return new TableCell<CategorieMenu, Float>() {
-                private final Button deleteButton = new Button("Supprimer");
-                private final Button editButton = new Button("Modifier");
-
-                {
-                    deleteButton.setOnAction(event -> {
-                        CategorieMenu categorieMenu = getTableView().getItems().get(getIndex());
-                        // Logique de suppression de la zone
-                        categorieService.supprimer(categorieMenu);
-                        initializeTableView();
-                    });
-
-                    editButton.setOnAction(event -> {
-                        CategorieMenu categorieMenu = getTableView().getItems().get(getIndex());
-                        // Logique de modification de la zone
-                        // showEditDialog(zone);
-                    });
-                }
-
-                @Override
-                protected void updateItem(Float item, boolean empty) {
-                    super.updateItem(item, empty);
-
-
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        HBox hbox = new HBox(deleteButton);
-                        hbox.setSpacing(10);
-                        setGraphic(hbox);
-                    }
-                }
-            };
-        });
-
-        // tabzone.getColumns().add(actioncol);
-        // Associer la liste observable à la table view*/
+        // Associer la liste observable à la table view
         tabcategorie.setItems(zones);
     }
 
     @FXML
     void addcategorie(ActionEvent event) throws SQLException {
-        // Récupérer les valeurs des champs de texte
-        String nomCategorie = ftnomcategorie.getText().trim();
-        String descriptionCategorie = ftdescriptioncategorie.getText().trim();
-
-        // Vérifier si les champs sont vides ou contiennent des caractères non autorisés
-        if (nomCategorie.isEmpty() || descriptionCategorie.isEmpty() || selectedFile == null || !estChaineValide(nomCategorie) || !estChaineValide(descriptionCategorie)) {
-            // Afficher une alerte en cas de champ vide ou de caractères non autorisés
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setContentText("Veuillez remplir tous les champs avec des caractères valides.");
-            alert.show();
-            return; // Sortir de la méthode si la saisie est incorrecte
-        }
-
-        // Si tous les champs sont remplis avec des caractères valides, continuer avec l'ajout
         CategorieService cs = new CategorieService();
-        String image = url_image;
-        CategorieMenu categorieMenu = new CategorieMenu(nomCategorie, descriptionCategorie, selectedFile.getName());
+        String image =url_image;
+        CategorieMenu categorieMenu = new CategorieMenu(ftnomcategorie.getText(), ftdescriptioncategorie.getText(), selectedFile.getName());
         cs.ajouter(categorieMenu);
 
-        // Afficher une alerte de succès
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Catégorie ajoutée");
-        alert.setContentText("Catégorie ajoutée avec succès !");
+        alert.setTitle("categorie Ajoutée");
+        alert.setContentText("categorie Ajoutée !");
         alert.show();
-
-        // Rafraîchir la table view ou toute autre opération nécessaire
         rafraichirTableView();
-        ftnomcategorie.clear();
-        ftdescriptioncategorie.clear();
     }
-
-    // Méthode pour vérifier si une chaîne contient uniquement des lettres
-    private boolean estChaineValide(String chaine) {
-        return chaine.matches("[a-zA-Z]+");
-    }
-
-
 
     @FXML
     void DeleteCategorie(ActionEvent event) throws IOException {
@@ -353,12 +275,8 @@ String imagevalue = url_image;
     System.out.println(descriptioncategorieValue);
     categorieServiceService.modifier(nouvellesValeursCategorie);
     rafraichirTableView();
-    ftnomcategorie.clear();
-    ftdescriptioncategorie.clear();
-
 
     }
-
     @FXML
     void Close(ActionEvent event) {
         Stage stage = (Stage) closebutton.getScene().getWindow();
@@ -400,60 +318,6 @@ String imagevalue = url_image;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-    }
-
-
-    @FXML
-    void searchkey(KeyEvent event) {
-
-        // Récupérer le texte entré dans le champ de recherche
-        String keyword = chercher.getText().toLowerCase();
-
-        ObservableList<CategorieMenu> filteredCategorie = FXCollections.observableArrayList();
-
-        // Parcourir tous les plats affichés dans la TableView
-        for (CategorieMenu categorieMenu : displayedCategorie) {
-            // Vérifier si l'utilisateur a entré un seul caractère
-            if (keyword.length() == 1) {
-                // Si oui, filtrer les plats dont le nom commence par ce caractère
-                if (categorieMenu.getNom_categorie().toLowerCase().startsWith(keyword)) {
-                    filteredCategorie.add(categorieMenu);
-                }
-            } else {
-                // Sinon, effectuer une recherche normale avec filtrage
-                if (categorieMenu.getNom_categorie().toLowerCase().contains(keyword) ||
-                        categorieMenu.getDescription_categorie().toLowerCase().contains(keyword))
-                        {
-
-                            filteredCategorie.add(categorieMenu);
-                }
-            }
-        }
-
-        // Si l'utilisateur n'a pas entré de texte de recherche, afficher tous les plats
-        if (keyword.isEmpty()) {
-            filteredCategorie.clear();
-            filteredCategorie.addAll(displayedCategorie);
-        }
-
-        // Trier les plats filtrés par nom s'il y en a
-        if (!filteredCategorie.isEmpty()) {
-            var comparator = Comparator.comparing(CategorieMenu::getNom_categorie);
-            FXCollections.sort(filteredCategorie, comparator);
-        }
-
-        // Afficher les plats filtrés dans la TableView
-        tabcategorie.setItems(filteredCategorie);
-        // rafraichirTableView();
-
-    }
-
-    private void resetFormulaire() {
-        ftnomcategorie.setText("");
-        ftdescriptioncategorie.setText("");
-
-        // fimage.setText("");
 
     }
 
