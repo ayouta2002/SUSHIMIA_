@@ -21,7 +21,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.net.URL;
 import java.sql.Date;
 import java.util.List;
@@ -127,4 +127,19 @@ public class AfficherResClientController implements Initializable {
         // Afficher les réservations du client statique
         afficherReservationsClient(idClientStatic);
     }
+    @FXML
+    void Return(ActionEvent event) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AffichageZone.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }}
 }

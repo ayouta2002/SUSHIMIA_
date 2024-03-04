@@ -1,19 +1,28 @@
 package com.esprit.controllers;
 
 import com.esprit.models.Reservation;
+import com.esprit.models.Zones;
 import com.esprit.services.ReservationService;
 
+import com.esprit.services.TableService;
+import com.esprit.services.ZonesService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import com.esprit.services.SendMail;
 
@@ -22,8 +31,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
-public class ReservationClientController {
+import com.esprit.models.Tab;
+public class ReservationClientController implements Initializable {
 
 
     @FXML
@@ -36,6 +45,8 @@ public class ReservationClientController {
     private static final int idClientStatic = 2;
     @FXML
     private Label Lnomzone;
+    @FXML
+    private ListView<Integer> numtableList;
     public void setLnomzone(String zone) {
         Lnomzone.setText(zone);
     }
@@ -43,7 +54,8 @@ public class ReservationClientController {
     void AddReservation(ActionEvent event) throws IOException, InterruptedException {
         ReservationService rs = new ReservationService();
         int idClient = idClientStatic;
-        int idTable = Integer.parseInt(tftable_idR.getText());
+       // int idTable = Integer.parseInt(tftable_idR.getText());
+        int idTable = numtableList.getSelectionModel().getSelectedItem();
         LocalDate selectedDate = dateR.getValue();
         Date date = Date.valueOf(selectedDate);
 
@@ -75,7 +87,8 @@ public class ReservationClientController {
             ConfirmationDeReservationController apc = loader.getController();
 
             apc.setLdate(dateR.getValue().toString());
-            apc.setLtable_id(tftable_idR.getText());
+            apc.setLtable_id(String.valueOf(idTable));
+
             apc.setLzone(Lnomzone.getText());
         }}
     public  void envoyerMail(String email,String Subject,String Object) {
@@ -116,4 +129,25 @@ public class ReservationClientController {
             e.printStackTrace();
         }
     }
+    public void rafraichirListView() {
+        TableService tableService = new TableService();
+        List<Tab> allTab = tableService.afficher();
+
+        // Créer une observable list pour les noms de zones
+        ObservableList<Integer> tabnum = FXCollections.observableArrayList();
+
+        // Ajouter tous les noms de zones à la liste observable
+        for (Tab tab : allTab) {
+            tabnum.add(tab.getTable_id());
+        }
+
+        // Associer la liste observable à la ListView
+        numtableList.setItems(tabnum);
     }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        rafraichirListView();
+    }
+}

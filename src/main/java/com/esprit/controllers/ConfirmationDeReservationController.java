@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
+import com.esprit.models.Tab;
 import java.awt.event.ActionEvent;
 import java.util.Optional;
 
