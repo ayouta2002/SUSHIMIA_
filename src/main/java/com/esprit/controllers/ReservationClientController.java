@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,6 +37,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import com.esprit.models.Tab;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 public class ReservationClientController implements Initializable {
 
@@ -62,24 +65,29 @@ public class ReservationClientController implements Initializable {
         LocalDate selectedDate = dateR.getValue();
         Date date = Date.valueOf(selectedDate);
 
-        // Create a confirmation dialog
-        Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationDialog.setTitle("Confirmation");
-        confirmationDialog.setHeaderText("Confirmer la réservation");
-        confirmationDialog.setContentText("Êtes-vous sûr de vouloir confirmer cette réservation ?");
+        Notifications.create()
+                .darkStyle()
+                .title("Reservation Recu")
+                .text("Votre réservation a été envoyée avec succès.")
+                .hideCloseButton()
+                .position(Pos.CENTER)
+                .onAction(notificationEvent -> {
+                    // Handle the confirmation action here
+                    rs.ajouter(new Reservation(idClient, Lnomzone.getText(), idTable, date));
+                    Notifications.create()
+                            .darkStyle()
+                            .title("Réservation ajoutée")
+                            .position(Pos.CENTER)
+                            .hideAfter(Duration.seconds(5))
+                            .showInformation();
+                })
+                .showConfirm();
 
-        Optional<ButtonType> result = confirmationDialog.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            rs.ajouter(new Reservation(idClient, Lnomzone.getText(), idTable, date));
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Reservation ajoutée");
-            alert.setContentText("Reservation ajoutée !");
-            alert.show();
 
             // Envoyer l'e-mail
-            String clientEmail = "eya.benslimen@esprit.tn"; // Remplacez par l'adresse e-mail du client
-            String subject = "Confirmation de réservation";
-            String message = "Votre réservation a été envoyée avec succès.";
+            String clientEmail = "eya.benslimen@esprit.tn"; // Remplacez par l'adresse e-mail du Admin
+            String subject = "réservation d'un client";
+            String message = "Veuillez approuver ou rejeter la réservation, s'il vous plaît.";
 
             envoyerMail(clientEmail, subject, message);
 
@@ -93,7 +101,7 @@ public class ReservationClientController implements Initializable {
             apc.setLtable_id(String.valueOf(idTable));
 
             apc.setLzone(Lnomzone.getText());
-        }}
+        }
     public  void envoyerMail(String email,String Subject,String Object) {
 
         final String username = "oussama.sfaxi@esprit.tn";

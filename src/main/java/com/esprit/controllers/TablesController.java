@@ -142,6 +142,8 @@ public class TablesController implements Initializable {
         String capacitetab = tfcaptab.getText().trim();
 
         if (nom_zone == null || capacitetab.isEmpty()) {
+            tfcaptab.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+            new animatefx.animation.Flash(tfcaptab).play();
             Notifications.create()
                     .darkStyle()
                     .title(" Veuillez sélectionner une zone et remplir les champs.")

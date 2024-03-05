@@ -116,10 +116,15 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <TextField fx:id="searchInput" layoutX="219.0" layoutY="82.0" prefHeight="26.0" prefWidth="300.0" promptText="recherche">
+      <TextField fx:id="searchInput" layoutX="219.0" layoutY="82.0" prefHeight="26.0" prefWidth="438.0" promptText="recherche">
          <effect>
             <Glow />
          </effect>
       </TextField>
+      <ImageView fitHeight="27.0" fitWidth="25.0" layoutX="190.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/rechercher-removebg-preview.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

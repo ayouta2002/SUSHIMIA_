@@ -65,8 +65,6 @@ public class AjoutZoneController implements Initializable {
     private URL location;
     @FXML
     private ImageView image_zone;
-   /* @FXML
-    private TableColumn<Zones, Integer> id_zone;*/
 
     @FXML
     private TableColumn<Zones, String> nomzone;
@@ -75,9 +73,6 @@ public class AjoutZoneController implements Initializable {
     private TableView<Zones> tabzone;
     @FXML
     private TextField ftcapacite;
-    @FXML
-    private TextField ai_desc;
-    private TextField pr_desc;
 
 
     @FXML
@@ -223,10 +218,7 @@ public class AjoutZoneController implements Initializable {
         displayedZone.addAll(allZones);
 
         // Associer la liste observable à la table view
-        tabzone.setItems(displayedZone);
-
-
-    }
+        tabzone.setItems(displayedZone);}
 
     @FXML
     private void rafraichirTableView() {
@@ -288,11 +280,11 @@ public class AjoutZoneController implements Initializable {
 
        if (nom.isEmpty() || description.isEmpty() || capaciteStr.isEmpty()) {
            ftnom.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
-           new animatefx.animation.Bounce(ftnom).play();
+           new animatefx.animation.Flash(ftnom).play();
            ftdescription.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
-           new Shake(ftdescription).play();
+           new animatefx.animation.Flash(ftdescription).play();
            ftcapacite.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
-           new Shake(ftcapacite).play();
+           new animatefx.animation.Flash(ftcapacite).play();
            Notifications.create()
                    .darkStyle()
                    .title(" Veuillez remplir tous les champs.")
@@ -367,8 +359,42 @@ public class AjoutZoneController implements Initializable {
             int capacityzoneValue = Integer.parseInt(ftcapacite.getText());
             String imageValue = url_image;
 
-            if (nomzoneValue.isEmpty() || descriptionzoneValue.isEmpty() || ftcapacite.getText().isEmpty()) {
-                System.out.println("Veuillez remplir tous les champs");
+            if (ftcapacite.getText().isEmpty()) {
+                    ftnom.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+                    new animatefx.animation.Flash(ftnom).play();
+                    Notifications.create()
+                            .darkStyle()
+                            .title(" Veuillez remplir tous les champs.")
+                            .position(Pos.CENTER) // Modifier la position ici
+                            .hideAfter(Duration.seconds(20))
+                            .show();
+
+                    return;
+            }
+            if (descriptionzoneValue.isEmpty()) {
+
+                ftdescription.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+                new animatefx.animation.Flash(ftdescription).play();
+                Notifications.create()
+                        .darkStyle()
+                        .title(" Veuillez remplir tous les champs.")
+                        .position(Pos.CENTER) // Modifier la position ici
+                        .hideAfter(Duration.seconds(20))
+                        .show();
+
+                return;
+            }
+            if ( ftcapacite.getText().isEmpty()) {
+
+                ftcapacite.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+                new animatefx.animation.Flash(ftcapacite).play();
+                Notifications.create()
+                        .darkStyle()
+                        .title(" Veuillez remplir tous les champs.")
+                        .position(Pos.CENTER) // Modifier la position ici
+                        .hideAfter(Duration.seconds(20))
+                        .show();
+
                 return;
             }
             // Contrôle de saisie pour le nom
@@ -616,55 +642,6 @@ public class AjoutZoneController implements Initializable {
 // Set the items of the ComboBox to the observable list
         comboxZone.setItems(filtersObservable);
 
-    }
-    @FXML
-    void ai_generator(ActionEvent event) {
-        /*String apiKey = "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";
-        String prompt = ai_desc.getText(); // Modify this to your small phrase
-
-        OkHttpClient client = new OkHttpClient();
-        MediaType mediaType = MediaType.parse("application/json");
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("prompt", prompt);
-        jsonObject.put("max_tokens", 20);
-        jsonObject.put("model", "gpt-3.5-turbo-instruct"); // Specify the model identifier
-
-
-        RequestBody body = RequestBody.create(mediaType, jsonObject.toString());
-        Request request = new Request.Builder()
-                .url("https://api.openai.com/v1/completions")
-                .post(body)
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", "Bearer " + apiKey)
-                .build();
-
-        try {
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                String responseBody = response.body().string();
-                JSONObject jsonResponse = new JSONObject(responseBody);
-                String description = jsonResponse.getJSONArray("choices").getJSONObject(0).getString("text");
-                String[] words = description.split("\\s+");
-                StringBuilder formattedDescription = new StringBuilder();
-                int wordCount = 0;
-                for (String word : words) {
-                    formattedDescription.append(word).append(" ");
-                    wordCount++;
-                    if (wordCount == 5) {
-                        formattedDescription.append("\n");
-                        wordCount = 0;
-                    }
-                }
-                System.out.println("Generated Description: " + formattedDescription.toString());
-                pr_desc.setText(formattedDescription.toString());
-            } else {
-                System.out.println("Request failed with code: " + response.code());
-                System.out.println("Response body: " + response.body().string());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }
 
