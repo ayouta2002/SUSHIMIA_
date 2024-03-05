@@ -276,4 +276,3 @@ public class ListReservationsController implements Initializable {
             e.printStackTrace();
         }}
 }
-

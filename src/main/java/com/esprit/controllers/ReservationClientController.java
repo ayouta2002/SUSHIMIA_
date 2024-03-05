@@ -9,10 +9,13 @@ import com.esprit.services.ZonesService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.io.IOException;
@@ -32,14 +35,14 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import com.esprit.models.Tab;
+import javafx.stage.Stage;
+
 public class ReservationClientController implements Initializable {
 
 
     @FXML
     private TextField tfnom_zone;
 
-    @FXML
-    private TextField tftable_idR;
     @FXML
     private DatePicker dateR;
     private static final int idClientStatic = 2;
@@ -54,7 +57,7 @@ public class ReservationClientController implements Initializable {
     void AddReservation(ActionEvent event) throws IOException, InterruptedException {
         ReservationService rs = new ReservationService();
         int idClient = idClientStatic;
-       // int idTable = Integer.parseInt(tftable_idR.getText());
+
         int idTable = numtableList.getSelectionModel().getSelectedItem();
         LocalDate selectedDate = dateR.getValue();
         Date date = Date.valueOf(selectedDate);
@@ -150,4 +153,20 @@ public class ReservationClientController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rafraichirListView();
     }
+    @FXML
+    void Retour(ActionEvent event) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AffichageZone.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }}
+
 }

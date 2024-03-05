@@ -75,6 +75,10 @@ public class AjoutZoneController implements Initializable {
     private TableView<Zones> tabzone;
     @FXML
     private TextField ftcapacite;
+    @FXML
+    private TextField ai_desc;
+    private TextField pr_desc;
+
 
     @FXML
     private TextField ftdescription;
@@ -289,11 +293,7 @@ public class AjoutZoneController implements Initializable {
            new Shake(ftdescription).play();
            ftcapacite.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
            new Shake(ftcapacite).play();
-       }else{
-               ftnom.setStyle(null);
-           ftdescription.setStyle(null);
-           ftcapacite.setStyle(null);
-          Notifications.create()
+           Notifications.create()
                    .darkStyle()
                    .title(" Veuillez remplir tous les champs.")
                    .position(Pos.CENTER) // Modifier la position ici
@@ -619,7 +619,7 @@ public class AjoutZoneController implements Initializable {
     }
     @FXML
     void ai_generator(ActionEvent event) {
-        String apiKey = "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";
+        /*String apiKey = "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";
         String prompt = ai_desc.getText(); // Modify this to your small phrase
 
         OkHttpClient client = new OkHttpClient();
@@ -664,7 +664,7 @@ public class AjoutZoneController implements Initializable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
 

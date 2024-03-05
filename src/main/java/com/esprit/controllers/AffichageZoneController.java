@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,6 +20,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -173,12 +176,14 @@ public class AffichageZoneController implements Initializable {
             stage.setScene(scene);
             stage.show();
         } else {
-            // Show an alert if tfnomzone is empty
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Bienvenue");
-            alert.setContentText("Choisir votre zone");
-            alert.showAndWait();
+            Notifications.create()
+                    .darkStyle()
+                    .title("BIENVENUE")
+                    .text("Choisir votre zone")
+                    .graphic(null) // Remplacez null par une icône personnalisée si vous le souhaitez
+                    .hideAfter(Duration.seconds(5))
+                    .position(Pos.CENTER)
+                    .showWarning();
         }
     }
 

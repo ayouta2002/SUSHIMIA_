@@ -74,6 +74,7 @@ public class AfficherResClientController implements Initializable {
             // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
             ReservationService reservationService = new ReservationService();
             reservationService.modifier(reservation);
+            rafraichirTableView();
         });
     }
 
@@ -88,8 +89,7 @@ public class AfficherResClientController implements Initializable {
     @FXML
     private void rafraichirTableView() {
         ReservationService reservationService = new ReservationService();
-        // Configurer les colonnes du TableView
-       // dateconf.setCellValueFactory(new PropertyValueFactory<>("date"));
+
         dateres.setCellValueFactory(new PropertyValueFactory<>("dateR"));
         reszone.setCellValueFactory(new PropertyValueFactory<>("zone"));
         tableres.setCellValueFactory(new PropertyValueFactory<>("table_id"));
@@ -104,6 +104,7 @@ public class AfficherResClientController implements Initializable {
                     Reservation reservation = getTableView().getItems().get(getIndex());
                     // Logique de suppression de la zone
                     reservationService.supprimer(reservation);
+
 
                 });
 
@@ -130,6 +131,7 @@ public class AfficherResClientController implements Initializable {
 
         // Afficher les réservations du client statique
         afficherReservationsClient(idClientStatic);
+
     }
     @FXML
     void Return(ActionEvent event) {
