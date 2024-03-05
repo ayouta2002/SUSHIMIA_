@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -98,6 +99,14 @@ public class AjoutCategorieControllers implements Initializable {
             rafraichirTableView();
             initializeTableView();
             FillForm();
+            tabcategorie.setEditable(true);
+
+
+            cnom.setCellFactory(TextFieldTableCell.<CategorieMenu>forTableColumn());
+            cdescription.setCellFactory(TextFieldTableCell.<CategorieMenu>forTableColumn());
+
+
+            modifiertable();
             fimage.setOnDragOver(new EventHandler<DragEvent>() {
                 public void handle(DragEvent event) {
                     Dragboard db = event.getDragboard();
@@ -246,7 +255,27 @@ public class AjoutCategorieControllers implements Initializable {
         // Associer la liste observable à la table view*/
         tabcategorie.setItems(zones);
     }
+    public void modifiertable() {
+        cnom.setOnEditCommit(event -> {
+            // Obtenez la réservation à partir de l'événement
+            CategorieMenu categorieMenu = event.getRowValue();
+            // Mettez à jour la zone avec la nouvelle valeur
+            categorieMenu.setNom_categorie(event.getNewValue());
+            // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
+            CategorieService categorieService = new CategorieService();
+            categorieService.modifier(categorieMenu);
+        });
+        cdescription.setOnEditCommit(event -> {
+            // Obtenez la réservation à partir de l'événement
+            CategorieMenu categorieMenu = event.getRowValue();
+            // Mettez à jour la zone avec la nouvelle valeur
+            categorieMenu.setDescriprtion_categorie(event.getNewValue());
+            // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
+            CategorieService categorieService = new CategorieService();
+            categorieService.modifier(categorieMenu);
+        });
 
+    }
     @FXML
     void addcategorie(ActionEvent event) throws SQLException {
         // Récupérer les valeurs des champs de texte

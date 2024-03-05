@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -113,6 +114,15 @@ public class AjoutMenuControllers implements Initializable {
         initializeTableView();
         rafraichirListView1();
         FillForm();
+
+        tabplat.setEditable(true);
+
+
+        tvnom.setCellFactory(TextFieldTableCell.<Plat>forTableColumn());
+       tvdes.setCellFactory(TextFieldTableCell.<Plat>forTableColumn());
+
+
+        modifiertable();
         fimage.setOnDragOver(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 Dragboard db = event.getDragboard();
@@ -154,7 +164,27 @@ public class AjoutMenuControllers implements Initializable {
 
 
     }
+    public void modifiertable() {
+        tvnom.setOnEditCommit(event -> {
+            // Obtenez la réservation à partir de l'événement
+            Plat plat = event.getRowValue();
+            // Mettez à jour la zone avec la nouvelle valeur
+            plat.setNom_plat(event.getNewValue());
+            // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
+            PlatService platService = new PlatService();
+            platService.modifier(plat);
+        });
+        tvdes.setOnEditCommit(event -> {
+            // Obtenez la réservation à partir de l'événement
+            Plat plat = event.getRowValue();
+            // Mettez à jour la zone avec la nouvelle valeur
+            plat.setDescription_plat(event.getNewValue());
+            // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
+            PlatService platService = new PlatService();
+            platService.modifier(plat);
+        });
 
+    }
     @FXML
     void image_add(MouseEvent event) {
 
