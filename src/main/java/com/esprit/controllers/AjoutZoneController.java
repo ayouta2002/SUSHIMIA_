@@ -48,11 +48,13 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.controlsfx.control.Notifications;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-
+import okhttp3.*;
+import org.json.JSONObject;
 public class AjoutZoneController implements Initializable {
     @FXML
     private TableColumn<Zones, Integer> capzone;
-
+    @FXML
+    private ComboBox<String> comboxZone;
     @FXML
     private TableColumn<Zones, String> deszone;
     @FXML
@@ -98,6 +100,7 @@ public class AjoutZoneController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rafraichirTableView();
         initializeTableView();
+        populateFilterComboBox();
         FillForm();
         tabzone.setEditable(true);
 
@@ -568,7 +571,101 @@ public class AjoutZoneController implements Initializable {
             }
         }
     }
+    @FXML
+    void filterButton(ActionEvent event) {
+            // Get the selected filter from the ComboBox
+            String selectedFilter = comboxZone.getValue();
 
+            // Sort the table based on the selected filter
+            Comparator<Zones> comparator = null;
+            switch (selectedFilter) {
+                case "nom":
+                    comparator = Comparator.comparing(Zones::getNom);
+                    break;
+                case "description":
+                    comparator = Comparator.comparing(Zones::getDescription);
+                    break;
+                case "capacity":
+                    comparator = Comparator.comparing(Zones::getCapacity);
+                    break;
+
+                default:
+                    // Default to sorting by nom if no valid filter is selected
+                    comparator = Comparator.comparing(Zones::getNom);
+                    break;
+            }
+
+            ObservableList<Zones> displayedUsers = tabzone.getItems();
+            FXCollections.sort(displayedUsers, comparator);
+        tabzone.setItems(displayedUsers);
+
+
+    }
+    private void populateFilterComboBox() {
+// Create a list to hold the filter options
+        List<String> filters = new ArrayList<>();
+
+// Add the filter options to the list
+        filters.add("nom");
+        filters.add("description");
+        filters.add("capacity");
+
+// Create an observable list from the filters list
+        ObservableList<String> filtersObservable = FXCollections.observableArrayList(filters);
+
+// Set the items of the ComboBox to the observable list
+        comboxZone.setItems(filtersObservable);
+
+    }
+    @FXML
+    void ai_generator(ActionEvent event) {
+        String apiKey = "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";
+        String prompt = ai_desc.getText(); // Modify this to your small phrase
+
+        OkHttpClient client = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json");
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("prompt", prompt);
+        jsonObject.put("max_tokens", 20);
+        jsonObject.put("model", "gpt-3.5-turbo-instruct"); // Specify the model identifier
+
+
+        RequestBody body = RequestBody.create(mediaType, jsonObject.toString());
+        Request request = new Request.Builder()
+                .url("https://api.openai.com/v1/completions")
+                .post(body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " + apiKey)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                String responseBody = response.body().string();
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                String description = jsonResponse.getJSONArray("choices").getJSONObject(0).getString("text");
+                String[] words = description.split("\\s+");
+                StringBuilder formattedDescription = new StringBuilder();
+                int wordCount = 0;
+                for (String word : words) {
+                    formattedDescription.append(word).append(" ");
+                    wordCount++;
+                    if (wordCount == 5) {
+                        formattedDescription.append("\n");
+                        wordCount = 0;
+                    }
+                }
+                System.out.println("Generated Description: " + formattedDescription.toString());
+                pr_desc.setText(formattedDescription.toString());
+            } else {
+                System.out.println("Request failed with code: " + response.code());
+                System.out.println("Response body: " + response.body().string());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 

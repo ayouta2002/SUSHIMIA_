@@ -18,6 +18,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyEvent;
@@ -29,8 +31,10 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.util.Matrix;
 import org.controlsfx.control.Notifications;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -273,12 +277,12 @@ public class TablesController implements Initializable {
         // Associer la liste observable à la ListView
         nomlistview.setItems(zoneNames);
     }
+
     @FXML
     void PDFtable(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName("LEStables.pdf");
         File file = fileChooser.showSaveDialog(null);
-
         if (file != null) {
             try (PDDocument document = new PDDocument()) {
                 PDPage page = new PDPage();
@@ -293,6 +297,8 @@ public class TablesController implements Initializable {
                 double yStart = yStartNewPage;
                 double bottomMargin = 70; // Marge inférieure
                 float fontSize = 12; // Taille de police
+                float borderWidth = 1.0f; // Ajustez selon vos besoins
+                float[] borderColor = new float[] {0, 0, 0}; // Couleur noire (ajustez pour différentes couleurs)
 
                 List<Double> colWidths = new ArrayList<>(); // Liste des largeurs des colonnes
                 double tableHeight = 0; // Hauteur de la table
@@ -313,16 +319,52 @@ public class TablesController implements Initializable {
                     yStart = yStartNewPage;
                 }
 
+                // Dessine le titre
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD_OBLIQUE, 16);
+
+                contentStream.beginText();
+
+// Calcule la position horizontale pour centrer le texte
+                float textWidth = PDType1Font.HELVETICA_BOLD_OBLIQUE.getStringWidth("Liste des Tables") / 1000f * 16;
+                float centerX = (page.getMediaBox().getWidth() - textWidth) / 2;
+
+// Définit la matrice de transformation pour centrer le texte
+                contentStream.setTextMatrix(Matrix.getTranslateInstance(centerX, (float) yStart));
+
+
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD_OBLIQUE, 30); // Modifie la taille de police du titre
+                contentStream.showText("Liste des Tables");
+                contentStream.endText();
+
+                yStart -= 30; // Décale la position de départ après le titre
+
                 // Dessine les en-têtes de colonnes
                 contentStream.setFont(PDType1Font.HELVETICA_BOLD, fontSize);
+
                 double yPosition = yStart;
                 double xPosition = 50; // Position horizontale initiale
+                float acc= (float)xPosition;
+
                 for (int i = 0; i < tabtable.getColumns().size(); i++) {
                     TableColumn<Tab, ?> col = tabtable.getColumns().get(i);
                     double colWidth = colWidths.get(i);
+                    acc+=acc;
 
+                    // Dessine la bordure supérieure de la cellule d'en-tête
+                    contentStream.setLineWidth(borderWidth);
+                    contentStream.setStrokingColor(borderColor[0], borderColor[1], borderColor[2]);
+                    contentStream.moveTo((float) xPosition, (float) (yPosition - 15));
+                    contentStream.lineTo((float) (xPosition + colWidth), (float) (yPosition - 15));
+                    contentStream.stroke();
+
+                    // Dessine la bordure inférieure de la cellule d'en-tête
+                    contentStream.moveTo((float) xPosition, (float) (yPosition - 35));
+                    contentStream.lineTo((float) (xPosition + colWidth), (float) (yPosition - 35));
+                    contentStream.stroke();
+
+                    // Dessine le texte de l'en-tête
                     contentStream.beginText();
-                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 15));
+                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 25));
                     contentStream.showText(col.getText());
                     contentStream.endText();
 
@@ -331,22 +373,33 @@ public class TablesController implements Initializable {
 
                 // Dessine les lignes de données
                 contentStream.setFont(PDType1Font.HELVETICA, fontSize);
-                yPosition -= 20; // Décale la position de départ pour les lignes de données
+                yPosition -= 40; // Décale la position de départ pour les lignes de données
                 for (Tab item : tabtable.getItems()) {
                     yPosition -= 20;
                     xPosition = 50; // Réinitialise la position horizontale pour chaque ligne
 
                     for (int i = 0; i < tabtable.getColumns().size(); i++) {
-                        TableColumn<Tab, ?> col = tabtable.getColumns().get(i);
+                        TableColumn<Tab,?> col = tabtable.getColumns().get(i);
                         double colWidth = colWidths.get(i);
 
                         Object cellData = col.getCellData(item);
                         String cellValue = (cellData != null) ? cellData.toString() : "";
-
                         contentStream.beginText();
                         contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) yPosition);
                         contentStream.showText(cellValue);
                         contentStream.endText();
+
+                        // Dessine la bordure supérieure de la cellule de données
+                        contentStream.setLineWidth(borderWidth);
+                        contentStream.setStrokingColor(borderColor[0], borderColor[1], borderColor[2]);
+                        contentStream.moveTo((float) xPosition, (float) (yPosition - 5));
+                        contentStream.lineTo((float) (xPosition + colWidth), (float) (yPosition - 5));
+                        contentStream.stroke();
+
+                        // Dessine la bordure inférieure de la cellule de données
+                        contentStream.moveTo((float) xPosition, (float) (yPosition - 25));
+                        contentStream.lineTo((float) (xPosition + colWidth), (float) (yPosition - 25));
+                        contentStream.stroke();
 
                         xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
                     }
