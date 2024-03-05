@@ -76,7 +76,7 @@ public class ReservationClientController implements Initializable {
             // Envoyer l'e-mail
             String clientEmail = "eya.benslimen@esprit.tn"; // Remplacez par l'adresse e-mail du client
             String subject = "Confirmation de réservation";
-            String message = "Votre réservation a été confirmée avec succès.";
+            String message = "Votre réservation a été envoyée avec succès.";
 
             envoyerMail(clientEmail, subject, message);
 

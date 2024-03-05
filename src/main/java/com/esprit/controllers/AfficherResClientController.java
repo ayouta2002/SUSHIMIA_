@@ -39,6 +39,9 @@ public class AfficherResClientController implements Initializable {
     private TableColumn<Reservation, String> reszone;
 
     @FXML
+    private TableColumn<Reservation, String> statusres;
+
+    @FXML
     private TableColumn<Reservation, Integer> tableres;
 
     @FXML
@@ -90,6 +93,7 @@ public class AfficherResClientController implements Initializable {
         dateres.setCellValueFactory(new PropertyValueFactory<>("dateR"));
         reszone.setCellValueFactory(new PropertyValueFactory<>("zone"));
         tableres.setCellValueFactory(new PropertyValueFactory<>("table_id"));
+        statusres.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         actionres.setCellFactory(param -> new TableCell<Reservation, Void>() {
             private final Button deleteButton = new Button("Supprimer");

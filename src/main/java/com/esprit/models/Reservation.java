@@ -10,16 +10,26 @@ public class Reservation {
     private int table_id;
     private Date dateR;
     private Date date;
+    private String status;
 
+    public Reservation() {
+    }
 
-
-    public Reservation(int id_R, int id_C, String zone, int table_id, Date dateR) {
+    public Reservation(int id_R, int id_C, String zone, int table_id, Date dateR, String status) {
         this.id_R = id_R;
         this.id_C = id_C;
         this.zone = zone;
         this.table_id = table_id;
         this.dateR = dateR;
+        this.status = status;
+    }
 
+    public Reservation(int id_C, String zone, int table_id, Date dateR, String status) {
+        this.id_C = id_C;
+        this.zone = zone;
+        this.table_id = table_id;
+        this.dateR = dateR;
+        this.status = status;
     }
 
     public Reservation(int id_C, String zone, int table_id, Date dateR) {
@@ -28,6 +38,27 @@ public class Reservation {
         this.table_id = table_id;
         this.dateR = dateR;
     }
+
+    public Reservation(int id_R, int id_C, String zone, int table_id, Date dateR, Date date, String status) {
+        this.id_R = id_R;
+        this.id_C = id_C;
+        this.zone = zone;
+        this.table_id = table_id;
+        this.dateR = dateR;
+        this.date = date;
+        this.status = status;
+    }
+
+    public Reservation(int id_C, String zone, int table_id, Date dateR, Date date, String status) {
+        this.id_C = id_C;
+        this.zone = zone;
+        this.table_id = table_id;
+        this.dateR = dateR;
+        this.date = date;
+        this.status = status;
+    }
+
+
 
     public int getId_R() {
         return id_R;
@@ -53,7 +84,13 @@ public class Reservation {
         this.zone = zone;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getTable_id() {
         return table_id;
@@ -83,6 +120,7 @@ public class Reservation {
                 ", zone='" + zone + '\'' +
                 ", table_id=" + table_id +
                 ", dateR=" + dateR +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

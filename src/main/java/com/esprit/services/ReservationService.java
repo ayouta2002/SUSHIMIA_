@@ -1,6 +1,5 @@
 package com.esprit.services;
-import com.esprit.models.Reservation;
-import com.esprit.models.Zones;
+import com.esprit.models.*;
 import com.esprit.utils.DataSource;
 
 import java.sql.*;
@@ -16,10 +15,15 @@ public class ReservationService implements IService<Reservation> {
 
     @Override
     public void ajouter(Reservation Reservation) {
-        String req = "INSERT into reservation(id_C, zone,table_id,dateR) values ('" + Reservation.getId_C() + "', '" + Reservation.getZone() + "','" + Reservation.getTable_id() + "','" + Reservation.getDateR() + "');";
+        String req = "INSERT into reservation(id_C, zone,table_id,dateR,status) values (?,?,?,?,?);";
         try {
-            Statement st = connection.createStatement();
-            st.executeUpdate(req);
+            PreparedStatement preparedStatement = connection.prepareStatement(req);
+            preparedStatement.setInt(1, Reservation.getId_C());
+            preparedStatement.setString(2, Reservation.getZone());
+            preparedStatement.setInt(3, Reservation.getTable_id());
+            preparedStatement.setDate(4, Reservation.getDateR());
+            preparedStatement.setString(5, "En attente");
+            preparedStatement.executeUpdate();
             System.out.println("Reservation ajoutée !");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -28,7 +32,7 @@ public class ReservationService implements IService<Reservation> {
 
     @Override
     public void modifier(Reservation Reservation) {
-        String req = "UPDATE reservation set id_C = '" + Reservation.getId_C() + "', zone = '" + Reservation.getZone() + "', table_id = '" + Reservation.getTable_id() + "', dateR = '" + Reservation.getDateR() + "' where id_R = " + Reservation.getId_R() + ";";
+        String req = "UPDATE reservation set id_C = '" + Reservation.getId_C() + "', zone = '" + Reservation.getZone() + "', table_id = '" + Reservation.getTable_id() + "', dateR = '" + Reservation.getDateR() + "', status = '" + Reservation.getStatus() + "' where id_R = " + Reservation.getId_R() + ";";
         try {
             Statement st = connection.createStatement();
             st.executeUpdate(req);
@@ -59,7 +63,7 @@ public class ReservationService implements IService<Reservation> {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                Reservation.add(new Reservation(rs.getInt("id_R"), rs.getInt("id_C"), rs.getString("zone"), rs.getInt("table_id"), rs.getDate("dateR")));
+                Reservation.add(new Reservation(rs.getInt("id_R"), rs.getInt("id_C"), rs.getString("zone"), rs.getInt("table_id"), rs.getDate("dateR"), rs.getString("status")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

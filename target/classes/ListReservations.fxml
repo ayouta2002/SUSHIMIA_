@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="627.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.ListReservationsController">
+<AnchorPane prefHeight="627.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.ListReservationsController">
    <children>
       <ImageView fitHeight="47.0" fitWidth="77.0" layoutX="14.0" layoutY="564.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -31,12 +31,13 @@
          </children>
       </AnchorPane>
       <TableView fx:id="tableRes" layoutX="45.0" layoutY="128.0" prefHeight="349.0" prefWidth="773.0" stylesheets="@css/style.css">
-        <columns>
-          <TableColumn fx:id="col_idC" prefWidth="129.59998321533203" text="ID_Client" />
-          <TableColumn fx:id="col_zone" prefWidth="211.20001220703125" text="Zone" />
-            <TableColumn fx:id="col_IDT" prefWidth="205.5999755859375" text="Num° table" />
-            <TableColumn fx:id="col_Date" prefWidth="225.5999755859375" text="Date de reservation" />
-        </columns>
+         <columns>
+            <TableColumn fx:id="col_idC" prefWidth="129.59998321533203" text="ID_Client" />
+            <TableColumn fx:id="col_zone" prefWidth="160.79998779296875" text="Zone" />
+            <TableColumn fx:id="col_IDT" prefWidth="163.20001220703125" text="Num° table" />
+            <TableColumn fx:id="col_Date" prefWidth="185.60003662109375" text="Date de reservation" />
+            <TableColumn fx:id="col_status" prefWidth="131.99993896484375" text="Status" />
+         </columns>
       </TableView>
       <ImageView fitHeight="216.0" fitWidth="211.0" layoutX="-45.0" layoutY="-35.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -45,5 +46,7 @@
       </ImageView>
       <Button fx:id="PDFres" layoutX="828.0" layoutY="139.0" mnemonicParsing="false" onAction="#PDFres" opacity="0.0" prefHeight="70.0" prefWidth="63.0" text="pdf" />
       <Button layoutX="13.0" layoutY="562.0" mnemonicParsing="false" onAction="#retourM" opacity="0.0" prefHeight="47.0" prefWidth="47.0" text="retour" />
+      <Button layoutX="271.0" layoutY="529.0" mnemonicParsing="false" onAction="#accepter_reservation" text="Accepter" />
+      <Button layoutX="450.0" layoutY="529.0" mnemonicParsing="false" onAction="#refuser_reservation" text="Refuser" />
    </children>
 </AnchorPane>

@@ -29,10 +29,16 @@ import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 
 import javafx.event.ActionEvent;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 
 public class ListReservationsController implements Initializable {
@@ -49,6 +55,9 @@ public class ListReservationsController implements Initializable {
 
     @FXML
     private TableColumn<Reservation, String> col_zone;
+
+    @FXML
+    private TableColumn<Reservation, String> col_status;
 
     @FXML
     private TableView<Reservation> tableRes;
@@ -85,8 +94,83 @@ public class ListReservationsController implements Initializable {
         col_zone.setCellValueFactory(new PropertyValueFactory<>("zone"));
         col_IDT.setCellValueFactory(new PropertyValueFactory<>("table_id"));
         col_Date.setCellValueFactory(new PropertyValueFactory<>("dateR"));
+        col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
         tableRes.setItems(reservation);
     }
+
+    @FXML
+    void accepter_reservation(ActionEvent event) {
+        Reservation reservation = tableRes.getSelectionModel().getSelectedItem();
+        reservation.setStatus("Accepté");
+        ReservationService reservationService = new ReservationService();
+        reservationService.modifier(reservation);
+        rafraichirTableView();
+        System.out.println("Reservation accepté");
+
+        String clientEmail = "eya.benslimen@esprit.tn"; // Remplacez par l'adresse e-mail du client
+        String subject = "Confirmation de réservation";
+        String message = "Votre réservation a été accepté avec succès.";
+
+        envoyerMail(clientEmail, subject, message);
+    }
+
+    public  void envoyerMail(String email,String Subject,String Object) {
+
+        final String username = "oussama.sfaxi@esprit.tn";
+        final String password = "211JMT6879";
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        //Start our mail message
+        MimeMessage msg = new MimeMessage(session);
+        try {
+            msg.setFrom(new InternetAddress(username));
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            msg.setSubject(Subject);
+
+            Multipart emailContent = new MimeMultipart();
+
+            //Text body part
+            MimeBodyPart textBodyPart = new MimeBodyPart();
+            textBodyPart.setText(Object);
+
+            emailContent.addBodyPart(textBodyPart);
+            msg.setContent(emailContent);
+
+            Transport.send(msg);
+            System.out.println("Sent message");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void refuser_reservation(ActionEvent event) {
+        Reservation reservation = tableRes.getSelectionModel().getSelectedItem();
+        reservation.setStatus("Refusé");
+        ReservationService reservationService = new ReservationService();
+        reservationService.modifier(reservation);
+        System.out.println("Reservation refusé");
+        rafraichirTableView();
+
+        String clientEmail = "eya.benslimen@esprit.tn"; // Remplacez par l'adresse e-mail du client
+        String subject = "Confirmation de réservation";
+        String message = "Votre réservation a été refusé.";
+
+        envoyerMail(clientEmail, subject, message);
+    }
+
+
+
     @FXML
     void PDFres(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
