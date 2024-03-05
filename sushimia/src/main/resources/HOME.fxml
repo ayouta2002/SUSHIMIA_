@@ -19,12 +19,12 @@
                 <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
             </image>
         </ImageView>
-        <Button layoutX="529.0" layoutY="43.0" mnemonicParsing="false" onAction="#livreur" prefHeight="34.0" prefWidth="111.0" style="-fx-background-color: transparent;" text="LOGIN" underline="true">
+        <Button layoutX="529.0" layoutY="43.0" mnemonicParsing="false" onAction="#livreur" prefHeight="34.0" prefWidth="111.0" style="-fx-background-color: transparent;" text="LIVREUR" underline="true">
             <font>
                 <Font name="Cooper Black" size="17.0" />
             </font>
         </Button>
-        <Button layoutX="117.0" layoutY="43.0" mnemonicParsing="false" onAction="#client" prefHeight="34.0" prefWidth="111.0" style="-fx-background-color: transparent;" text="SIGN UP" underline="true">
+        <Button layoutX="117.0" layoutY="43.0" mnemonicParsing="false" onAction="#client" prefHeight="34.0" prefWidth="111.0" style="-fx-background-color: transparent;" text="CLIENT" underline="true">
             <font>
                 <Font name="Cooper Black" size="15.0" />
             </font>

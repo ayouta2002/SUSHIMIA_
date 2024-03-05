@@ -8,7 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -19,13 +23,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 public class Login {
 
-    public TextField captchaInput;
-    public Label captchaLabel;
     @FXML
     private ResourceBundle resources;
 
@@ -46,26 +47,7 @@ public class Login {
 
     @FXML
     private Label ShownPassword;
-    private String captchaChallenge;
-
-    @FXML
-    public void initialize() {
-        captchaChallenge = generateCaptcha();
-        captchaLabel.setText(captchaChallenge);
-    }
-
-    // Method to generate a simple CAPTCHA challenge
-    private String generateCaptcha() {
-        int length = 6; // Length of the CAPTCHA challenge
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder captcha = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < length; i++) {
-            captcha.append(chars.charAt(random.nextInt(chars.length())));
-        }
-        return captcha.toString();
-    }
-    @FXML
+   @FXML
     void passwordFieldKeyTyped(KeyEvent event) {
         ShownPassword.textProperty().bind(Bindings.concat(ftmot_de_passe.getText()));
 
@@ -88,8 +70,6 @@ public class Login {
 
             if (resultSet.next()) {  // If user exists
                 String role = resultSet.getString("role");  // Get role from database
-                String userInput = captchaInput.getText().trim();
-                if (userInput.equals(captchaChallenge)) {
 
                 try {  // Handle FXML loading exceptions
                     if (role.equals("Admin")) {
@@ -104,20 +84,15 @@ public class Login {
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(scene);
                         stage.show();
-                    } else if (role.equals("Livreur")) {
-                        Parent page1 = FXMLLoader.load(getClass().getResource("/AcceuilLivreur.fxml"));
+                    } else if  (role.equals("Livreur")){
+                        Parent page1 = FXMLLoader.load(getClass().getResource("/Acceuil.fxml"));
                         Scene scene = new Scene(page1);
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(scene);
                         stage.show();
-                    } else {
-                        System.out.println("Unknown user role: " + role);  // Handle unknown roles
                     }
                 } catch (IOException e) {  // Catch FXML loading exceptions
                     System.out.println("Error loading FXML: " + e.getMessage());
-                }
-                } else {
-                    showAlert("Login Failed", "Invalid CAPTCHA. Please try again.");
                 }
             } else {  // User not found
                 System.out.println("Invalid credentials.");  // Display error message
@@ -142,21 +117,6 @@ public class Login {
     @FXML
     void opt(MouseEvent event) {
 
-    }
-    public void OnForget(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ForgetPassword.fxml"));
-        Parent root = loader.load();
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 
 }

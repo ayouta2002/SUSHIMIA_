@@ -1,11 +1,9 @@
 package com.esprit.controllers;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import com.esprit.models.Utilisateurs;
 import com.esprit.services.ServiceUtilisateurs;
+import com.esprit.utils.DataSource;
+import com.itextpdf.barcodes.qrcode.WriterException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -35,8 +32,6 @@ import javafx.util.converter.IntegerStringConverter;
 import static java.lang.Integer.parseInt;
 
 public class Affichageutilisateurs implements Initializable {
-    @FXML
-    private ComboBox<String> FilterComboBox;
     @FXML
     private TextField searchinput;
 
@@ -127,31 +122,13 @@ public class Affichageutilisateurs implements Initializable {
         rafraichirTableView();
         initializeTableViewT();
         tabutilisateurs.setEditable(true);
-        populateFilterComboBox();
+
         Nom.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
         Prenom.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
         Email.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
         Role.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
 
         modifier();
-
-    }
-
-    private void populateFilterComboBox() {
-// Create a list to hold the filter options
-        List<String> filters = new ArrayList<>();
-
-// Add the filter options to the list
-        filters.add("nom");
-        filters.add("prenom");
-        filters.add("email");
-        filters.add("role");
-
-// Create an observable list from the filters list
-        ObservableList<String> filtersObservable = FXCollections.observableArrayList(filters);
-
-// Set the items of the ComboBox to the observable list
-        FilterComboBox.setItems(filtersObservable);
 
     }
 
@@ -208,136 +185,6 @@ public class Affichageutilisateurs implements Initializable {
         // Afficher les utilisateurs filtrés dans la TableView
         tabutilisateurs.setItems(filteredUtilisateurs);
     }
-
-    public void OnAdd(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Ajoututilisateurs.fxml"));
-        Parent root = loader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
-        Stage currentStage = new Stage();
-        currentStage.close();
-    }
-
-    @FXML
-    public void OnSort(ActionEvent actionEvent) {
-        // Get the selected filter from the ComboBox
-        String selectedFilter = FilterComboBox.getValue();
-
-        // Sort the table based on the selected filter
-        Comparator<Utilisateurs> comparator = null;
-        switch (selectedFilter) {
-            case "nom":
-                comparator = Comparator.comparing(Utilisateurs::getNom);
-                break;
-            case "prenom":
-                comparator = Comparator.comparing(Utilisateurs::getPrenom);
-                break;
-            case "email":
-                comparator = Comparator.comparing(Utilisateurs::getEmail);
-                break;
-            case "role":
-                comparator = Comparator.comparing(Utilisateurs::getRole);
-                break;
-            default:
-                // Default to sorting by nom if no valid filter is selected
-                comparator = Comparator.comparing(Utilisateurs::getNom);
-                break;
-        }
-
-        ObservableList<Utilisateurs> displayedUsers = tabutilisateurs.getItems();
-        FXCollections.sort(displayedUsers, comparator);
-        tabutilisateurs.setItems(displayedUsers);
-    }
-
-    public void OnExport(ActionEvent actionEvent) throws IOException {
-
-// Create a new PDF document
-        PDDocument document = new PDDocument();
-
-// Add a page to the document
-        PDPage page = new PDPage();
-        document.addPage(page);
-
-// Create a content stream for adding content to the page
-        PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-// Define the table parameters
-        int rows = displayedUtilisateurs.size() + 1; // Add 1 for header row
-        int columns = 4; // Number of columns
-
-        float margin = 50;
-        float yStart = page.getMediaBox().getHeight() - margin;
-        float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
-        float tableHeight = 20f;
-
-        float rowHeight = 20f;
-        float cellMargin = 5f;
-
-// Define cell width
-        float colWidth = tableWidth / (float) columns;
-
-// Create header row
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
-        contentStream.beginText();
-        contentStream.newLineAtOffset(margin, yStart);
-        contentStream.showText("Nom");
-        contentStream.newLineAtOffset(colWidth, 0);
-        contentStream.showText("Prenom");
-        contentStream.newLineAtOffset(colWidth, 0);
-        contentStream.showText("Email");
-        contentStream.newLineAtOffset(colWidth, 0);
-        contentStream.showText("Role");
-        contentStream.endText();
-
-// Draw lines for header row
-        contentStream.moveTo(margin, yStart - tableHeight);
-        contentStream.lineTo(margin + tableWidth, yStart - tableHeight);
-        contentStream.stroke();
-
-// Draw lines for all rows and columns
-        float nextY = yStart - tableHeight;
-        for (int i = 0; i <= rows; i++) {
-            contentStream.moveTo(margin, nextY);
-            contentStream.lineTo(margin + tableWidth, nextY);
-            contentStream.stroke();
-            nextY -= rowHeight;
-        }
-
-// Draw lines for all columns
-        float nextX = margin;
-        for (int i = 0; i <= columns; i++) {
-            contentStream.moveTo(nextX, yStart);
-            contentStream.lineTo(nextX, yStart - tableHeight);
-            contentStream.stroke();
-            nextX += colWidth;
-        }
-
-// Add data rows
-        contentStream.setFont(PDType1Font.HELVETICA, 12);
-        nextY = yStart - (2 * rowHeight); // Start below header row
-        for (Utilisateurs utilisateur : displayedUtilisateurs) {
-            contentStream.beginText();
-            contentStream.newLineAtOffset(margin + cellMargin, nextY);
-            contentStream.showText(utilisateur.getNom());
-            contentStream.newLineAtOffset(colWidth, 0);
-            contentStream.showText(utilisateur.getPrenom());
-            contentStream.newLineAtOffset(colWidth, 0);
-            contentStream.showText(utilisateur.getEmail());
-            contentStream.endText();
-            nextY -= rowHeight;
-        }
-
-// Close the content stream
-        contentStream.close();
-
-// Save the document
-        document.save("utilisateurs.pdf");
-
-// Close the document
-        document.close();
-    }
-
 
 
 /*

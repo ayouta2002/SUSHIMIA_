@@ -8,12 +8,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class HOME {
+public class PROFIL {
 
     @FXML
-    void client(ActionEvent event) {
+    void logout(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjoutClient.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -29,9 +29,9 @@ public class HOME {
     }
 
     @FXML
-    void livreur(ActionEvent event) {
+    void modifier(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierProfil.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -43,6 +43,7 @@ public class HOME {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
 

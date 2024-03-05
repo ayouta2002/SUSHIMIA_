@@ -2,7 +2,6 @@ package com.esprit.controllers;
 
 import com.esprit.models.Role;
 import com.esprit.models.Utilisateurs;
-import com.esprit.services.ServiceEmail;
 import com.esprit.services.ServiceUtilisateurs;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -30,14 +29,10 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.ResourceBundle;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+
 public class Ajoututilisateurs implements Initializable {
 
-    public ComboBox<String> ftroleBox;
     @FXML
     private ResourceBundle resources;
 
@@ -56,6 +51,40 @@ public class Ajoututilisateurs implements Initializable {
     @FXML
     private TextField ftprenom;
 
+    @FXML
+    private TextField ftrole;
+    @FXML
+    private ToggleButton toggleButton;
+    @FXML
+    private Label ShownPassword;
+    @Override
+    public void initialize (URL url, ResourceBundle resourceBundle){
+
+    }
+    @FXML
+    void passwordFieldKeyTyped(KeyEvent event) {
+        ShownPassword.textProperty().bind(Bindings.concat(ftmot_de_passe.getText()));
+
+    }
+
+
+    @FXML
+    void login(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @FXML
     void sinscrire(ActionEvent event) throws IOException {
@@ -63,7 +92,7 @@ public class Ajoututilisateurs implements Initializable {
         String prenom = ftprenom.getText();
         String motDePasse = ftmot_de_passe.getText();
         String email = ftemail.getText();
-        String role = ftroleBox.getValue();
+        String role = ftrole.getText();
 
         // Vérifier que tous les champs sont remplis
         if (nom.isEmpty() || prenom.isEmpty() || motDePasse.isEmpty() || email.isEmpty() || role.isEmpty()) {
@@ -99,17 +128,31 @@ public class Ajoututilisateurs implements Initializable {
         ServiceUtilisateurs su = new ServiceUtilisateurs();
         su.add(new Utilisateurs(nom, prenom, motDePasse, email, Role.valueOf(role)));
 
+
         Notifications.create()
                 .darkStyle()
-                .title("user added successfully")
+                .title("Admin added successfully")
                 .hideAfter(Duration.seconds(10))
                 .show();
-        ServiceEmail.sendEmail(email,"credentials","Dear User,nWelcome to our application! Your login credentials are:\\nEmail: \"" + email + "\"\\nPassword: \" "+ motDePasse +" \"\\n\\nPlease use these credentials to log in to our application.\\n\\nBest regards,\\nThe Application Team");
+
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Utilisateur ajouté!");
         alert.setContentText("Utilisateur ajouté");
         alert.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AcceuilAdmin.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Méthode pour vérifier si l'email est valide
@@ -121,10 +164,5 @@ public class Ajoututilisateurs implements Initializable {
     }
     private boolean isValidName(String name) {
         return name.matches("[a-zA-Z]+");
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 }

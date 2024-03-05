@@ -8,28 +8,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class HOME {
+public class Acceuil {
 
     @FXML
-    void client(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjoutClient.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-            // Fermer la fenêtre actuelle si nécessaire
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @FXML
-    void livreur(ActionEvent event) {
+    void logout(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
             Parent root = loader.load();
@@ -45,5 +27,22 @@ public class HOME {
         }
 
     }
+    @FXML
+    void modfiierprofil(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierProfil.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
 
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }

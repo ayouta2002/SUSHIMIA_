@@ -47,22 +47,6 @@ public class ServiceUtilisateurs implements IService<Utilisateurs> {
             System.out.println(ex.getMessage());
         }
     }
-    public void changePassword(String email, String newPassword) {
-        String query = "UPDATE utilisateurs SET mot_de_passe=? WHERE email=?";
-        try {
-            PreparedStatement preparedStatement = connexion.prepareStatement(query);
-            preparedStatement.setString(1, newPassword);
-            preparedStatement.setString(2, email);
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Mot de passe modifié avec succès");
-            } else {
-                System.out.println("Aucun utilisateur trouvé avec cet email");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public void update(Utilisateurs utilisateurs) {
@@ -117,21 +101,6 @@ public class ServiceUtilisateurs implements IService<Utilisateurs> {
         } catch (SQLException ex) {
             System.out.println("Erreur lors de la suppression : " + ex.getMessage());
         }
-    }
-    public boolean doesEmailExist(String email) {
-        String query = "SELECT COUNT(*) AS count FROM utilisateurs WHERE email=?";
-        try {
-            PreparedStatement preparedStatement = connexion.prepareStatement(query);
-            preparedStatement.setString(1, email);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                int count = resultSet.getInt("count");
-                return count > 0;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return false;
     }
 
 }

@@ -2,7 +2,6 @@ package com.esprit.controllers;
 
 import com.esprit.models.Role;
 import com.esprit.models.Utilisateurs;
-import com.esprit.services.ServiceEmail;
 import com.esprit.services.ServiceUtilisateurs;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -30,19 +29,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.ResourceBundle;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-public class Ajoututilisateurs implements Initializable {
-
-    public ComboBox<String> ftroleBox;
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
+public class AjoutClient implements Initializable  {
 
     @FXML
     private TextField ftemail;
@@ -55,18 +43,28 @@ public class Ajoututilisateurs implements Initializable {
 
     @FXML
     private TextField ftprenom;
-
-
     @FXML
     void sinscrire(ActionEvent event) throws IOException {
         String nom = ftnom.getText();
         String prenom = ftprenom.getText();
         String motDePasse = ftmot_de_passe.getText();
         String email = ftemail.getText();
-        String role = ftroleBox.getValue();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Vérifier que tous les champs sont remplis
-        if (nom.isEmpty() || prenom.isEmpty() || motDePasse.isEmpty() || email.isEmpty() || role.isEmpty()) {
+        if (nom.isEmpty() || prenom.isEmpty() || motDePasse.isEmpty() || email.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
             alert.setHeaderText("Champs manquants");
@@ -97,19 +95,31 @@ public class Ajoututilisateurs implements Initializable {
 
         // Ajouter l'utilisateur
         ServiceUtilisateurs su = new ServiceUtilisateurs();
-        su.add(new Utilisateurs(nom, prenom, motDePasse, email, Role.valueOf(role)));
+        su.add(new Utilisateurs(nom, prenom, motDePasse, email, Role.Client));
 
         Notifications.create()
                 .darkStyle()
                 .title("user added successfully")
                 .hideAfter(Duration.seconds(10))
                 .show();
-        ServiceEmail.sendEmail(email,"credentials","Dear User,nWelcome to our application! Your login credentials are:\\nEmail: \"" + email + "\"\\nPassword: \" "+ motDePasse +" \"\\n\\nPlease use these credentials to log in to our application.\\n\\nBest regards,\\nThe Application Team");
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Utilisateur ajouté!");
         alert.setContentText("Utilisateur ajouté");
         alert.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Méthode pour vérifier si l'email est valide
@@ -121,6 +131,24 @@ public class Ajoututilisateurs implements Initializable {
     }
     private boolean isValidName(String name) {
         return name.matches("[a-zA-Z]+");
+    }
+
+    @FXML
+    void login(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
