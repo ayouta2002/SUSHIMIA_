@@ -4,8 +4,11 @@ import com.esprit.models.CategorieMenu;
 import com.esprit.models.Plat;
 import com.esprit.services.CategorieService;
 import com.esprit.services.PlatService;
+import com.esprit.utils.PDFExporter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,6 +26,10 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +37,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -64,6 +72,8 @@ public class AjoutCategorieControllers implements Initializable {
     private TableColumn<CategorieMenu, String> cnom;
     @FXML
     private TableColumn<CategorieMenu, Float> taction;
+    @FXML
+    private ChoiceBox<String> choiceFilter;
 
 
 
@@ -96,8 +106,10 @@ public class AjoutCategorieControllers implements Initializable {
 
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
-            rafraichirTableView();
+            choiceFilter.setItems(FXCollections.observableArrayList("Name", "Description"));
+            choiceFilter.getSelectionModel().selectFirst(); // Select the first option by default
             initializeTableView();
+            rafraichirTableView();
             FillForm();
             tabcategorie.setEditable(true);
 
@@ -146,8 +158,39 @@ public class AjoutCategorieControllers implements Initializable {
 
             fimage.setImage(new Image("file:C:\\Users\\linas\\OneDrive\\Bureau\\drag-drop.gif"));
 
-
         }
+
+    @FXML
+    void filtre(ActionEvent event) {
+
+        String choice = choiceFilter.getValue();
+
+        FilteredList<CategorieMenu> filteredData = new FilteredList<>(displayedCategorie, p -> true);
+
+        String filterText = chercher.getText();
+        filteredData.setPredicate(categorieMenu -> {
+
+            if (filterText.isEmpty()) {
+                return true;
+            }
+
+            String lowercaseFilter = filterText.trim().toLowerCase();
+
+            if (choice.equals("Name")) {
+                return categorieMenu.getNom_categorie().toLowerCase().contains(lowercaseFilter);
+            } else if (choice.equals("Description")) {
+                return categorieMenu.getDescription_categorie().toLowerCase().contains(lowercaseFilter);
+            }
+
+            return false;
+        });
+
+        SortedList<CategorieMenu> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(tabcategorie.comparatorProperty());
+
+        tabcategorie.setItems(sortedData);
+    }
 
    @FXML
     void image_add(MouseEvent event) {
@@ -276,6 +319,7 @@ public class AjoutCategorieControllers implements Initializable {
         });
 
     }
+
     @FXML
     void addcategorie(ActionEvent event) throws SQLException {
         // Récupérer les valeurs des champs de texte
@@ -284,6 +328,10 @@ public class AjoutCategorieControllers implements Initializable {
 
         // Vérifier si les champs sont vides ou contiennent des caractères non autorisés
         if (nomCategorie.isEmpty() || descriptionCategorie.isEmpty() || selectedFile == null || !estChaineValide(nomCategorie) || !estChaineValide(descriptionCategorie)) {
+            ftnomcategorie.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+            new animatefx.animation.Flash(ftnomcategorie).play();
+            ftdescriptioncategorie.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+            new animatefx.animation.Flash(ftdescriptioncategorie).play();
             // Afficher une alerte en cas de champ vide ou de caractères non autorisés
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de saisie");
@@ -486,7 +534,20 @@ String imagevalue = url_image;
 
     }
 
+    @FXML
+    void PDF(ActionEvent event) {
+
+        List<TableColumn<CategorieMenu, ?>> selectedColumns = new ArrayList<>();
+        selectedColumns.add(cnom);
+
+        File pdfFile = new File("C:\\Users\\guerf\\Desktop\\git\\table_data.pdf");
+
+// Export TableView data to PDF with selected columns
+        PDFExporter.exportToPDF(tabcategorie, pdfFile, selectedColumns);
     }
+
+
+}
 
 
 

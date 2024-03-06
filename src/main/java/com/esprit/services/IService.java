@@ -13,4 +13,5 @@ public interface IService<T> {
     public List<T> afficher();
 
   public   List<Plat> recherchePlat(int id);
+
 }

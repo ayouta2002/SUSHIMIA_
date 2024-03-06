@@ -1,0 +1,116 @@
+.my-alert {
+    -fx-background-color: rgba(252, 199, 137, 0.75);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Helvetica', Sans-serif; /* Replace 'YourDesiredFont' with the actual font name */
+    -fx-border-color: #6b0808;
+    -fx-border-width: 11px;
+    -fx-border-radius: 0px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(40, 160, 211, 0.6), 10, 0, 0, 0);
+}
+.button {
+{
+    -fx-background-color:
+            #c3c4c4,
+            linear-gradient(#d6d6d6 50%, white 100%),
+            radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 15;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+}
+
+.button:hover {
+    -fx-background-color: rgb(210, 177, 82); /* Darker green */
+    -fx-text-fill: white;
+}
+
+.button:pressed {
+    -fx-background-color: rgba(252, 199, 137, 0.75); /* Even darker green */
+}
+/*TABLEVIEW*/
+* {
+    -fx-primary-color: #cc0000;
+    -fx-secondary-color: rgba(72, 7, 7, 0.8);
+    -fx-accent-color: rgba(72, 7, 7, 0.79);
+    -fx-grey-color: #b9b9b9;
+    -fx-light-grey-color: #d1d1d1;
+    -fx-lightest-grey-color: #F9F9FB;
+
+    -fx-focus-color: -fx-secondary-color;
+}
+
+.table-button {
+    -fx-background-color: -fx-primary-color;
+    -fx-cursor: hand;
+}
+.table-button:hover{
+    -fx-background-color: transparent;
+}
+.table-view {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent; /* OR  -fx-background-insets: 0.0; */
+}
+.table-view .column-header-background,
+.table-view .column-header-background .filler,
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+.table-view .column-header {
+    -fx-background-color: -fx-light-grey-color;
+    -fx-border-color: -fx-grey-color;
+}
+.table-view .column-header .label{
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+/* This is just magic */
+.table-row-cell:filled {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent -fx-lightest-grey-color -fx-lightest-grey-color -fx-lightest-grey-color, transparent;
+    -fx-border-insets: 0, 1;
+}
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+.table-row-cell:filled:hover {
+    -fx-background-color: -fx-light-grey-color;
+}
+.table-row-cell:filled:selected:hover {
+    -fx-background-color: -fx-light-grey-color;
+}
+.table-row-cell:filled:selected {
+    -fx-background-color: #eaeaea;
+    -fx-background-insets: 0.0;
+    -fx-background-radius: 0.0;
+}
+.table-row-cell:filled:selected .table-cell {
+    -fx-text-fill: rgb(107, 8, 8);
+}
+.table-view .cell:filled{
+    -fx-cell-size: 30;
+    -fx-alignment: center;
+}
+.check-box-table-cell > .check-box:selected .box .mark {
+    -fx-background-color: white;
+}
+.check-box-table-cell > .check-box:selected .box{
+    -fx-background-color: -fx-accent-color;
+}
+.table-view .placeholder .label {
+    -fx-text-fill: red;
+    -fx-padding:20px;
+}
+
+/*TEXTFIELD*/
+
+.text-field {
+    -fx-background-color: -fx-text-box-border, -fx-background ;
+    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background-radius: 0 ;
+}
+.text-field:focused {
+    -fx-background-color: -fx-focus-color, -fx-background ;
+}

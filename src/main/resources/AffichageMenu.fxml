@@ -1,34 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="563.0" prefWidth="823.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AffichageMenucontrollers">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="1130.0" styleClass="bgProductsAdmin" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AfficherMenu">
    <children>
-      <ScrollPane fx:id="scroll" layoutX="312.0" layoutY="136.0" prefHeight="429.0" prefWidth="510.0">
+      <ImageView fitHeight="421.0" fitWidth="370.0" layoutX="720.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/417913699_416143174110690_8187740165455629875_n.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="40.0" fitWidth="308.0" layoutX="511.0" layoutY="12.0">
+
+      </ImageView>
+      <Pane layoutX="-8.0" layoutY="-5.0" prefHeight="87.0" prefWidth="1138.0" style="-fx-background-color: #6b2517;">
+         <children>
+            <Label layoutX="389.0" layoutY="24.0" text="Les Menus disponibles" textFill="WHITE">
+               <font>
+                  <Font name="Cooper Black" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <ScrollPane fx:id="scroll" layoutX="10.0" layoutY="122.0" prefHeight="351.0" prefWidth="686.0">
          <content>
-            <GridPane fx:id="grid">
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <GridPane fx:id="grid" prefHeight="210.0" prefWidth="238.0">
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                     </rowConstraints>
+                  </GridPane>
+               </children>
+            </AnchorPane>
          </content>
       </ScrollPane>
-      <VBox layoutX="40.0" layoutY="136.0" prefHeight="318.0" prefWidth="206.0">
+      <VBox fx:id="chosen" layoutX="749.0" layoutY="136.0" prefHeight="340.0" prefWidth="300.0">
          <children>
-            <ImageView fx:id="det_plat_img" fitHeight="129.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true" />
-            <HBox prefHeight="47.0" prefWidth="206.0" />
-            <HBox prefHeight="42.0" prefWidth="206.0" />
-            <Label fx:id="nomplat" text="nom" />
-            <Label fx:id="prixplat" text="prix" />
+            <HBox alignment="CENTER" prefHeight="62.0" prefWidth="194.0">
+               <children>
+                  <Label prefHeight="47.0" prefWidth="85.0" text="Nom ">
+                     <font>
+                        <Font name="Hoefler Text" size="32.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="Nom_menu" disable="true" />
+                  <HBox prefHeight="62.0" prefWidth="5.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="182.0" prefWidth="237.0">
+               <children>
+                  <ImageView fx:id="img" fitHeight="150.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <VBox prefHeight="129.0" prefWidth="300.0">
+               <children>
+                  <Label fx:id="Description" text="Description">
+                     <font>
+                        <Font name="Hoefler Text" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="des_menu" disable="true" prefHeight="80.0" prefWidth="300.0" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="90.0" prefWidth="238.0">
+               <children>
+                  <Label fx:id="capacite" text="Prix">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="prix_menu" disable="true" prefHeight="26.0" prefWidth="154.0" />
+               </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="73.0" prefWidth="237.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="33.0" prefWidth="237.0" />
+               </children>
+            </VBox>
          </children>
       </VBox>
+      <Button fx:id="like_dislike_button" layoutX="811.0" layoutY="486.0" mnemonicParsing="false" onAction="#like_dislike" prefHeight="40.0" prefWidth="201.0" text="Like">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="186.0" fitWidth="231.0" layoutX="-40.0" layoutY="-23.0">
+         <image>
+            <Image url="@images/Red_Black_Simple_Spicy_Food_Restaurant_Logo___1_-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="190.0" layoutY="574.0" text="Découvrez nos différentes Menus conçues pour vous offrir une expérience gastronomique unique.">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="trecherche" layoutX="219.0" layoutY="82.0" prefHeight="26.0" prefWidth="438.0" promptText="recherche">
+         <effect>
+            <Glow />
+         </effect>
+      </TextField>
    </children>
 </AnchorPane>

@@ -6,8 +6,7 @@ public class DataSource {
 
     private Connection connection;
     private static DataSource instance;
-
-    private final String URL = "jdbc:mysql://localhost:3306/esprit";
+    private final String URL = "jdbc:mysql://localhost:3306/pi3A10";
     private final String USER = "root";
     private  final String PASSWORD = "";
 

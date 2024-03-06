@@ -64,6 +64,9 @@ public class AjoutMenuControllers implements Initializable {
     @FXML
     private TextField ftrecherche;
     @FXML
+    private ListView<String> Listnomcat;
+
+    @FXML
     private Button closebutton;
 
 
@@ -78,8 +81,7 @@ public class AjoutMenuControllers implements Initializable {
 
     @FXML
     private TableColumn<Plat, Integer> tvprix;
-    @FXML
-    private ListView<String> Listnomcat;
+
     @FXML
     private TableColumn<Plat, Integer> tvquantite;
     @FXML
@@ -119,10 +121,11 @@ public class AjoutMenuControllers implements Initializable {
 
 
         tvnom.setCellFactory(TextFieldTableCell.<Plat>forTableColumn());
-       tvdes.setCellFactory(TextFieldTableCell.<Plat>forTableColumn());
+        tvdes.setCellFactory(TextFieldTableCell.<Plat>forTableColumn());
 
 
         modifiertable();
+
         fimage.setOnDragOver(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 Dragboard db = event.getDragboard();
@@ -309,7 +312,6 @@ void AddPlat(ActionEvent event) throws IOException {
         int quantite = Integer.parseInt(ftquantiteplat.getText());
         String nom_categorie = Listnomcat.getSelectionModel().getSelectedItem();
 
-
         // Créer un nouvel objet Plat en utilisant les valeurs converties
         Plat nouveauPlat = new Plat(
                 ftnomplat.getText(),
@@ -345,6 +347,8 @@ void AddPlat(ActionEvent event) throws IOException {
                 .show();
 
     } catch (Exception e) {
+        ftquantiteplat.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+        new animatefx.animation.Flash(ftquantiteplat).play();
         // Gérer toute autre exception inattendue
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
@@ -360,7 +364,7 @@ void AddPlat(ActionEvent event) throws IOException {
     ftdescriptionplat.clear();
     ftprixplat.clear();
     ftquantiteplat.clear();
-
+  //  ftnomcategorie.clear();//
 
 
 }
@@ -370,7 +374,6 @@ void AddPlat(ActionEvent event) throws IOException {
         String descriptionplatValue = ftdescriptionplat.getText();
         float prixplatValue = Float.parseFloat(ftprixplat.getText());
         int quantiteplatValue = Integer.parseInt(ftquantiteplat.getText());
-
         String nom_categorietValue = Listnomcat.getSelectionModel().getSelectedItem();
 
         Plat TableSelection = tabplat.getSelectionModel().getSelectedItem();
@@ -454,7 +457,7 @@ void AddPlat(ActionEvent event) throws IOException {
                     ftdescriptionplat.setText(PlatSelectionne.getDescription_plat());
                     ftprixplat.setText(String.valueOf(PlatSelectionne.getPrix()));
                     ftquantiteplat.setText(String.valueOf(PlatSelectionne.getQuantite()));
-
+                  //  ftnomcategorie.setText(String.valueOf(PlatSelectionne.getNom_categorie()));
 
 
                     //ftcapacite.setText(ZonesSelectionne.getCapacity());
@@ -586,7 +589,6 @@ void AddPlat(ActionEvent event) throws IOException {
         stage.close();
 
     }
-
     public void rafraichirListView1() {
         CategorieService categorieMenu = new CategorieService();
         List<CategorieMenu> allCategorie = categorieMenu.afficher();
@@ -602,5 +604,7 @@ void AddPlat(ActionEvent event) throws IOException {
         // Associer la liste observable à la ListView
         Listnomcat.setItems(CatNames);
     }
+
+
 
 }

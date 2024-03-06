@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,44 +11,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="583.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AjoutCategorieControllers">
+<AnchorPane prefHeight="655.0" prefWidth="993.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AjoutCategorieControllers">
    <children>
-      <AnchorPane layoutX="-9.0" layoutY="-5.0" opacity="0.48" prefHeight="126.0" prefWidth="866.0" style="-fx-background-color: #f5c422;" />
-      <ImageView fitHeight="81.0" fitWidth="61.0" layoutX="747.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/Capture%20d’écran%202024-02-23%20101812.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="37.0" fitWidth="49.0" layoutX="41.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+      <AnchorPane layoutX="-9.0" layoutY="-5.0" prefHeight="74.0" prefWidth="1002.0" style="-fx-background-color: #6b2517;">
+         <children>
+            <Button fx:id="closebutton" layoutX="942.0" layoutY="15.0" mnemonicParsing="false" onAction="#Close" opacity="0.0" prefHeight="37.0" prefWidth="50.0" text="Fermer" />
+            <ImageView fitHeight="81.0" fitWidth="61.0" layoutX="939.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/Capture%20d’écran%202024-02-23%20101812.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+      <ImageView fitHeight="37.0" fitWidth="49.0" layoutX="10.0" layoutY="612.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/annuler.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="16.0" layoutY="159.0" opacity="0.67" prefHeight="396.0" prefWidth="272.0" style="-fx-background-color: #d41c1c;">
+      <AnchorPane layoutX="51.0" layoutY="154.0" opacity="0.4" prefHeight="446.0" prefWidth="272.0" style="-fx-background-color: #ccb65d;">
          <children>
-            <Button layoutX="20.0" layoutY="355.0" mnemonicParsing="false" onAction="#addcategorie" prefHeight="26.0" prefWidth="115.0" text="ajouter">
-               <font>
-                  <Font name="Cooper Black" size="12.0" />
-               </font>
-            </Button>
-            <Button layoutX="150.0" layoutY="355.0" mnemonicParsing="false" onAction="#UpdateCategorie" prefHeight="26.0" prefWidth="107.0" text="modifier">
-               <font>
-                  <Font name="Cooper Black" size="13.0" />
-               </font>
-            </Button>
-            <ImageView fx:id="fimage" fitHeight="126.0" fitWidth="169.0" layoutX="51.0" layoutY="198.0" onMouseClicked="#image_add" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="fimage" fitHeight="126.0" fitWidth="169.0" layoutX="51.0" layoutY="239.0" onMouseClicked="#image_add" pickOnBounds="true" preserveRatio="true" />
          </children></AnchorPane>
-      <Label layoutX="48.0" layoutY="307.0" prefHeight="18.0" prefWidth="82.0" text="description">
+      <Label layoutX="74.0" layoutY="242.0" prefHeight="30.0" prefWidth="127.0" text="description">
          <font>
-            <Font name="Bodoni MT" size="15.0" />
+            <Font name="Bodoni MT" size="23.0" />
          </font></Label>
-      <Label layoutX="35.0" layoutY="258.0" prefHeight="18.0" prefWidth="107.0" text="nom_categorie">
+      <Label layoutX="73.0" layoutY="157.0" prefHeight="30.0" prefWidth="150.0" text="nom_categorie">
          <font>
-            <Font name="Bodoni MT" size="15.0" />
-         </font></Label>
-      <TextField fx:id="ftnomcategorie" layoutX="142.0" layoutY="253.0" prefHeight="26.0" prefWidth="127.0" />
-      <TextField fx:id="ftdescriptioncategorie" layoutX="143.0" layoutY="303.0" prefHeight="26.0" prefWidth="127.0" />
-      <TableView fx:id="tabcategorie" layoutX="306.0" layoutY="202.0" prefHeight="266.0" prefWidth="528.0">
+            <Font name="Bodoni MT" size="23.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ftnomcategorie" layoutX="71.0" layoutY="187.0" prefHeight="26.0" prefWidth="230.0" stylesheets="@css/style%20(1).css" />
+      <TextField fx:id="ftdescriptioncategorie" layoutX="73.0" layoutY="272.0" prefHeight="114.0" prefWidth="229.0" stylesheets="@css/style%20(1).css" />
+      <TableView fx:id="tabcategorie" layoutX="381.0" layoutY="156.0" prefHeight="346.0" prefWidth="528.0" stylesheets="@css/style%20(1).css">
         <columns>
           <TableColumn fx:id="cid" prefWidth="75.0" text="id" />
           <TableColumn fx:id="cnom" prefWidth="124.800048828125" text="nom_categorie" />
@@ -56,22 +51,34 @@
             <TableColumn fx:id="taction" prefWidth="111.19989013671875" text="Action" />
         </columns>
       </TableView>
-      <Button layoutX="460.0" layoutY="487.0" mnemonicParsing="false" onAction="#DeleteCategorie" prefHeight="26.0" prefWidth="182.0" text="Supprimer">
+      <Button layoutX="605.0" layoutY="577.0" mnemonicParsing="false" onAction="#DeleteCategorie" prefHeight="26.0" prefWidth="182.0" stylesheets="@css/style%20(1).css" text="Supprimer">
          <font>
             <Font name="Cooper Black" size="13.0" />
          </font></Button>
-      <TextField fx:id="supp_ID" layoutX="656.0" layoutY="487.0" prefHeight="26.0" prefWidth="107.0" />
-      <Button fx:id="closebutton" layoutX="710.0" layoutY="527.0" mnemonicParsing="false" onAction="#Close" opacity="0.0" prefHeight="26.0" prefWidth="115.0" text="Fermer" />
-      <Button layoutX="35.0" layoutY="39.0" mnemonicParsing="false" onAction="#retourcategorie" opacity="0.0" text="retour" />
-      <Label layoutX="224.0" layoutY="37.0" text="gestion de categorie">
+      <TextField fx:id="supp_ID" layoutX="810.0" layoutY="569.0" prefHeight="26.0" prefWidth="107.0" stylesheets="@css/style%20(1).css" />
+      <Button layoutX="10.0" layoutY="618.0" mnemonicParsing="false" onAction="#retourcategorie" opacity="0.0" text="retour" />
+      <Label layoutX="220.0" layoutY="10.0" text="gestion de categorie" textFill="WHITE">
          <font>
             <Font name="Cooper Black" size="41.0" />
          </font></Label>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="703.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="224.0" fitWidth="194.0" layoutX="-32.0" layoutY="-28.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Red_Black_Simple_Spicy_Food_Restaurant_Logo___1_-removebg-preview.png" />
          </image>
       </ImageView>
-      <TextField fx:id="chercher" layoutX="543.0" layoutY="143.0" onKeyTyped="#searchkey" />
+      <TextField fx:id="chercher" layoutX="417.0" layoutY="100.0" onKeyTyped="#searchkey" prefHeight="26.0" prefWidth="295.0" promptText="Recherche" stylesheets="@css/style%20(1).css" />
+      <Button layoutX="357.0" layoutY="528.0" mnemonicParsing="false" onAction="#PDF" prefHeight="38.0" prefWidth="71.0" stylesheets="@css/style%20(1).css" text="PDF" />
+      <Button layoutX="725.0" layoutY="100.0" mnemonicParsing="false" onAction="#filtre" prefHeight="26.0" prefWidth="61.0" stylesheets="@css/style%20(1).css" text="Filtre" />
+      <ChoiceBox fx:id="choiceFilter" layoutX="810.0" layoutY="100.0" prefHeight="26.0" prefWidth="96.0" />
+      <Button layoutX="123.0" layoutY="523.0" mnemonicParsing="false" onAction="#addcategorie" prefHeight="26.0" prefWidth="115.0" stylesheets="@css/style%20(1).css" text="ajouter">
+         <font>
+            <Font name="Cooper Black" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="125.0" layoutY="559.0" mnemonicParsing="false" onAction="#UpdateCategorie" prefHeight="26.0" prefWidth="115.0" stylesheets="@css/style%20(1).css" text="modifier">
+         <font>
+            <Font name="Cooper Black" size="13.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
