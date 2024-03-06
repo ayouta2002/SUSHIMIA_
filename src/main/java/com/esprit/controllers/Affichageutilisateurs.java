@@ -4,6 +4,7 @@ import javafx.scene.image.ImageView;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import com.esprit.models.Utilisateurs;
 import com.esprit.services.ServiceUtilisateurs;
@@ -13,29 +14,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import com.esprit.models.*;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.IntegerStringConverter;
+
 import static java.lang.Integer.parseInt;
 
 public class Affichageutilisateurs implements Initializable {
@@ -304,102 +301,77 @@ public class Affichageutilisateurs implements Initializable {
         workbook.close();
     }
     public void OnExport(ActionEvent actionEvent) throws IOException {
-
-// Create a new PDF document
+        // Create a new PDF document
         PDDocument document = new PDDocument();
 
-// Add a page to the document
+        // Add a page to the document
         PDPage page = new PDPage();
         document.addPage(page);
 
-// Create a content stream for adding content to the page
+        // Create a content stream for adding content to the page
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-// Define the table parameters
-        int rows = displayedUtilisateurs.size() + 1; // Add 1 for header row
-        int columns = 4; // Number of columns
-
-        float margin = 50;
-        float yStart = page.getMediaBox().getHeight() - margin;
-        float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
-        float tableHeight = 20f;
-
-        float rowHeight = 20f;
-        float cellMargin = 5f;
-
-// Define cell width
-        float colWidth = tableWidth / (float) columns;
-
-// Create header row
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+        // Define the parameters for the cards
+        float cardWidth = 200f;
+        float cardHeight = 100f;
+        float cardMargin = 20f;
+        float startX = 50f;
+        float startY = page.getMediaBox().getHeight() - 50f;
+        // Add title to the document
+        String title = "Utilisateurs Report";
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 16);
+        float titleWidth = PDType1Font.HELVETICA_BOLD.getStringWidth(title) / 1000f * 16;
         contentStream.beginText();
-        contentStream.newLineAtOffset(margin, yStart);
-        contentStream.showText("Nom");
-        contentStream.newLineAtOffset(colWidth, 0);
-        contentStream.showText("Prenom");
-        contentStream.newLineAtOffset(colWidth, 0);
-        contentStream.showText("Email");
-        contentStream.newLineAtOffset(colWidth, 0);
-        contentStream.showText("Role");
+        contentStream.newLineAtOffset((page.getMediaBox().getWidth() - titleWidth) / 2, startY+20f);
+        contentStream.showText(title);
         contentStream.endText();
-
-// Draw lines for header row
-        contentStream.moveTo(margin, yStart - tableHeight);
-        contentStream.lineTo(margin + tableWidth, yStart - tableHeight);
-        contentStream.stroke();
-
-// Draw lines for all rows and columns
-        float nextY = yStart - tableHeight;
-        for (int i = 0; i <= rows; i++) {
-            contentStream.moveTo(margin, nextY);
-            contentStream.lineTo(margin + tableWidth, nextY);
-            contentStream.stroke();
-            nextY -= rowHeight;
-        }
-
-// Draw lines for all columns
-        float nextX = margin;
-        for (int i = 0; i <= columns; i++) {
-            contentStream.moveTo(nextX, yStart);
-            contentStream.lineTo(nextX, yStart - tableHeight);
-            contentStream.stroke();
-            nextX += colWidth;
-        }
-
-// Add data rows
-        contentStream.setFont(PDType1Font.HELVETICA, 12);
-        nextY = yStart - (2 * rowHeight); // Start below header row
+        // Loop through each user and create a card for them
         for (Utilisateurs utilisateur : displayedUtilisateurs) {
+            // Draw the card outline
+            contentStream.addRect(startX, startY - cardHeight, cardWidth, cardHeight);
+            contentStream.stroke();
+
+            // Add the user information to the card
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
             contentStream.beginText();
-            contentStream.newLineAtOffset(margin + cellMargin, nextY);
-            contentStream.showText(utilisateur.getNom());
-            contentStream.newLineAtOffset(colWidth, 0);
-            contentStream.showText(utilisateur.getPrenom());
-            contentStream.newLineAtOffset(colWidth, 0);
-            contentStream.showText(utilisateur.getEmail());
+            contentStream.newLineAtOffset(startX + cardMargin, startY - cardMargin);
+            contentStream.showText("Nom: " + utilisateur.getNom());
+            contentStream.newLineAtOffset(0, -20);
+            contentStream.showText("Prenom: " + utilisateur.getPrenom());
+            contentStream.newLineAtOffset(0, -20);
+            contentStream.showText("Email: " + utilisateur.getEmail());
+            contentStream.newLineAtOffset(0, -20);
+            contentStream.showText("Role: " + utilisateur.getRole());
             contentStream.endText();
-            nextY -= rowHeight;
+
+            // Move to the next card position
+            startX += cardWidth + cardMargin;
+            if (startX + cardWidth + cardMargin > page.getMediaBox().getWidth() - 50f) {
+                startX = 50f;
+                startY -= cardHeight + cardMargin;
+            }
+
+            // If we reached the end of the page, add a new page
+            if (startY - cardHeight < 50f) {
+                contentStream.close();
+                page = new PDPage();
+                document.addPage(page);
+                contentStream = new PDPageContentStream(document, page);
+                startY = page.getMediaBox().getHeight() - 50f;
+            }
         }
 
-// Close the content stream
+        // Close the content stream
         contentStream.close();
 
-// Save the document
+        // Save the document
         document.save("utilisateurs.pdf");
 
-// Close the document
+        // Close the document
         document.close();
     }
 
 
 
-/*
-    @FXML
-    private void triParNom(ActionEvent event) {
-        ServiceUtilisateurs su = new ServiceUtilisateurs();
-        // Récupération de la liste triée par nom
-        ObservableList<Utilisateurs> sortedUtilisateurs = su.triParNom();
-        // Mise à jour des éléments affichés dans la TableView
-        tabutilisateurs.setItems(sortedUtilisateurs);
-    }*/
+
 }
