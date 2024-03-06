@@ -16,7 +16,12 @@ import tn.esprit.models.status;
 import tn.esprit.services.CommandeService;
 import tn.esprit.services.RestoService;
 import tn.esprit.zizo.HelloApplication;
-
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import java.io.File;
+import java.io.IOException;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,6 +92,9 @@ public class AjouterCommandeController {
             } else {
                 clearFields();
             }
+        });
+        RechereField.textProperty().addListener((observable, oldValue, newValue) -> {
+            OnRecherche(new ActionEvent());
         });
     }
     private void applyFilter() {
@@ -228,6 +236,58 @@ public class AjouterCommandeController {
                     .filter(commande -> commande.getNumC().toLowerCase().contains(keyword))
                     .collect(Collectors.toList());
             commandeTableView.setItems(FXCollections.observableArrayList(searchResults));
+        }
+    }
+
+
+    @FXML
+    void OnExport(ActionEvent actionEvent) {
+        try {
+            PDDocument document = new PDDocument();
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+            contentStream.beginText();
+            contentStream.newLineAtOffset(100, 700);
+            contentStream.showText("Commande List");
+            contentStream.newLineAtOffset(0, -20);
+
+            // Iterate over each item in the table and add it to the PDF
+            for (Commande commande : commandeList) {
+                contentStream.showText("Numéro: " + commande.getNumC());
+                contentStream.newLineAtOffset(0, -15);
+                contentStream.showText("Adresse: " + commande.getAdresseC());
+                contentStream.newLineAtOffset(0, -15);
+                contentStream.showText("Panier: " + commande.getPanier());
+                contentStream.newLineAtOffset(0, -15);
+                contentStream.showText("Prix: " + commande.getPrice());
+                contentStream.newLineAtOffset(0, -15);
+                contentStream.showText("Statut: " + commande.getStatus());
+                contentStream.newLineAtOffset(0, -20);
+            }
+
+            contentStream.endText();
+            contentStream.close();
+
+            // Choose where to save the PDF
+            File file = new File("CommandeList.pdf");
+            document.save(file);
+            document.close();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Export Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Commande list exported to PDF successfully!");
+            alert.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Export Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error occurred while exporting to PDF!");
+            alert.showAndWait();
         }
     }
 }
