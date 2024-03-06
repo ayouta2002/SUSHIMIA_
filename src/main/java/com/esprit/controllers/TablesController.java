@@ -56,7 +56,8 @@ public class TablesController implements Initializable {
     private TableColumn<Tab, Integer> idzonecol;
     @FXML
     private TableView<Tab> tabtable;
-
+    @FXML
+    private ComboBox<String> comboTable;
     @FXML
     private TextField tfcaptab;
     @FXML
@@ -71,6 +72,7 @@ public class TablesController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rafraichirTableView();
         initializeTableView();
+        populateFilterComboBox();
         FillForm();
         rafraichirListView1();
         tabtable.setEditable(true);
@@ -417,7 +419,6 @@ public class TablesController implements Initializable {
     }
     @FXML
     void searche(KeyEvent event) {
-        // Récupérer le texte entré dans le champ de recherche
         String keyword = Recherche.getText().toLowerCase();
 
         // Créer une liste pour stocker les utilisateurs filtrés
@@ -434,7 +435,6 @@ public class TablesController implements Initializable {
             } else {
                 // Sinon, effectuer une recherche normale avec filtrage et tri
                 if (tab.getNom_zone().toLowerCase().contains(keyword) ||
-
                         String.valueOf(tab.getCapacit_t()).toLowerCase().contains(keyword)) {
                     filteredTab.add(tab);
                 }
@@ -455,7 +455,46 @@ public class TablesController implements Initializable {
 
         // Afficher les zones filtrées dans la TableView
         tabtable.setItems(filteredTab);
+        //rafraichirTableView();
+    }
+    private void populateFilterComboBox() {
+// Create a list to hold the filter options
+        List<String> filters = new ArrayList<>();
 
+// Add the filter options to the list
+        filters.add("nom_zone");
+        filters.add("capacit_t");
+
+// Create an observable list from the filters list
+        ObservableList<String> filtersObservable = FXCollections.observableArrayList(filters);
+
+// Set the items of the ComboBox to the observable list
+        comboTable.setItems(filtersObservable);
+
+    }
+    @FXML
+    void trier(ActionEvent event) {
+// Get the selected filter from the ComboBox
+        String selectedFilter = comboTable.getValue();
+
+        // Sort the table based on the selected filter
+        Comparator<Tab> comparator = null;
+        switch (selectedFilter) {
+            case "nom_zone":
+                comparator = Comparator.comparing(Tab::getNom_zone);
+                break;
+            case "capacity":
+                comparator = Comparator.comparing(Tab::getCapacit_t);
+                break;
+                default:
+                // Default to sorting by nom if no valid filter is selected
+                comparator = Comparator.comparing(Tab::getNom_zone);
+                break;
+        }
+
+        ObservableList<Tab> displayedUsers = tabtable.getItems();
+        FXCollections.sort(displayedUsers, comparator);
+        tabtable.setItems(displayedUsers);
     }
 }
 

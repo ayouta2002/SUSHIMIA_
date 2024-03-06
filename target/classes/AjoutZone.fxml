@@ -74,7 +74,7 @@
       </ImageView>
       <Button layoutX="4.0" layoutY="618.0" mnemonicParsing="false" onAction="#ReturnM" opacity="0.0" prefHeight="52.0" prefWidth="52.0" text="Retour au menu" />
       <TextField fx:id="ftcapacite" layoutX="65.0" layoutY="253.0" prefHeight="26.0" prefWidth="223.0" stylesheets="@css/style.css" />
-      <TextField fx:id="recherchetf" layoutX="394.0" layoutY="92.0" onKeyTyped="#ZoneRechercheKey" prefHeight="26.0" prefWidth="399.0" promptText="recherche" stylesheets="@css/style.css" />
+      <TextField fx:id="recherchetf" layoutX="431.0" layoutY="92.0" onKeyTyped="#ZoneRechercheKey" prefHeight="26.0" prefWidth="362.0" promptText="recherche" stylesheets="@css/style.css" />
       <Button fx:id="PDFzone" layoutX="921.0" layoutY="134.0" mnemonicParsing="false" onAction="#PDFzone" opacity="0.0" prefHeight="68.0" prefWidth="64.0" text="TELECHARGER PDF" />
       <Label layoutX="70.0" layoutY="294.0" text="Description">
          <font>
@@ -89,6 +89,11 @@
       <TextField fx:id="ftdescription" layoutX="67.0" layoutY="337.0" prefHeight="74.0" prefWidth="223.0" stylesheets="@css/style.css" />
       <Button layoutX="805.0" layoutY="92.0" mnemonicParsing="false" onAction="#filterButton" stylesheets="@css/style.css" text="trier par:" />
       <ComboBox fx:id="comboxZone" layoutX="885.0" layoutY="92.0" prefHeight="26.0" prefWidth="106.0" />
+      <ImageView fitHeight="26.0" fitWidth="32.0" layoutX="397.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/rechercher-removebg-preview.png" />
+         </image>
+      </ImageView>
 
    </children>
 </AnchorPane>
