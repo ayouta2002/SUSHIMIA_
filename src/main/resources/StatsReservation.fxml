@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="400.0" prefWidth="600.0" fx:controller="com.esprit.controllers.StatsReservationController">
+
+    <VBox alignment="CENTER" spacing="10" prefWidth="600.0">
+        <Label text="Reservation Statistics" style="-fx-font-size: 20px;"/>
+
+        <BarChart fx:id="reservationChart" prefWidth="500.0" prefHeight="300.0">
+            <xAxis>
+                <CategoryAxis />
+            </xAxis>
+            <yAxis>
+                <NumberAxis />
+            </yAxis>
+        </BarChart>
+
+        <Label text="Total Reservations:"/>
+        <Label fx:id="totalReservationsLabel" style="-fx-font-weight: bold;"/>
+
+        <Label text="Average Reservations per Client:"/>
+        <Label fx:id="averageReservationsLabel" style="-fx-font-weight: bold;"/>
+
+        <Label text="Busiest Reservation Day:"/>
+        <Label fx:id="busiestDayLabel" style="-fx-font-weight: bold;"/>
+    </VBox>
+
+    <padding>
+        <Insets top="20" bottom="20" right="20" left="20"/>
+    </padding>
+</AnchorPane>

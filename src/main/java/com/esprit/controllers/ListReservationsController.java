@@ -275,4 +275,18 @@ public class ListReservationsController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }}
+
+    public void OnStats(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/StatsReservation.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+            Stage currentStage = new Stage();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

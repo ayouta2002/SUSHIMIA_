@@ -1,15 +1,14 @@
 package com.esprit.controllers;
 
-
+import com.esprit.models.Reservation;
 import com.esprit.models.Zones;
-
+import com.esprit.services.ReservationService;
 import com.esprit.services.ZonesService;
-
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,8 +17,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.esprit.utils.DataSource;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -30,28 +27,28 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
-import java.util.List;
-
 import animatefx.animation.Shake;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.controlsfx.control.Notifications;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-
+import org.json.JSONObject;
 public class AjoutZoneController implements Initializable {
     @FXML
     private TableColumn<Zones, Integer> capzone;
@@ -76,16 +73,16 @@ public class AjoutZoneController implements Initializable {
     @FXML
     private TextField ftcapacite;
 
-    private Zones addedZone;
+
     @FXML
     private TextField ftdescription;
-
+    @FXML
+    private Button PDFzone;
     @FXML
     private TextField ftnom;
     @FXML
     private TableColumn<Zones, Void> actioncol;
-    @FXML
-    private Button PDF;
+
     @FXML
     private Button closeButton;
 
@@ -103,16 +100,13 @@ public class AjoutZoneController implements Initializable {
         initializeTableView();
         populateFilterComboBox();
         FillForm();
-        PDF.setOnAction(event -> {
-            pdf();
-        });
         tabzone.setEditable(true);
 
 
         deszone.setCellFactory(TextFieldTableCell.<Zones>forTableColumn());
         nomzone.setCellFactory(TextFieldTableCell.<Zones>forTableColumn());
 
-       //capzone.setCellFactory(TextFieldTableCell.<Zones>forTableColumn());
+        //capzone.setCellFactory(TextFieldTableCell.<Zones>forTableColumn());
 
         modifiertable();
         image_zone.setOnDragOver(new EventHandler<DragEvent>() {
@@ -179,39 +173,49 @@ public class AjoutZoneController implements Initializable {
     @FXML
     void image_add(MouseEvent event) {
         FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(new File(System.getProperty("user.home") + "\\Desktop"));
+        String projectDirectory = System.getProperty("user.dir");
+        try {
+            // Set the initial directory to the project directory
+            fc.setInitialDirectory(new File(projectDirectory));
+        } catch (Exception e) {
+            // Handle any exceptions that may occur
+            e.printStackTrace();
+        }
+
         fc.setTitle("Veuillez choisir l'image");
         fc.getExtensionFilters().addAll(
-
                 new FileChooser.ExtensionFilter("PNG", "*.png"),
                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-        new FileChooser.ExtensionFilter("Image", ".jpg", ".png")
+                new FileChooser.ExtensionFilter("Image", ".jpg", ".png")
         );
-        selectedFile = fc.showOpenDialog(null);
+        Stage stage = (Stage) image_zone.getScene().getWindow();
+        selectedFile = fc.showOpenDialog(stage);
 
         if (selectedFile != null) {
-
             // Load the selected image into the image view
             Image image1 = new Image(selectedFile.toURI().toString());
-
-            //url_image = file.toURI().toString();
-            System.out.println(selectedFile.toURI().toString());
             image_zone.setImage(image1);
 
-            File destinationFile = new File("C:\\xampp\\htdocs\\Imagezones", selectedFile.getName());
-            url_image = selectedFile.getName();
-            String destinationFilePath = destinationFile.getAbsolutePath();
-            url_image = selectedFile.getName();
-
             try {
+                // Define the destination directory (uploads) within the project directory
+                File uploadsDirectory = new File(projectDirectory, "uploads");
+                if (!uploadsDirectory.exists()) {
+                    uploadsDirectory.mkdir(); // Create the uploads directory if it doesn't exist
+                }
+
+                // Construct the destination file path
+                File destinationFile = new File(uploadsDirectory, selectedFile.getName());
+                url_image = selectedFile.getName();
+
                 // Copy the selected file to the destination file
                 Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 System.err.println(e);
             }
-
         }
     }
+
+
     public void initializeTableView() {
         ZonesService zonesService = new ZonesService();
         List<Zones> allZones = zonesService.afficher();
@@ -236,9 +240,9 @@ public class AjoutZoneController implements Initializable {
         nomzone.setCellValueFactory(new PropertyValueFactory<>("nom"));
         deszone.setCellValueFactory(new PropertyValueFactory<>("description"));
         capzone.setCellValueFactory(new PropertyValueFactory<>("capacity"));
-      imagecol.setCellValueFactory(new PropertyValueFactory<>("image"));
+        imagecol.setCellValueFactory(new PropertyValueFactory<>("image"));
 
-       //TableColumn<Zones, Void> actioncol = new TableColumn<>("action");
+        //TableColumn<Zones, Void> actioncol = new TableColumn<>("action");
         actioncol.setCellFactory(param -> new TableCell<Zones, Void>() {
             private final Button deleteButton = new Button("Supprimer");
             private final Button editButton = new Button("Modifier");
@@ -258,7 +262,7 @@ public class AjoutZoneController implements Initializable {
                 });
             }
 
-           @Override
+            @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
 
@@ -272,47 +276,47 @@ public class AjoutZoneController implements Initializable {
             }
         });
 
-       // tabzone.getColumns().add(actioncol);
+        // tabzone.getColumns().add(actioncol);
         tabzone.setItems(zones);
     }
 
-   @FXML
-   void AddZone(ActionEvent event) throws IOException {
-       String nom = ftnom.getText().trim();
-       String image = url_image;
-       String description = ftdescription.getText().trim();
-       String capaciteStr = ftcapacite.getText().trim();
+    @FXML
+    void AddZone(ActionEvent event) throws IOException {
+        String nom = ftnom.getText().trim();
+        String image = url_image;
+        String description = ftdescription.getText().trim();
+        String capaciteStr = ftcapacite.getText().trim();
 
-       if (nom.isEmpty() || description.isEmpty() || capaciteStr.isEmpty()) {
-           ftnom.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
-           new animatefx.animation.Flash(ftnom).play();
-           ftdescription.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
-           new animatefx.animation.Flash(ftdescription).play();
-           ftcapacite.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
-           new animatefx.animation.Flash(ftcapacite).play();
-           Notifications.create()
-                   .darkStyle()
-                   .title(" Veuillez remplir tous les champs.")
-                   .position(Pos.CENTER) // Modifier la position ici
-                   .hideAfter(Duration.seconds(20))
-                   .show();
+        if (nom.isEmpty() || description.isEmpty() || capaciteStr.isEmpty()) {
+            ftnom.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+            new animatefx.animation.Flash(ftnom).play();
+            ftdescription.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+            new animatefx.animation.Flash(ftdescription).play();
+            ftcapacite.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+            new animatefx.animation.Flash(ftcapacite).play();
+            Notifications.create()
+                    .darkStyle()
+                    .title(" Veuillez remplir tous les champs.")
+                    .position(Pos.CENTER) // Modifier la position ici
+                    .hideAfter(Duration.seconds(20))
+                    .show();
 
-           return;
-       }
+            return;
+        }
 
-       // Contrôle de saisie pour le nom
-       if (!isStringValid(nom)) {
-           Notifications.create()
-                   .darkStyle()
-                   .title("Veuillez saisir un nom valide.")
-                   .position(Pos.CENTER) // Modifier la position ici
-                   .hideAfter(Duration.seconds(20))
-                   .show();
+        // Contrôle de saisie pour le nom
+        if (!isStringValid(nom)) {
+            Notifications.create()
+                    .darkStyle()
+                    .title("Veuillez saisir un nom valide.")
+                    .position(Pos.CENTER) // Modifier la position ici
+                    .hideAfter(Duration.seconds(20))
+                    .show();
 
-           return;
-       }
+            return;
+        }
 
-       // Contrôle de saisie pour la description
+        // Contrôle de saisie pour la description
      /*  if (!isStringValid(description)) {
            Alert alert = new Alert(Alert.AlertType.ERROR);
            alert.setTitle("Erreur de saisie");
@@ -322,33 +326,33 @@ public class AjoutZoneController implements Initializable {
            return;
        }*/
 
-       int capacite;
-       try {
-           capacite = Integer.parseInt(capaciteStr);
-       } catch (NumberFormatException e) {
-           Notifications.create()
-                   .darkStyle()
-                   .title("Veuillez saisir une valeur numérique pour la capacité.")
-                   .position(Pos.CENTER) // Modifier la position ici
-                   .hideAfter(Duration.seconds(20))
-                   .show();
+        int capacite;
+        try {
+            capacite = Integer.parseInt(capaciteStr);
+        } catch (NumberFormatException e) {
+            Notifications.create()
+                    .darkStyle()
+                    .title("Veuillez saisir une valeur numérique pour la capacité.")
+                    .position(Pos.CENTER) // Modifier la position ici
+                    .hideAfter(Duration.seconds(20))
+                    .show();
 
-           resetFormulaire();
-           return;
-       }
+            resetFormulaire();
+            return;
+        }
 
-       ZonesService zs = new ZonesService();
-       zs.ajouter(new Zones(nom, description, capacite, url_image));
+        ZonesService zs = new ZonesService();
+        zs.ajouter(new Zones(nom, description, capacite, url_image));
 
-       Notifications.create()
-               .darkStyle()
-               .title("zone Ajouté avec succès")
-               .position(Pos.CENTER) // Modifier la position ici
-               .hideAfter(Duration.seconds(20))
-               .show();
-       initializeTableView();
-       resetFormulaire();
-   }
+        Notifications.create()
+                .darkStyle()
+                .title("zone Ajouté avec succès")
+                .position(Pos.CENTER) // Modifier la position ici
+                .hideAfter(Duration.seconds(20))
+                .show();
+        initializeTableView();
+        resetFormulaire();
+    }
 
     private boolean isStringValid(String str) {
         return str.matches("[a-zA-Z]+");
@@ -365,16 +369,16 @@ public class AjoutZoneController implements Initializable {
             String imageValue = url_image;
 
             if (ftcapacite.getText().isEmpty()) {
-                    ftnom.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
-                    new animatefx.animation.Flash(ftnom).play();
-                    Notifications.create()
-                            .darkStyle()
-                            .title(" Veuillez remplir tous les champs.")
-                            .position(Pos.CENTER) // Modifier la position ici
-                            .hideAfter(Duration.seconds(20))
-                            .show();
+                ftnom.setStyle("-fx-background-color: white;-fx-border-color: red; -fx-border-width: 1px");
+                new animatefx.animation.Flash(ftnom).play();
+                Notifications.create()
+                        .darkStyle()
+                        .title(" Veuillez remplir tous les champs.")
+                        .position(Pos.CENTER) // Modifier la position ici
+                        .hideAfter(Duration.seconds(20))
+                        .show();
 
-                    return;
+                return;
             }
             if (descriptionzoneValue.isEmpty()) {
 
@@ -482,7 +486,8 @@ public class AjoutZoneController implements Initializable {
             currentStage.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }}
+        }
+    }
 
     @FXML
     void ZoneRechercheKey(KeyEvent event) {
@@ -526,33 +531,108 @@ public class AjoutZoneController implements Initializable {
         tabzone.setItems(filteredZone);
         //rafraichirTableView();
     }
+    @FXML
+    void PDFzone(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("leszones.pdf");
+        File file = fileChooser.showSaveDialog(null);
 
+        if (file != null) {
+            try (PDDocument document = new PDDocument()) {
+                PDPage page = new PDPage();
+                document.addPage(page);
+
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+                double tableWidth = 500; // Largeur de la table
+                double yStartNewPage = page.getMediaBox().getHeight() - 50; // Position de départ pour une nouvelle page
+                double yStart = yStartNewPage;
+                double bottomMargin = 70; // Marge inférieure
+                float fontSize = 12; // Taille de police
+
+                List<Double> colWidths = new ArrayList<>(); // Liste des largeurs des colonnes
+                double tableHeight = 0; // Hauteur de la table
+
+                // Récupère les largeurs des colonnes et calcule la hauteur totale de la table
+                for (TableColumn<Zones, ?> col : tabzone.getColumns()) {
+                    double colWidth = col.getWidth();
+                    colWidths.add(colWidth);
+                    tableHeight = tabzone.getItems().size() * 20; // Supposons que chaque ligne a une hauteur de 20
+                }
+
+                // Vérifie si la table dépasse la page actuelle et crée une nouvelle page si nécessaire
+                if (yStart - tableHeight < bottomMargin) {
+                    contentStream.close();
+                    page = new PDPage();
+                    document.addPage(page);
+                    contentStream = new PDPageContentStream(document, page);
+                    yStart = yStartNewPage;
+                }
+
+                // Dessine les en-têtes de colonnes avec une couleur différente et une bordure
+                contentStream.setLineWidth(1.5f); // Épaisseur de la ligne
+                contentStream.setNonStrokingColor(100, 100, 100); // Couleur grise pour le texte
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, fontSize);
+
+                double yPosition = yStart;
+                double xPosition = 50; // Position horizontale initiale
+                for (int i = 0; i < tabzone.getColumns().size(); i++) {
+                    TableColumn<Zones, ?> col = tabzone.getColumns().get(i);
+                    double colWidth = colWidths.get(i);
+
+                    // Dessine une bordure autour de l'en-tête de colonne
+                    contentStream.setLineJoinStyle(1); // Style de jointure de ligne arrondi
+                    contentStream.addRect((float) xPosition, (float) (yPosition - 15), (float) colWidth, 15);
+                    contentStream.stroke(); // Dessine la bordure
+
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 10));
+                    contentStream.showText(col.getText());
+                    contentStream.endText();
+
+                    xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
+                }
+
+                // Dessine les lignes de données avec une police différente
+                contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+                contentStream.setNonStrokingColor(0, 0, 0); // Revenir à la couleur noire pour le texte
+
+                // ... Reste du code ...
+
+
+                contentStream.close();
+                document.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @FXML
     void filterButton(ActionEvent event) {
-            // Get the selected filter from the ComboBox
-            String selectedFilter = comboxZone.getValue();
+        // Get the selected filter from the ComboBox
+        String selectedFilter = comboxZone.getValue();
 
-            // Sort the table based on the selected filter
-            Comparator<Zones> comparator = null;
-            switch (selectedFilter) {
-                case "nom":
-                    comparator = Comparator.comparing(Zones::getNom);
-                    break;
-                case "description":
-                    comparator = Comparator.comparing(Zones::getDescription);
-                    break;
-                case "capacity":
-                    comparator = Comparator.comparing(Zones::getCapacity);
-                    break;
+        // Sort the table based on the selected filter
+        Comparator<Zones> comparator = null;
+        switch (selectedFilter) {
+            case "nom":
+                comparator = Comparator.comparing(Zones::getNom);
+                break;
+            case "description":
+                comparator = Comparator.comparing(Zones::getDescription);
+                break;
+            case "capacity":
+                comparator = Comparator.comparing(Zones::getCapacity);
+                break;
 
-                default:
-                    // Default to sorting by nom if no valid filter is selected
-                    comparator = Comparator.comparing(Zones::getNom);
-                    break;
-            }
+            default:
+                // Default to sorting by nom if no valid filter is selected
+                comparator = Comparator.comparing(Zones::getNom);
+                break;
+        }
 
-            ObservableList<Zones> displayedUsers = tabzone.getItems();
-            FXCollections.sort(displayedUsers, comparator);
+        ObservableList<Zones> displayedUsers = tabzone.getItems();
+        FXCollections.sort(displayedUsers, comparator);
         tabzone.setItems(displayedUsers);
 
 
@@ -574,85 +654,22 @@ public class AjoutZoneController implements Initializable {
 
     }
 
-    public void pdf() {
-        if (addedZone != null) {
-            try {
-                PDDocument document = new PDDocument();
-                PDPage page = new PDPage();
-                document.addPage(page);
+    public void onStats(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/StatsZone.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
 
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-                PDType0Font font = PDType0Font.load(document, getClass().getResourceAsStream("/fonts/CairoPlay-VariableFont_slnt,wght.ttf"));
-
-                float margin = 0;
-
-                PDImageXObject borderImage = PDImageXObject.createFromFile("src/main/resources/image/BORDD.png", document);
-                contentStream.drawImage(borderImage, margin, margin, page.getMediaBox().getWidth() - 2 * margin, page.getMediaBox().getHeight() - 2 * margin);
-
-                PDImageXObject logoImage = PDImageXObject.createFromFile("src/main/resources/image/logo.png", document);
-                float logoWidth = 125;
-                float logoHeight = logoWidth * logoImage.getHeight() / logoImage.getWidth();
-
-                contentStream.drawImage(logoImage, page.getMediaBox().getWidth() - margin - logoWidth - 15, page.getMediaBox().getHeight() - margin - logoHeight - 15, logoWidth, logoHeight);
-
-                float titleFontSize = 25;
-                contentStream.setNonStrokingColor(Color.BLACK);
-                contentStream.setFont(font, titleFontSize);
-                float titleX = (page.getMediaBox().getWidth() - font.getStringWidth("Détails de l'événement") / 1000 * titleFontSize) / 2 + 40;
-                float titleY = page.getMediaBox().getHeight() - 3 * (margin + 30);
-                contentStream.setNonStrokingColor(new Color(0, 0, 139));
-                writeText(contentStream, "Détails de l'événement", titleX, titleY, font);
-
-                float normalFontSize = 14;
-                contentStream.setFont(font, normalFontSize);
-
-                float infoX = (margin + 30) * 3;
-                float infoY = titleY - normalFontSize * 6;
-                float infoSpacing = normalFontSize * 2;
-
-                contentStream.setNonStrokingColor(Color.BLACK);
-                writeText(contentStream, "Titre : " + addedZone.getNom(), infoX, infoY, font);
-                infoY -= infoSpacing;
-                writeText(contentStream, "Espace : " + addedZone.getDescription(), infoX, infoY, font);
-                infoY -= infoSpacing;
-                writeText(contentStream, "Liste des invités : " + addedZone.getCapacity(), infoX, infoY, font);
-
-                contentStream.close();
-
-                // Utiliser le nom de l'événement pour nommer le fichier PDF
-                File file = new File(addedZone.getNom() + ".pdf");
-                document.save(file);
-                document.close();
-
-                Desktop.getDesktop().open(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // Fermer la fenêtre actuelle si nécessaire
+            Stage currentStage = new Stage();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
-
-    private void writeText(PDPageContentStream contentStream, String text, float x, float y, PDType0Font font) throws IOException {
-        String[] lines = text.split("\n");
-        float fontSize = 14; // Adjust the font size as needed
-        float leading = 1.5f * fontSize; // Adjust the line spacing as needed
-
-        contentStream.beginText();
-        contentStream.setFont(font, fontSize);
-        contentStream.newLineAtOffset(x, y);
-
-        for (String line : lines) {
-            contentStream.showText(line);
-            contentStream.newLineAtOffset(0, -leading);
-        }
-
-        contentStream.endText();
-    }
-    }
-
-
-
+}
 
 
 
