@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="listReservationPane" prefHeight="602.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.addReservationController">
+<AnchorPane fx:id="listReservationPane" prefHeight="602.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.addReservationController">
     <stylesheets>
         <URL value="@hello-view.css" />
     </stylesheets>
@@ -34,6 +34,11 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
+      <ImageView fitHeight="80.0" fitWidth="138.0" layoutX="633.0" layoutY="18.0">
+         <image>
+            <Image url="@../../../../../../../Desktop/image/418025501_916964343338013_8117190284543088009_n.png" />
+         </image>
+      </ImageView>
 
     </children>
 
