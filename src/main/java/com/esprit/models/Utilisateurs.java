@@ -8,60 +8,55 @@ public  class Utilisateurs {
     private String mot_de_passe;
     private String email;
     private Role role;
+    private String image;
 
+    public Utilisateurs(int id) {
+        this.id = id;
+    }
 
-    public Utilisateurs(String nom, String prenom, String mot_de_passe, String email, Role role) {
+    public Utilisateurs() {
+    }
+
+    public Utilisateurs(String nom, String prenom, String mot_de_passe, String email, Role role, String image) {
         this.nom = nom;
         this.prenom = prenom;
         this.mot_de_passe = mot_de_passe;
         this.email = email;
         this.role = role;
+        this.image = image;
     }
 
-
-    public Utilisateurs(int id, String nom, String prenom, String mot_de_passe, String email,  Role role) {
+    public Utilisateurs(int id, String nom, String prenom, String mot_de_passe, String email, Role role, String image) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.mot_de_passe = mot_de_passe;
         this.email = email;
         this.role = role;
-    }
-
-    public Utilisateurs(int id) {this.id = id;}
-
-    public Utilisateurs(String email, String mot_de_passe) {
-        this.email = email;
-        this.mot_de_passe = mot_de_passe;
-    }
-
-    public Utilisateurs(int id,String nom, String prenom, String mot_de_passe, String email) {
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.mot_de_passe = mot_de_passe;
-        this.email = email;
+        this.image = image;
     }
 
     public Utilisateurs(String nom, String prenom, String motDePasse, String email) {
         this.nom = nom;
         this.prenom = prenom;
-        this.mot_de_passe = mot_de_passe;
-        this.email = email;
-
-    }
-
-    public Utilisateurs(String nom, String prenom, String email) {
-        this.nom = nom;
-        this.prenom = prenom;
+        this.mot_de_passe = motDePasse;
         this.email = email;
     }
 
-    public Utilisateurs(int id, String nom, String prenom, String email) {
-        this.id = id;
+    public Utilisateurs(String nom, String prenom, String motDePasse, String email, Role role) {
         this.nom = nom;
         this.prenom = prenom;
+        this.mot_de_passe = motDePasse;
         this.email = email;
+        this.role = role;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getId() {
@@ -121,7 +116,8 @@ public  class Utilisateurs {
                 ", prenom='" + prenom + '\'' +
                 ", mot_de_passe='" + mot_de_passe + '\'' +
                 ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
+                ", role=" + role +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

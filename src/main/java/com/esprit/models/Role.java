@@ -1,4 +1,9 @@
 package com.esprit.models;
 public enum Role {
-    Admin, Client, Livreur
+    ADMIN, CLIENT, LIVREUR;
+
+    @Override
+    public String toString() {
+        return name();
+    }
 }

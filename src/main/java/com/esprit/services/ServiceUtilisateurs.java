@@ -20,7 +20,7 @@ public class ServiceUtilisateurs implements IService<Utilisateurs> {
 
     @Override
     public void add(Utilisateurs utilisateurs) {
-        String query = "INSERT INTO utilisateurs (nom, prenom, mot_de_passe, email, role) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO utilisateurs (nom, prenom, mot_de_passe, email, role, image) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement preparedStatement = connexion.prepareStatement(query);
             preparedStatement.setString(1, utilisateurs.getNom());
@@ -28,6 +28,7 @@ public class ServiceUtilisateurs implements IService<Utilisateurs> {
             preparedStatement.setString(3, utilisateurs.getMot_de_passe());
             preparedStatement.setString(4, utilisateurs.getEmail());
             preparedStatement.setString(5, utilisateurs.getRole().toString());
+            preparedStatement.setString(6, utilisateurs.getImage());
             preparedStatement.executeUpdate();
             System.out.println("user ajouté");
         } catch (SQLException e) {
@@ -95,11 +96,11 @@ public class ServiceUtilisateurs implements IService<Utilisateurs> {
                 String motDePasse = rs.getString("mot_de_passe");
                 String email = rs.getString("email");
                 String roleString = rs.getString("role");
-
+                String image = rs.getString("image");
                 // Convertir la chaîne de caractères en une valeur d'énumération Role
-                //  Role role = Role.valueOf(roleString.toUpperCase());
+                Role role = Role.valueOf(roleString.toUpperCase());
 
-                list.add(new Utilisateurs(id, nom, prenom, motDePasse, email));
+                list.add(new Utilisateurs(id, nom, prenom, motDePasse, email, role,image));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -135,53 +136,3 @@ public class ServiceUtilisateurs implements IService<Utilisateurs> {
     }
 
 }
-/*
-
-    public ObservableList<Utilisateurs> triParNom() {
-        ObservableList<Utilisateurs> utilisateursList = FXCollections.observableArrayList();
-
-        String requete = "SELECT * FROM utilisateurs ORDER BY nom ASC";
-        try {
-            Statement st = connexion.createStatement();
-            ResultSet rs = st.executeQuery(requete);
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String nom = rs.getString("nom");
-                String prenom = rs.getString("prenom");
-                String motDePasse = rs.getString("mot_de_passe");
-                String email = rs.getString("email");
-                String roleString = rs.getString("role");
-
-                // Convertir la chaîne de caractères en une valeur d'énumération Role
-                // Role role = Role.valueOf(roleString.toUpperCase());
-
-                utilisateursList.add(new Utilisateurs(id, nom, prenom, motDePasse, email));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return utilisateursList;
-    }*/
-   /* @Override
-    public Utilisateurs readById(int id) {
-        String requete="select * from utilisateurs where id="+id;
-       Utilisateurs utilisateurs = null;
-        try {
-            ste= connexion.createStatement();
-            ResultSet rs= ste.executeQuery(requete);
-            while(rs.next()){
-                utilisateurs = new Utilisateurs(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(5));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return utilisateurs;
-    }*/
-
-

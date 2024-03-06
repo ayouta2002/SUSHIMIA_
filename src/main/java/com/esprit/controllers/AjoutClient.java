@@ -20,7 +20,23 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamResolution;
+import com.github.sarxos.webcam.WebcamPanel;
+import javafx.embed.swing.SwingNode;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.BorderPane;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javax.swing.text.html.ImageView;
 import java.awt.*;
 import java.io.File;
@@ -43,6 +59,11 @@ public class AjoutClient implements Initializable  {
 
     @FXML
     private TextField ftprenom;
+    @FXML
+    private BorderPane webcamPane;
+    String imagePath="";
+
+    private Webcam webcam = null;
     @FXML
     void sinscrire(ActionEvent event) throws IOException {
         String nom = ftnom.getText();
@@ -95,13 +116,8 @@ public class AjoutClient implements Initializable  {
 
         // Ajouter l'utilisateur
         ServiceUtilisateurs su = new ServiceUtilisateurs();
-        su.add(new Utilisateurs(nom, prenom, motDePasse, email, Role.Client));
+        su.add(new Utilisateurs(nom, prenom, motDePasse, email,Role.CLIENT,imagePath));
 
-        Notifications.create()
-                .darkStyle()
-                .title("user added successfully")
-                .hideAfter(Duration.seconds(10))
-                .show();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Utilisateur ajouté!");
@@ -153,6 +169,44 @@ public class AjoutClient implements Initializable  {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        webcam = Webcam.getDefault();
+        if (webcam != null) {
+            webcam.setViewSize(WebcamResolution.VGA.getSize());
+            WebcamPanel panel = new WebcamPanel(webcam);
+            panel.setFillArea(true);
+            SwingNode swingNode = new SwingNode();
+            swingNode.setContent(panel);
+            webcamPane.setCenter(swingNode);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No webcam detected!", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+    public void uploadImage(ActionEvent event) {
+        if (webcam != null) {
+            try {
+                // Get the image from the webcam
+                BufferedImage image = webcam.getImage();
+                if (image != null) {
+                    // Save the image
+                    File file = new File("upload/captured_image.png");
+                    ImageIO.write(image, "PNG", file);
 
+                    // Store the file path
+                    imagePath = file.getAbsolutePath();
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Image captured successfully!", ButtonType.OK);
+                    alert.showAndWait();
+                } else {
+                    // Handle case when webcam.getImage() returns null
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to capture image! Webcam image is null.", ButtonType.OK);
+                    alert.showAndWait();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to capture image!", ButtonType.OK);
+                alert.showAndWait();
+            }
+        }
     }
 }

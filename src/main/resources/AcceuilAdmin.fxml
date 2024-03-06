@@ -41,7 +41,7 @@
             <Font name="Cooper Black" size="23.0" />
          </font>
       </Label>
-      <ImageView fitHeight="139.0" fitWidth="186.0" layoutX="716.0" layoutY="-24.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="93.0" fitWidth="200.0" layoutX="774.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
          </image>

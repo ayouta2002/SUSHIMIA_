@@ -7,38 +7,53 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="873.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.AjoutClient">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.AjoutClient">
     <children>
         <AnchorPane layoutX="97.0" layoutY="104.0" opacity="0.18" prefHeight="314.0" prefWidth="450.0" style="-fx-background-color: #cc5a12;" />
-        <ImageView fitHeight="615.0" fitWidth="1117.0" layoutX="-141.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="581.0" fitWidth="939.0" layoutX="-141.0" pickOnBounds="true" preserveRatio="true">
             <image>
             </image>
         </ImageView>
-        <TextField fx:id="ftnom" layoutX="145.0" layoutY="174.0" promptText="nom" />
-        <TextField fx:id="ftprenom" layoutX="145.0" layoutY="218.0" promptText="prenom" />
-        <TextField fx:id="ftemail" layoutX="145.0" layoutY="308.0" promptText="email" />
+        <TextField fx:id="ftnom" layoutX="145.0" layoutY="140.0" promptText="nom" />
+        <TextField fx:id="ftprenom" layoutX="145.0" layoutY="184.0" promptText="prenom" />
+        <TextField fx:id="ftemail" layoutX="145.0" layoutY="274.0" promptText="email" />
         <Label layoutX="213.0" layoutY="141.0" />
-        <Button layoutX="178.0" layoutY="365.0" mnemonicParsing="false" onAction="#sinscrire" prefHeight="26.0" prefWidth="84.0" text="S'inscrire" textFill="#382716">
+        <Button layoutX="179.0" layoutY="318.0" mnemonicParsing="false" onAction="#sinscrire" prefHeight="26.0" prefWidth="84.0" text="S'inscrire" textFill="#382716">
             <font>
                 <Font name="Algerian" size="13.0" />
-            </font></Button>
-        <AnchorPane layoutX="-6.0" prefHeight="99.0" prefWidth="885.0" style="-fx-background-color: #960000;">
+            </font>
+        </Button>
+        <Button layoutX="346.0" layoutY="230.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="26.0" prefWidth="120.0" text="Upload Image">
+            <font>
+                <Font name="Algerian" size="13.0" />
+            </font>
+        </Button>
+        <BorderPane fx:id="webcamPane" layoutX="336.0" layoutY="112.0" prefHeight="124.0" prefWidth="139.0">
+        </BorderPane>
+
+        <AnchorPane layoutX="-6.0" prefHeight="99.0" prefWidth="679.0" style="-fx-background-color: #960000;">
             <children>
-                <Label layoutX="393.0" layoutY="23.0" text="SIGN UP" underline="true">
+                <Label layoutX="279.0" layoutY="19.0" text="SIGN IN" underline="true">
                     <font>
                         <Font name="Algerian" size="34.0" />
                     </font>
                 </Label>
-                <ImageView fitHeight="121.0" fitWidth="137.0" layoutX="743.0" layoutY="-25.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="99.0" fitWidth="113.0" layoutX="572.0" layoutY="-10.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
                     </image>
                 </ImageView>
             </children>
         </AnchorPane>
-        <ImageView fitHeight="129.0" fitWidth="99.0" layoutX="377.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="74.0" fitWidth="99.0" layoutX="14.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@images/nourriture.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="129.0" fitWidth="99.0" layoutX="370.0" layoutY="254.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@images/programmeur.png" />
             </image>
@@ -49,6 +64,6 @@
             </font>
         </Button>
         <Label layoutX="339.0" layoutY="344.0" text="Already have an account" />
-        <PasswordField fx:id="ftmot_de_passe" layoutX="146.0" layoutY="261.0" />
+        <PasswordField fx:id="ftmot_de_passe" layoutX="146.0" layoutY="227.0" />
     </children>
 </AnchorPane>

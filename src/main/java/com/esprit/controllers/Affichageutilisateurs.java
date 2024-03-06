@@ -1,10 +1,11 @@
 package com.esprit.controllers;
 
+import com.esprit.models.Role;
 import javafx.scene.image.ImageView;
+import javafx.util.StringConverter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import com.esprit.models.Utilisateurs;
 import com.esprit.services.ServiceUtilisateurs;
@@ -19,16 +20,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -44,18 +41,18 @@ public class Affichageutilisateurs implements Initializable {
     private TextField searchinput;
 
     @FXML
-    private TableColumn<Utilisateurs, String> Email;
+    private TableColumn<Utilisateurs, String> EmailColumn;
     @FXML
-    private TableColumn<Utilisateurs, Void> actionCol;
+    private TableColumn<Utilisateurs, Void> ActionColumn;
 
     @FXML
-    private TableColumn<Utilisateurs, String> Nom;
+    private TableColumn<Utilisateurs, String> NomColumn;
 
     @FXML
-    private TableColumn<Utilisateurs, String> Prenom;
+    private TableColumn<Utilisateurs, String> PrenomColumn;
 
     @FXML
-    private TableColumn<Utilisateurs, String> Role;
+    private TableColumn<Utilisateurs, Role> RoleColumn;
 
     @FXML
     private TableView<Utilisateurs> tabutilisateurs;
@@ -103,13 +100,13 @@ public class Affichageutilisateurs implements Initializable {
         ObservableList<Utilisateurs> utilisateurs = FXCollections.observableArrayList(utilisateursList);
 
         // Associer les propriétés des utilisateurs aux colonnes de la table view
-        Nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        Prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
-        Email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        Role.setCellValueFactory(new PropertyValueFactory<>("role"));
+        NomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        PrenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        EmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        RoleColumn.setCellValueFactory(new PropertyValueFactory<Utilisateurs, Role>("role"));
 
         // Créer la colonne "Action"
-        actionCol.setCellFactory(param -> new TableCell<Utilisateurs, Void>() {
+        ActionColumn.setCellFactory(param -> new TableCell<Utilisateurs, Void>() {
             private final Button deleteButton = new Button("Supprimer");
 
             {
@@ -134,7 +131,7 @@ public class Affichageutilisateurs implements Initializable {
         });
 
         // Ajouter la colonne "Action" à la table view
-        tabutilisateurs.getColumns().add(actionCol);
+        tabutilisateurs.getColumns().add(ActionColumn);
 
         // Associer la liste observable à la table view
         tabutilisateurs.setItems(utilisateurs);
@@ -146,11 +143,20 @@ public class Affichageutilisateurs implements Initializable {
         initializeTableViewT();
         tabutilisateurs.setEditable(true);
         populateFilterComboBox();
-        Nom.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
-        Prenom.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
-        Email.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
-        Role.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
+        NomColumn.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
+        PrenomColumn.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
+        EmailColumn.setCellFactory(TextFieldTableCell.<Utilisateurs>forTableColumn());
+        RoleColumn.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Role>() {
+            @Override
+            public String toString(Role object) {
+                return (object != null) ? object.toString() : "";
+            }
 
+            @Override
+            public Role fromString(String string) {
+                return Role.valueOf(string);
+            }
+        }));
         modifier();
 
     }
@@ -174,17 +180,17 @@ public class Affichageutilisateurs implements Initializable {
     }
 
     public void modifier() {
-        Nom.setOnEditCommit(event -> {
+        NomColumn.setOnEditCommit(event -> {
             Utilisateurs utilisateurs = event.getRowValue();
             utilisateurs.setNom(event.getNewValue());
             su.update(utilisateurs);
         });
-        Prenom.setOnEditCommit(event -> {
+        PrenomColumn.setOnEditCommit(event -> {
             Utilisateurs utilisateurs = event.getRowValue();
             utilisateurs.setPrenom(event.getNewValue());
             su.update(utilisateurs);
         });
-        Email.setOnEditCommit(event -> {
+        EmailColumn.setOnEditCommit(event -> {
             Utilisateurs utilisateurs = event.getRowValue();
             utilisateurs.setEmail(event.getNewValue());
             su.update(utilisateurs);
@@ -370,7 +376,6 @@ public class Affichageutilisateurs implements Initializable {
         // Close the document
         document.close();
     }
-
 
 
 

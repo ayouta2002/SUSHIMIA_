@@ -33,13 +33,13 @@
       </AnchorPane>
       <Label layoutX="123.0" layoutY="243.0" />
       <TableView fx:id="tabutilisateurs" layoutX="103.0" layoutY="188.0" prefHeight="306.0" prefWidth="560.0">
-        <columns>
-          <TableColumn fx:id="Nom" prefWidth="75.0" text="NOM" />
-            <TableColumn fx:id="Prenom" prefWidth="93.60003662109375" text="PRENOM" />
-            <TableColumn fx:id="Email" prefWidth="193.5999755859375" text="EMAIL" />
-            <TableColumn fx:id="Role" prefWidth="89.5999755859375" text="ROLE" />
-            <TableColumn fx:id="actionCol" minWidth="0.0" prefWidth="127.99996337890627" text="ACTIONS" />
-        </columns>
+         <columns>
+            <TableColumn fx:id="NomColumn" prefWidth="75.0" text="NOM" />
+            <TableColumn fx:id="PrenomColumn" prefWidth="93.60003662109375" text="PRENOM" />
+            <TableColumn fx:id="EmailColumn" prefWidth="193.5999755859375" text="EMAIL" />
+            <TableColumn fx:id="RoleColumn" prefWidth="89.5999755859375" text="ROLE" />
+            <TableColumn fx:id="ActionColumn" minWidth="0.0" prefWidth="127.99996337890627" text="ACTIONS" />
+         </columns>
       </TableView>
       <ImageView fitHeight="32.0" fitWidth="177.0" layoutX="628.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
       <AnchorPane layoutX="165.0" layoutY="118.0" prefHeight="70.0" prefWidth="345.0">
