@@ -3,7 +3,6 @@ package com.esprit.controles;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -53,7 +52,7 @@ public class ItemCategorieControllers {
         }
     }
 
-    public void onClick() throws SQLException {
+    public void onClick() {
         myListener.onClick(re);
     }
 
@@ -62,7 +61,7 @@ public class ItemCategorieControllers {
     }
 
     @FXML
-    void Click(MouseEvent event) throws SQLException {
+    void Click(MouseEvent event) {
 
         CategorieService rc = new CategorieService();
         List<CategorieMenu> L = new ArrayList<>();
@@ -73,7 +72,6 @@ public class ItemCategorieControllers {
         r.setNom_categorie(L.get(0).getNom_categorie());
         r.setDescriprtion_categorie(L.get(0).getDescription_categorie());
         r.setImage_categorie(L.get(0).getImage_categorie());
-
     }
 
     @FXML
@@ -82,7 +80,7 @@ public class ItemCategorieControllers {
 
     public interface MyListener {
 
-        void onClick(CategorieMenu re) throws SQLException;
+        void onClick(CategorieMenu re);
     }
 
 }

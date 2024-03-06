@@ -8,8 +8,6 @@ public class Plat {
     private int quantite;
     private String nom_categorie;
     private String image;
-    private int like;
-    private int dislike;
 
     public Plat(int id_plat, String nom_plat, String description_plat, float prix, int quantite, String nom_categorie, String image) {
         this.id_plat = id_plat;
@@ -28,29 +26,6 @@ public class Plat {
         this.quantite = quantite;
         this.nom_categorie = nom_categorie;
         this.image = image;
-    }
-
-    public Plat(int id_plat, String nom_plat, String description_plat, float prix, int quantite, String nom_categorie, String image, int like, int dislike) {
-        this.id_plat = id_plat;
-        this.nom_plat = nom_plat;
-        this.description_plat = description_plat;
-        this.prix = prix;
-        this.quantite = quantite;
-        this.nom_categorie = nom_categorie;
-        this.image = image;
-        this.like = like;
-        this.dislike = dislike;
-    }
-
-    public Plat(String nom_plat, String description_plat, float prix, int quantite, String nom_categorie, String image, int like, int dislike) {
-        this.nom_plat = nom_plat;
-        this.description_plat = description_plat;
-        this.prix = prix;
-        this.quantite = quantite;
-        this.nom_categorie = nom_categorie;
-        this.image = image;
-        this.like = like;
-        this.dislike = dislike;
     }
 
     public Plat() {
@@ -73,21 +48,7 @@ public class Plat {
         return prix;
     }
 
-    public int getLike() {
-        return like;
-    }
 
-    public void setLike(int like) {
-        this.like = like;
-    }
-
-    public int getDislike() {
-        return dislike;
-    }
-
-    public void setDislike(int dislike) {
-        this.dislike = dislike;
-    }
 
     public int getQuantite() {
         return quantite;

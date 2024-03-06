@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1430.0" styleClass="bgProductsAdmin" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AfficherCtegorieControllers">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1430.0" styleClass="bgProductsAdmin" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AfficherCtegorieControllers">
     <children>
         <ImageView fitHeight="40.0" fitWidth="308.0" layoutX="511.0" layoutY="12.0">
 
@@ -57,12 +57,6 @@
                             </children>
                         </VBox>
                   <Button mnemonicParsing="false" onAction="#afficher_menu" text="Afficher Menu" />
-                  <HBox prefHeight="18.0" prefWidth="238.0" />
-                  <HBox prefHeight="43.0" prefWidth="238.0">
-                     <children>
-                        <VBox prefHeight="43.0" prefWidth="98.0" />
-                     </children>
-                  </HBox>
                     </children>
                 </VBox>
             </right>

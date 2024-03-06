@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -11,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="583.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AjoutCategorieControllers">
+<AnchorPane prefHeight="583.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AjoutCategorieControllers">
    <children>
       <AnchorPane layoutX="-9.0" layoutY="-5.0" opacity="0.48" prefHeight="126.0" prefWidth="866.0" style="-fx-background-color: #f5c422;" />
       <ImageView fitHeight="81.0" fitWidth="61.0" layoutX="747.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
@@ -74,8 +73,5 @@
          </image>
       </ImageView>
       <TextField fx:id="chercher" layoutX="543.0" layoutY="143.0" onKeyTyped="#searchkey" />
-      <Button layoutX="357.0" layoutY="488.0" mnemonicParsing="false" onAction="#PDF" text="PDF" />
-      <Button layoutX="453.0" layoutY="143.0" mnemonicParsing="false" onAction="#filtre" text="Filtre" />
-      <ChoiceBox fx:id="choiceFilter" layoutX="357.0" layoutY="142.0" prefHeight="26.0" prefWidth="82.0" />
    </children>
 </AnchorPane>

@@ -4,13 +4,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import com.esprit.models.CategorieMenu;
-import com.esprit.models.Like;
 import com.esprit.services.CategorieService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -21,7 +19,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -49,7 +50,6 @@ public class AfficherCtegorieControllers  {
 
     @FXML
     private TextField des_plat;
-
     @FXML
     private TextField Chercher;
 
@@ -72,9 +72,8 @@ public class AfficherCtegorieControllers  {
     private CategorieService rec = new CategorieService();
     private ItemCategorieControllers.MyListener myListener;
 
-
     @FXML
-    void initialize() throws IOException, SQLException {
+    void initialize() throws IOException {
         System.out.println("hello");
         recDataList.addAll(rec.afficher());
         System.out.println("load data");
@@ -82,7 +81,7 @@ public class AfficherCtegorieControllers  {
             setChosenRec(recDataList.get(0));
             myListener = new ItemCategorieControllers.MyListener() {
                 @Override
-                public void onClick(CategorieMenu re) throws SQLException {
+                public void onClick(CategorieMenu re) {
                     System.out.println("mouse clicked");
                     setChosenRec(re);
                 }
@@ -117,11 +116,10 @@ public class AfficherCtegorieControllers  {
         Chercher.textProperty().addListener((observable, oldValue, newValue) -> search());
     }
 
-    private void setChosenRec(CategorieMenu r) throws SQLException {
+    private void setChosenRec(CategorieMenu r) {
 
         Nom_plat.setText(ItemCategorieControllers.r.getNom_categorie());
         des_plat.setText(ItemCategorieControllers.r.getDescription_categorie());
-
         String imagePath = "C:\\xampp\\htdocs\\image_categorie\\" + ItemCategorieControllers.r.getImage_categorie();
         try {
             img.setImage(new Image(new FileInputStream(imagePath)));
@@ -179,13 +177,6 @@ public class AfficherCtegorieControllers  {
                 System.out.println("Problem loading category details");
             }
         }
-    }
-
-    @FXML
-    void like_dislike(ActionEvent event) throws SQLException {
-
-
-
     }
 
 

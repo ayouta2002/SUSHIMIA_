@@ -1,12 +1,10 @@
 package com.esprit.services;
 
 import com.esprit.models.CategorieMenu;
-import com.esprit.models.Like;
 import com.esprit.models.Plat;
 import com.esprit.utils.DataSource;
+import com.esprit.services.IService;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 

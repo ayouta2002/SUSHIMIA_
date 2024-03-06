@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -55,8 +56,7 @@ public class AjoutMenuControllers implements Initializable {
 
     @FXML
     private TextField ftquantiteplat;
-    @FXML
-    private TextField ftnomcategorie;
+
     @FXML
     private TextField suppid;
     @FXML
@@ -78,7 +78,8 @@ public class AjoutMenuControllers implements Initializable {
 
     @FXML
     private TableColumn<Plat, Integer> tvprix;
-
+    @FXML
+    private ListView<String> Listnomcat;
     @FXML
     private TableColumn<Plat, Integer> tvquantite;
     @FXML
@@ -111,7 +112,17 @@ public class AjoutMenuControllers implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rafraichirTableView();
         initializeTableView();
+        rafraichirListView1();
         FillForm();
+
+        tabplat.setEditable(true);
+
+
+        tvnom.setCellFactory(TextFieldTableCell.<Plat>forTableColumn());
+       tvdes.setCellFactory(TextFieldTableCell.<Plat>forTableColumn());
+
+
+        modifiertable();
         fimage.setOnDragOver(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 Dragboard db = event.getDragboard();
@@ -153,7 +164,27 @@ public class AjoutMenuControllers implements Initializable {
 
 
     }
+    public void modifiertable() {
+        tvnom.setOnEditCommit(event -> {
+            // Obtenez la réservation à partir de l'événement
+            Plat plat = event.getRowValue();
+            // Mettez à jour la zone avec la nouvelle valeur
+            plat.setNom_plat(event.getNewValue());
+            // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
+            PlatService platService = new PlatService();
+            platService.modifier(plat);
+        });
+        tvdes.setOnEditCommit(event -> {
+            // Obtenez la réservation à partir de l'événement
+            Plat plat = event.getRowValue();
+            // Mettez à jour la zone avec la nouvelle valeur
+            plat.setDescription_plat(event.getNewValue());
+            // Appelez la méthode de modification de votre service (remplacez ReservationService par le nom réel de votre classe de service)
+            PlatService platService = new PlatService();
+            platService.modifier(plat);
+        });
 
+    }
     @FXML
     void image_add(MouseEvent event) {
 
@@ -276,7 +307,8 @@ void AddPlat(ActionEvent event) throws IOException {
         // Convertir les chaînes de caractères en types appropriés (float pour le prix, int pour la quantité et l'ID de catégorie)
         float prix = Float.parseFloat(ftprixplat.getText());
         int quantite = Integer.parseInt(ftquantiteplat.getText());
-       // int idCategorie = Integer.parseInt(ftnomcategorie.getText());
+        String nom_categorie = Listnomcat.getSelectionModel().getSelectedItem();
+
 
         // Créer un nouvel objet Plat en utilisant les valeurs converties
         Plat nouveauPlat = new Plat(
@@ -284,7 +316,7 @@ void AddPlat(ActionEvent event) throws IOException {
                 ftdescriptionplat.getText(),
                 prix,
                 quantite,
-                ftnomcategorie.getText(),
+                nom_categorie,
                 url_image
         );
 
@@ -328,7 +360,7 @@ void AddPlat(ActionEvent event) throws IOException {
     ftdescriptionplat.clear();
     ftprixplat.clear();
     ftquantiteplat.clear();
-    ftnomcategorie.clear();
+
 
 
 }
@@ -338,7 +370,8 @@ void AddPlat(ActionEvent event) throws IOException {
         String descriptionplatValue = ftdescriptionplat.getText();
         float prixplatValue = Float.parseFloat(ftprixplat.getText());
         int quantiteplatValue = Integer.parseInt(ftquantiteplat.getText());
-        String nom_categorietValue = ftnomcategorie.getText();
+
+        String nom_categorietValue = Listnomcat.getSelectionModel().getSelectedItem();
 
         Plat TableSelection = tabplat.getSelectionModel().getSelectedItem();
         int idplat = TableSelection.getId_plat();
@@ -365,7 +398,7 @@ void AddPlat(ActionEvent event) throws IOException {
         ftdescriptionplat.clear();
         ftprixplat.clear();
         ftquantiteplat.clear();
-        ftnomcategorie.clear();
+
 
 
 
@@ -421,7 +454,7 @@ void AddPlat(ActionEvent event) throws IOException {
                     ftdescriptionplat.setText(PlatSelectionne.getDescription_plat());
                     ftprixplat.setText(String.valueOf(PlatSelectionne.getPrix()));
                     ftquantiteplat.setText(String.valueOf(PlatSelectionne.getQuantite()));
-                    ftnomcategorie.setText(String.valueOf(PlatSelectionne.getNom_categorie()));
+
 
 
                     //ftcapacite.setText(ZonesSelectionne.getCapacity());
@@ -554,6 +587,20 @@ void AddPlat(ActionEvent event) throws IOException {
 
     }
 
+    public void rafraichirListView1() {
+        CategorieService categorieMenu = new CategorieService();
+        List<CategorieMenu> allCategorie = categorieMenu.afficher();
 
+        // Créer une observable list pour les noms de zones
+        ObservableList<String> CatNames = FXCollections.observableArrayList();
+
+        // Ajouter tous les noms de zones à la liste observable
+        for (CategorieMenu Cat : allCategorie) {
+            CatNames.add(Cat.getNom_categorie());
+        }
+
+        // Associer la liste observable à la ListView
+        Listnomcat.setItems(CatNames);
+    }
 
 }
