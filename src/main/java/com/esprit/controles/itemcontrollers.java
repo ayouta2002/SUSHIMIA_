@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -53,7 +54,7 @@ public class itemcontrollers implements Initializable {
 
 
     @FXML
-    private void click(MouseEvent event) {
+    private void click(MouseEvent event) throws SQLException {
         PlatService rc = new PlatService();
         List<Plat> L = new ArrayList<>();
         myListener.onClick(re);
@@ -68,7 +69,7 @@ public class itemcontrollers implements Initializable {
         r.setImage(L.get(0).getImage());
     }
 
-    public void onClick() {
+    public void onClick() throws SQLException {
         myListener.onClick(re);
     }
 
@@ -78,7 +79,7 @@ public class itemcontrollers implements Initializable {
 
     public interface MyListener {
 
-        void onClick(Plat re);
+        void onClick(Plat re) throws SQLException;
     }
 }
 

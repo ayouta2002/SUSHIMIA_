@@ -22,7 +22,8 @@ public class CategorieMenu {
     public CategorieMenu() {
     }
 
-   /* public CategorieMenu(String text, String text1, String text2, String text3) {
+
+    /* public CategorieMenu(String text, String text1, String text2, String text3) {
     }*/
 
     public int getId_categorie() {
@@ -40,6 +41,7 @@ public class CategorieMenu {
     public String getImage_categorie() {
         return image_categorie;
     }
+
 
     public void setId_categorie(int id_categorie) {
         this.id_categorie = id_categorie;

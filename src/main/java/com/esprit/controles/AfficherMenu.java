@@ -1,17 +1,20 @@
 package com.esprit.controles;
 
 import com.esprit.models.CategorieMenu;
+import com.esprit.models.Like;
 import com.esprit.models.Plat;
 
+import com.esprit.services.CategorieService;
 import com.esprit.services.PlatService;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -24,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -67,6 +71,9 @@ public class AfficherMenu implements Initializable {
     @FXML
     private ScrollPane scroll;
 
+    @FXML
+    private Button like_dislike_button;
+
 
 
     private  int plat_id;
@@ -74,13 +81,28 @@ public class AfficherMenu implements Initializable {
     private List<Plat> recDataList = FXCollections.observableArrayList();
     private PlatService rec = new PlatService();
     private itemcontrollers.MyListener myListener;
+    static int idUser = 4;
+    private String status;
 
 
-    private void setChosenZone(Plat r) {
+    private void setChosenZone(Plat r) throws SQLException {
 
         Nom_menu.setText(itemcontrollers.r.getNom_plat());
         des_menu.setText(itemcontrollers.r.getDescription_plat());
         prix_menu.setText(String.valueOf(itemcontrollers.r.getPrix()));
+
+        int index_like = rec.rech_index_Like(idUser,itemcontrollers.r.getId_plat());
+        if (index_like != -1)
+        {
+            Like like = rec.rech_Like(index_like).get(0);
+            if (like.getStaus().equals("like"))
+                like_dislike_button.setText("dislike");
+            else
+                like_dislike_button.setText("like");
+        }
+        else
+            like_dislike_button.setText("like");
+
         String imagePath = "C:\\xampp\\htdocs\\imageplat\\" + itemcontrollers.r.getImage();
         try {
             img.setImage(new Image(new FileInputStream(imagePath)));
@@ -90,16 +112,56 @@ public class AfficherMenu implements Initializable {
 
     }
 
+    @FXML
+    void like_dislike(ActionEvent event) throws SQLException {
+        PlatService platService = new PlatService();
+
+        if(like_dislike_button.getText().equals("like"))
+        {
+            like_dislike_button.setText("dislike");
+
+            itemcontrollers.r.setLike(itemcontrollers.r.getLike()+1);
+
+            if(itemcontrollers.r.getDislike()!=0)
+                itemcontrollers.r.setDislike(itemcontrollers.r.getDislike()-1);
+
+            platService.modifier(itemcontrollers.r);
+
+            status = "like";
+
+        }else {
+            like_dislike_button.setText("like");
+
+            if (itemcontrollers.r.getLike()!=0)
+                itemcontrollers.r.setLike(itemcontrollers.r.getLike()-1);
+
+            itemcontrollers.r.setDislike(itemcontrollers.r.getDislike()+1);
+
+            platService.modifier(itemcontrollers.r);
+
+            status = "dislike";
+        }
+
+        if (platService.rech_index_Like(idUser, itemcontrollers.r.getId_plat()) != -1)
+            platService.modifier_like_dislike(platService.rech_index_Like(idUser, itemcontrollers.r.getId_plat()), status);
+        else
+            platService.add_like_dislike_plat(idUser, itemcontrollers.r.getId_plat(), status);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("hello");
-        recDataList.addAll(rec.afficher());
+        recDataList.addAll(rec.recherchePlat(ItemCategorieControllers.r));
         System.out.println("load data");
         if (recDataList.size() > 0) {
-            setChosenZone(recDataList.get(0));
+            try {
+                setChosenZone(recDataList.get(0));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             myListener = new itemcontrollers.MyListener() {
                 @Override
-                public void onClick(Plat r) {
+                public void onClick(Plat r) throws SQLException {
                     System.out.println("mouse clicked");
                     setChosenZone(r);
                 }

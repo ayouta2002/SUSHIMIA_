@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1430.0" styleClass="bgProductsAdmin" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AfficherMenu">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1430.0" styleClass="bgProductsAdmin" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AfficherMenu">
     <children>
         <ImageView fitHeight="40.0" fitWidth="308.0" layoutX="511.0" layoutY="12.0">
 
@@ -65,11 +66,12 @@
                                 <TextField fx:id="prix_menu" prefHeight="26.0" prefWidth="154.0" />
                             </children>
                         </HBox>
-                        <VBox alignment="CENTER" prefHeight="73.0" prefWidth="237.0">
+                        <VBox alignment="CENTER" prefHeight="20.0" prefWidth="238.0">
                             <children>
                                 <HBox alignment="CENTER" prefHeight="33.0" prefWidth="237.0" />
                             </children>
                         </VBox>
+                  <Button fx:id="like_dislike_button" mnemonicParsing="false" onAction="#like_dislike" prefHeight="26.0" prefWidth="53.0" text="like" />
                     </children>
                 </VBox>
             </right>
