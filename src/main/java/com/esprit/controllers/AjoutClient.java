@@ -117,7 +117,11 @@ public class AjoutClient implements Initializable  {
         // Ajouter l'utilisateur
         ServiceUtilisateurs su = new ServiceUtilisateurs();
         su.add(new Utilisateurs(nom, prenom, motDePasse, email,Role.CLIENT,imagePath));
-
+        Notifications.create()
+                .darkStyle()
+                .title("user added successfully")
+                .hideAfter(Duration.seconds(10))
+                .show();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Utilisateur ajouté!");
