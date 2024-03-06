@@ -1,5 +1,6 @@
 package com.esprit.controllers;
 
+import javafx.scene.image.ImageView;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -21,7 +22,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import com.esprit.models.*;
-
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +39,8 @@ import javafx.util.converter.IntegerStringConverter;
 import static java.lang.Integer.parseInt;
 
 public class Affichageutilisateurs implements Initializable {
+    public ImageView PdfImage;
+    public ImageView ExcelImage;
     @FXML
     private ComboBox<String> FilterComboBox;
     @FXML
@@ -74,7 +80,22 @@ public class Affichageutilisateurs implements Initializable {
         // Associer la liste observable à la table view
         tabutilisateurs.setItems(displayedUtilisateurs);
 
-
+        PdfImage.setOnMouseClicked(event -> {
+            try {
+                System.out.println("Exported");
+                OnExport(new ActionEvent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        ExcelImage.setOnMouseClicked(event -> {
+            try {
+                System.out.println("Exported");
+                OnExportExcel(new ActionEvent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @FXML
@@ -249,7 +270,39 @@ public class Affichageutilisateurs implements Initializable {
         FXCollections.sort(displayedUsers, comparator);
         tabutilisateurs.setItems(displayedUsers);
     }
+    public void OnExportExcel(ActionEvent actionEvent) throws IOException {
+        // Create a new Excel workbook
+        Workbook workbook = new XSSFWorkbook();
 
+        // Create a new sheet
+        Sheet sheet = workbook.createSheet("Utilisateurs");
+
+        // Create a header row
+        Row headerRow = sheet.createRow(0);
+        String[] columns = {"Nom", "Prenom", "Email"};
+        for (int i = 0; i < columns.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(columns[i]);
+        }
+
+        // Create data rows
+        int rowNum = 1;
+        for (Utilisateurs utilisateur : displayedUtilisateurs) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(utilisateur.getNom());
+            row.createCell(1).setCellValue(utilisateur.getPrenom());
+            row.createCell(2).setCellValue(utilisateur.getEmail());
+        }
+
+        // Write the workbook to a file
+        String excelFilePath = "utilisateurs.xlsx";
+        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
+            workbook.write(outputStream);
+        }
+
+        // Close the workbook
+        workbook.close();
+    }
     public void OnExport(ActionEvent actionEvent) throws IOException {
 
 // Create a new PDF document
