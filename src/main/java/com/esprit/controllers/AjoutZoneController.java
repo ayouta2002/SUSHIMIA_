@@ -17,6 +17,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.esprit.utils.DataSource;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -27,6 +29,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -38,18 +41,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.List;
+
 import animatefx.animation.Shake;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.controlsfx.control.Notifications;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import okhttp3.*;
-import org.json.JSONObject;
+
 public class AjoutZoneController implements Initializable {
     @FXML
     private TableColumn<Zones, Integer> capzone;
@@ -78,7 +84,7 @@ public class AjoutZoneController implements Initializable {
     @FXML
     private TextField ftdescription;
     @FXML
-    private Button PDFzone;
+    private Button boutonPDF;
     @FXML
     private TextField ftnom;
     @FXML
@@ -101,6 +107,9 @@ public class AjoutZoneController implements Initializable {
         initializeTableView();
         populateFilterComboBox();
         FillForm();
+        boutonPDF.setOnAction(event -> {
+            genererPDF();
+        });
         tabzone.setEditable(true);
 
 
@@ -522,80 +531,80 @@ public class AjoutZoneController implements Initializable {
         //rafraichirTableView();
     }
     @FXML
-    void PDFzone(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName("leszones.pdf");
-        File file = fileChooser.showSaveDialog(null);
-
-        if (file != null) {
-            try (PDDocument document = new PDDocument()) {
+    void genererPDF(ActionEvent event) {
+        if (addedEvent != null) {
+            try {
+                PDDocument document = new PDDocument();
                 PDPage page = new PDPage();
                 document.addPage(page);
 
                 PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-                double tableWidth = 500; // Largeur de la table
-                double yStartNewPage = page.getMediaBox().getHeight() - 50; // Position de départ pour une nouvelle page
-                double yStart = yStartNewPage;
-                double bottomMargin = 70; // Marge inférieure
-                float fontSize = 12; // Taille de police
+                PDType0Font font = PDType0Font.load(document, getClass().getResourceAsStream("/fonts/CairoPlay-VariableFont_slnt,wght.ttf"));
 
-                List<Double> colWidths = new ArrayList<>(); // Liste des largeurs des colonnes
-                double tableHeight = 0; // Hauteur de la table
+                float margin = 0;
 
-                // Récupère les largeurs des colonnes et calcule la hauteur totale de la table
-                for (TableColumn<Zones, ?> col : tabzone.getColumns()) {
-                    double colWidth = col.getWidth();
-                    colWidths.add(colWidth);
-                    tableHeight = tabzone.getItems().size() * 20; // Supposons que chaque ligne a une hauteur de 20
-                }
+                PDImageXObject borderImage = PDImageXObject.createFromFile("src/main/resources/image/BORDD.png", document);
+                contentStream.drawImage(borderImage, margin, margin, page.getMediaBox().getWidth() - 2 * margin, page.getMediaBox().getHeight() - 2 * margin);
 
-                // Vérifie si la table dépasse la page actuelle et crée une nouvelle page si nécessaire
-                if (yStart - tableHeight < bottomMargin) {
-                    contentStream.close();
-                    page = new PDPage();
-                    document.addPage(page);
-                    contentStream = new PDPageContentStream(document, page);
-                    yStart = yStartNewPage;
-                }
+                PDImageXObject logoImage = PDImageXObject.createFromFile("src/main/resources/image/logo.png", document);
+                float logoWidth = 125;
+                float logoHeight = logoWidth * logoImage.getHeight() / logoImage.getWidth();
 
-                // Dessine les en-têtes de colonnes avec une couleur différente et une bordure
-                contentStream.setLineWidth(1.5f); // Épaisseur de la ligne
-                contentStream.setNonStrokingColor(100, 100, 100); // Couleur grise pour le texte
-                contentStream.setFont(PDType1Font.HELVETICA_BOLD, fontSize);
+                contentStream.drawImage(logoImage, page.getMediaBox().getWidth() - margin - logoWidth - 15, page.getMediaBox().getHeight() - margin - logoHeight - 15, logoWidth, logoHeight);
 
-                double yPosition = yStart;
-                double xPosition = 50; // Position horizontale initiale
-                for (int i = 0; i < tabzone.getColumns().size(); i++) {
-                    TableColumn<Zones, ?> col = tabzone.getColumns().get(i);
-                    double colWidth = colWidths.get(i);
+                float titleFontSize = 25;
+                contentStream.setNonStrokingColor(Color.BLACK);
+                contentStream.setFont(font, titleFontSize);
+                float titleX = (page.getMediaBox().getWidth() - font.getStringWidth("Détails de l'événement") / 1000 * titleFontSize) / 2 + 40;
+                float titleY = page.getMediaBox().getHeight() - 3 * (margin + 30);
+                contentStream.setNonStrokingColor(new Color(0, 0, 139));
+                writeText(contentStream, "Détails des zones", titleX, titleY, font);
 
-                    // Dessine une bordure autour de l'en-tête de colonne
-                    contentStream.setLineJoinStyle(1); // Style de jointure de ligne arrondi
-                    contentStream.addRect((float) xPosition, (float) (yPosition - 15), (float) colWidth, 15);
-                    contentStream.stroke(); // Dessine la bordure
+                float normalFontSize = 14;
+                contentStream.setFont(font, normalFontSize);
 
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 10));
-                    contentStream.showText(col.getText());
-                    contentStream.endText();
+                float infoX = (margin + 30) * 3;
+                float infoY = titleY - normalFontSize * 6;
+                float infoSpacing = normalFontSize * 2;
 
-                    xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
-                }
-
-                // Dessine les lignes de données avec une police différente
-                contentStream.setFont(PDType1Font.HELVETICA, fontSize);
-                contentStream.setNonStrokingColor(0, 0, 0); // Revenir à la couleur noire pour le texte
-
-                // ... Reste du code ...
-
+                contentStream.setNonStrokingColor(Color.BLACK);
+                writeText(contentStream, "Titre : " + addedEvent.getTitle(), infoX, infoY, font);
+                infoY -= infoSpacing;
+                writeText(contentStream, "Espace : " + addedEvent.getEspace().getName(), infoX, infoY, font);
+                infoY -= infoSpacing;
+                writeText(contentStream, "Liste des invités : " + addedEvent.getListeInvites(), infoX, infoY, font);
 
                 contentStream.close();
+
+                // Utiliser le nom de l'événement pour nommer le fichier PDF
+                File file = new File(addedEvent.getTitle() + ".pdf");
                 document.save(file);
+                document.close();
+
+                Desktop.getDesktop().open(file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    private void writeText(PDPageContentStream contentStream, String text, float x, float y, PDType0Font font) throws IOException {
+        String[] lines = text.split("\n");
+        float fontSize = 14; // Adjust the font size as needed
+        float leading = 1.5f * fontSize; // Adjust the line spacing as needed
+
+        contentStream.beginText();
+        contentStream.setFont(font, fontSize);
+        contentStream.newLineAtOffset(x, y);
+
+        for (String line : lines) {
+            contentStream.showText(line);
+            contentStream.newLineAtOffset(0, -leading);
+        }
+
+        contentStream.endText();
     }
     @FXML
     void filterButton(ActionEvent event) {
