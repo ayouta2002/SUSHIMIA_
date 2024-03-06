@@ -1,14 +1,15 @@
 package com.esprit.controllers;
 
-import com.esprit.models.Reservation;
+
 import com.esprit.models.Zones;
-import com.esprit.services.ReservationService;
+
 import com.esprit.services.ZonesService;
-import javafx.beans.property.SimpleObjectProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,10 +37,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 import java.util.List;
 
@@ -50,7 +47,6 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.controlsfx.control.Notifications;
 import javafx.scene.control.TableCell;
@@ -80,16 +76,16 @@ public class AjoutZoneController implements Initializable {
     @FXML
     private TextField ftcapacite;
 
-
+    private Zones addedZone;
     @FXML
     private TextField ftdescription;
-    @FXML
-    private Button boutonPDF;
+
     @FXML
     private TextField ftnom;
     @FXML
     private TableColumn<Zones, Void> actioncol;
-
+    @FXML
+    private Button PDF;
     @FXML
     private Button closeButton;
 
@@ -107,8 +103,8 @@ public class AjoutZoneController implements Initializable {
         initializeTableView();
         populateFilterComboBox();
         FillForm();
-        boutonPDF.setOnAction(event -> {
-            genererPDF();
+        PDF.setOnAction(event -> {
+            pdf();
         });
         tabzone.setEditable(true);
 
@@ -530,82 +526,7 @@ public class AjoutZoneController implements Initializable {
         tabzone.setItems(filteredZone);
         //rafraichirTableView();
     }
-    @FXML
-    void genererPDF(ActionEvent event) {
-        if (addedEvent != null) {
-            try {
-                PDDocument document = new PDDocument();
-                PDPage page = new PDPage();
-                document.addPage(page);
 
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-                PDType0Font font = PDType0Font.load(document, getClass().getResourceAsStream("/fonts/CairoPlay-VariableFont_slnt,wght.ttf"));
-
-                float margin = 0;
-
-                PDImageXObject borderImage = PDImageXObject.createFromFile("src/main/resources/image/BORDD.png", document);
-                contentStream.drawImage(borderImage, margin, margin, page.getMediaBox().getWidth() - 2 * margin, page.getMediaBox().getHeight() - 2 * margin);
-
-                PDImageXObject logoImage = PDImageXObject.createFromFile("src/main/resources/image/logo.png", document);
-                float logoWidth = 125;
-                float logoHeight = logoWidth * logoImage.getHeight() / logoImage.getWidth();
-
-                contentStream.drawImage(logoImage, page.getMediaBox().getWidth() - margin - logoWidth - 15, page.getMediaBox().getHeight() - margin - logoHeight - 15, logoWidth, logoHeight);
-
-                float titleFontSize = 25;
-                contentStream.setNonStrokingColor(Color.BLACK);
-                contentStream.setFont(font, titleFontSize);
-                float titleX = (page.getMediaBox().getWidth() - font.getStringWidth("Détails de l'événement") / 1000 * titleFontSize) / 2 + 40;
-                float titleY = page.getMediaBox().getHeight() - 3 * (margin + 30);
-                contentStream.setNonStrokingColor(new Color(0, 0, 139));
-                writeText(contentStream, "Détails des zones", titleX, titleY, font);
-
-                float normalFontSize = 14;
-                contentStream.setFont(font, normalFontSize);
-
-                float infoX = (margin + 30) * 3;
-                float infoY = titleY - normalFontSize * 6;
-                float infoSpacing = normalFontSize * 2;
-
-                contentStream.setNonStrokingColor(Color.BLACK);
-                writeText(contentStream, "Titre : " + addedEvent.getTitle(), infoX, infoY, font);
-                infoY -= infoSpacing;
-                writeText(contentStream, "Espace : " + addedEvent.getEspace().getName(), infoX, infoY, font);
-                infoY -= infoSpacing;
-                writeText(contentStream, "Liste des invités : " + addedEvent.getListeInvites(), infoX, infoY, font);
-
-                contentStream.close();
-
-                // Utiliser le nom de l'événement pour nommer le fichier PDF
-                File file = new File(addedEvent.getTitle() + ".pdf");
-                document.save(file);
-                document.close();
-
-                Desktop.getDesktop().open(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    private void writeText(PDPageContentStream contentStream, String text, float x, float y, PDType0Font font) throws IOException {
-        String[] lines = text.split("\n");
-        float fontSize = 14; // Adjust the font size as needed
-        float leading = 1.5f * fontSize; // Adjust the line spacing as needed
-
-        contentStream.beginText();
-        contentStream.setFont(font, fontSize);
-        contentStream.newLineAtOffset(x, y);
-
-        for (String line : lines) {
-            contentStream.showText(line);
-            contentStream.newLineAtOffset(0, -leading);
-        }
-
-        contentStream.endText();
-    }
     @FXML
     void filterButton(ActionEvent event) {
             // Get the selected filter from the ComboBox
@@ -653,7 +574,85 @@ public class AjoutZoneController implements Initializable {
 
     }
 
-}
+    public void pdf() {
+        if (addedZone != null) {
+            try {
+                PDDocument document = new PDDocument();
+                PDPage page = new PDPage();
+                document.addPage(page);
+
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+                PDType0Font font = PDType0Font.load(document, getClass().getResourceAsStream("/fonts/CairoPlay-VariableFont_slnt,wght.ttf"));
+
+                float margin = 0;
+
+                PDImageXObject borderImage = PDImageXObject.createFromFile("src/main/resources/image/BORDD.png", document);
+                contentStream.drawImage(borderImage, margin, margin, page.getMediaBox().getWidth() - 2 * margin, page.getMediaBox().getHeight() - 2 * margin);
+
+                PDImageXObject logoImage = PDImageXObject.createFromFile("src/main/resources/image/logo.png", document);
+                float logoWidth = 125;
+                float logoHeight = logoWidth * logoImage.getHeight() / logoImage.getWidth();
+
+                contentStream.drawImage(logoImage, page.getMediaBox().getWidth() - margin - logoWidth - 15, page.getMediaBox().getHeight() - margin - logoHeight - 15, logoWidth, logoHeight);
+
+                float titleFontSize = 25;
+                contentStream.setNonStrokingColor(Color.BLACK);
+                contentStream.setFont(font, titleFontSize);
+                float titleX = (page.getMediaBox().getWidth() - font.getStringWidth("Détails de l'événement") / 1000 * titleFontSize) / 2 + 40;
+                float titleY = page.getMediaBox().getHeight() - 3 * (margin + 30);
+                contentStream.setNonStrokingColor(new Color(0, 0, 139));
+                writeText(contentStream, "Détails de l'événement", titleX, titleY, font);
+
+                float normalFontSize = 14;
+                contentStream.setFont(font, normalFontSize);
+
+                float infoX = (margin + 30) * 3;
+                float infoY = titleY - normalFontSize * 6;
+                float infoSpacing = normalFontSize * 2;
+
+                contentStream.setNonStrokingColor(Color.BLACK);
+                writeText(contentStream, "Titre : " + addedZone.getNom(), infoX, infoY, font);
+                infoY -= infoSpacing;
+                writeText(contentStream, "Espace : " + addedZone.getDescription(), infoX, infoY, font);
+                infoY -= infoSpacing;
+                writeText(contentStream, "Liste des invités : " + addedZone.getCapacity(), infoX, infoY, font);
+
+                contentStream.close();
+
+                // Utiliser le nom de l'événement pour nommer le fichier PDF
+                File file = new File(addedZone.getNom() + ".pdf");
+                document.save(file);
+                document.close();
+
+                Desktop.getDesktop().open(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private void writeText(PDPageContentStream contentStream, String text, float x, float y, PDType0Font font) throws IOException {
+        String[] lines = text.split("\n");
+        float fontSize = 14; // Adjust the font size as needed
+        float leading = 1.5f * fontSize; // Adjust the line spacing as needed
+
+        contentStream.beginText();
+        contentStream.setFont(font, fontSize);
+        contentStream.newLineAtOffset(x, y);
+
+        for (String line : lines) {
+            contentStream.showText(line);
+            contentStream.newLineAtOffset(0, -leading);
+        }
+
+        contentStream.endText();
+    }
+    }
+
+
+
 
 
 
