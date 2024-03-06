@@ -55,7 +55,7 @@ public class AfficherResClientController implements Initializable {
         rafraichirTableView();
         tabreservation.setEditable(true);
 
-         //tableres.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
+        //tableres.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
         reszone.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
         // dateres.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
         // dateconf.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
@@ -148,4 +148,18 @@ public class AfficherResClientController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }}
+
+    public void OnCalendrier(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Calendrier.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+            Stage currentStage = new Stage();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

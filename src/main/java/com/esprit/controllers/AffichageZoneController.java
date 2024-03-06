@@ -205,4 +205,17 @@ public class AffichageZoneController implements Initializable {
     }
 
 
+    public void OnLocalisation(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/add_map.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+            Stage currentStage = new Stage();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
