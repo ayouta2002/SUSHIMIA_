@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="626.0" prefWidth="927.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.Acceuil">
+   <children>
+      <ImageView fitHeight="520.0" fitWidth="966.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Capture%20d'écran%202024-02-29%20234523.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="752.0" layoutY="482.0" mnemonicParsing="false" onAction="#logout" prefHeight="143.0" prefWidth="177.0" style="-fx-background-color: tansparent;" />
+      <ImageView fitHeight="56.0" fitWidth="37.0" layoutX="863.0" layoutY="563.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/logout-icon-transparent-0.jpg" />
+         </image>
+      </ImageView>
+      <Button layoutX="153.0" layoutY="33.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="76.0" text="ZONES">
+         <font>
+            <Font name="Cooper Black" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="279.0" layoutY="34.0" mnemonicParsing="false" text="MENU">
+         <font>
+            <Font name="Cooper Black" size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="401.0" layoutY="34.0" mnemonicParsing="false" text="COCKTAILS">
+         <font>
+            <Font name="Cooper Black" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="563.0" layoutY="35.0" mnemonicParsing="false" text="EVENEMENT">
+         <font>
+            <Font name="Cooper Black" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="714.0" layoutY="34.0" mnemonicParsing="false" text="LIVRAISON">
+         <font>
+            <Font name="Cooper Black" size="15.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="72.0" fitWidth="93.0" layoutX="24.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/parametres.gif" />
+         </image>
+      </ImageView>
+      <Button layoutX="-11.0" layoutY="-2.0" mnemonicParsing="false" onAction="#modfiierprofil" prefHeight="100.0" prefWidth="142.0" style="-fx-background-color: transparent;" />
+   </children>
+</AnchorPane>
