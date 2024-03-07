@@ -37,9 +37,9 @@
         <Button fx:id="btnDeleteEvenement" layoutX="682.0" layoutY="94.0" mnemonicParsing="false" onAction="#supprimerEvenement" prefHeight="41.0" prefWidth="94.0" styleClass="btn" stylesheets="@hello-view.css" text="Delete" />
       <ComboBox fx:id="comboBoxTri" layoutX="816.0" layoutY="94.0" onAction="#TriChoice" prefHeight="40.0" prefWidth="137.0" promptText="Trier Selon :" styleClass="comboBox" stylesheets="@hello-view.css" />
       <Button fx:id="btnPDF" layoutX="992.0" layoutY="94.0" mnemonicParsing="false" onMouseClicked="#genererPDF" prefHeight="41.0" prefWidth="94.0" styleClass="btn" stylesheets="@hello-view.css" text="PDF" />
-      <ImageView fitHeight="170.0" fitWidth="150.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="136.0" fitWidth="118.0" layoutX="1101.0">
          <image>
-            <Image url="@../../../../../../../Desktop/iiiiii.png" />
+            <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
          </image>
       </ImageView>
 

@@ -12,15 +12,15 @@
     <children>
         <Button fx:id="btnListe" layoutX="258.0" layoutY="264.0" mnemonicParsing="false" onAction="#open_listEvenement" prefHeight="76.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="Afficher Evenements" />
         <Button fx:id="btnAdd" layoutX="521.0" layoutY="264.0" mnemonicParsing="false" onAction="#open_addEvenement" prefHeight="76.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="Ajouter Evenement" />
-      <Label layoutX="-12.0" layoutY="-4.0" prefHeight="106.0" prefWidth="958.0" style="-fx-background-color: d41c1c;" />
+      <Label layoutX="-12.0" layoutY="-4.0" prefHeight="106.0" prefWidth="977.0" style="-fx-background-color: d41c1c;" />
         <Label layoutX="273.0" prefHeight="94.0" prefWidth="387.0" style="-fx-alignment: CENTER; -fx-font-family: Tahoma; -fx-font-size: 40px;" text="Gestion Evenements" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font size="34.0" />
             </font>
         </Label>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="778.0" layoutY="-35.0">
+      <ImageView fitHeight="141.0" fitWidth="200.0" layoutX="766.0" layoutY="-21.0">
          <image>
-            <Image url="@../../../../../../../Desktop/image/418025501_916964343338013_8117190284543088009_n.png" />
+            <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
          </image>
       </ImageView>
 

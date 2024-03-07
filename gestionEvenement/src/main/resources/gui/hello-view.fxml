@@ -80,9 +80,9 @@
                         <children>
                             <AnchorPane fx:id="viewPages" layoutX="14.0" layoutY="-32.0" prefHeight="760.0" prefWidth="1234.0" AnchorPane.bottomAnchor="30.399999999999977" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-14.0" AnchorPane.topAnchor="-32.0">
                            <children>
-                              <ImageView fitHeight="133.0" fitWidth="134.0" layoutX="518.0" layoutY="14.0">
+                              <ImageView fitHeight="133.0" fitWidth="157.0" layoutX="495.0" layoutY="14.0">
                                  <image>
-                                    <Image url="@../../../../../../../Desktop/image/418025501_916964343338013_8117190284543088009_n.png" />
+                                    <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
                                  </image>
                               </ImageView>
                            </children></AnchorPane>

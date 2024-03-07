@@ -10,9 +10,9 @@
 <AnchorPane fx:id="gestionReservation" prefHeight="508.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.gestionReservationController">
 
     <children>
-        <Button fx:id="btnListe" layoutX="258.0" layoutY="276.0" mnemonicParsing="false" onAction="#open_listReservation" prefHeight="64.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="show Reservation" />
-        <Button fx:id="btnAdd" layoutX="521.0" layoutY="276.0" mnemonicParsing="false" onAction="#open_addReservation" prefHeight="64.0" prefWidth="193.0" styleClass="btn" stylesheets="@hello-view.css" text="ADD reservation" />
-      <Label prefHeight="97.0" prefWidth="954.0" style="-fx-background-color: d41c1c;" textFill="#d41c1c" />
+        <Button fx:id="btnListe" layoutX="256.0" layoutY="267.0" mnemonicParsing="false" onAction="#open_listReservation" prefHeight="64.0" prefWidth="183.0" styleClass="btn" stylesheets="@hello-view.css" text="show Reservation" />
+        <Button fx:id="btnAdd" layoutX="520.0" layoutY="267.0" mnemonicParsing="false" onAction="#open_addReservation" prefHeight="64.0" prefWidth="193.0" styleClass="btn" stylesheets="@hello-view.css" text="ADD reservation" />
+      <Label prefHeight="98.0" prefWidth="979.0" style="-fx-background-color: d41c1c;" textFill="#d41c1c" />
         <Label layoutX="288.0" layoutY="4.0" prefHeight="78.0" prefWidth="387.0" style="-fx-alignment: CENTER; -fx-font-family: Tahoma; -fx-font-size: 40px;" text="Gestion Reservations" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font size="34.0" />
@@ -21,6 +21,11 @@
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="779.0" layoutY="-51.0">
          <image>
             <Image url="@../../../../../../../Desktop/image/418025501_916964343338013_8117190284543088009_n.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="115.0" fitWidth="166.0" layoutX="779.0" layoutY="-14.0">
+         <image>
+            <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
          </image>
       </ImageView>
 

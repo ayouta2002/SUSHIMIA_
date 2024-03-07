@@ -34,9 +34,9 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <ImageView fitHeight="80.0" fitWidth="138.0" layoutX="633.0" layoutY="18.0">
+      <ImageView fitHeight="97.0" fitWidth="138.0" layoutX="633.0" layoutY="18.0">
          <image>
-            <Image url="@../../../../../../../Desktop/image/418025501_916964343338013_8117190284543088009_n.png" />
+            <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
          </image>
       </ImageView>
 
