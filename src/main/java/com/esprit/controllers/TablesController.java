@@ -284,138 +284,137 @@ public class TablesController implements Initializable {
 
     @FXML
     void PDFtable(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName("LEStables.pdf");
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try (PDDocument document = new PDDocument()) {
-                PDPage page = new PDPage();
-                document.addPage(page);
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialFileName("LEStables.pdf");
+            File file = fileChooser.showSaveDialog(null);
 
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-                TableView<Tab> tableView = tabtable;
-
-                double tableWidth = 500; // Largeur de la table
-                double yStartNewPage = page.getMediaBox().getHeight() - 50; // Position de départ pour une nouvelle page
-                double yStart = yStartNewPage;
-                double bottomMargin = 70; // Marge inférieure
-                float fontSize = 12; // Taille de police
-                float borderWidth = 1.0f; // Ajustez selon vos besoins
-                float[] borderColor = new float[] {0, 0, 0}; // Couleur noire (ajustez pour différentes couleurs)
-
-                List<Double> colWidths = new ArrayList<>(); // Liste des largeurs des colonnes
-                double tableHeight = 0; // Hauteur de la table
-
-                // Récupère les largeurs des colonnes et calcule la hauteur totale de la table
-                for (TableColumn<Tab, ?> col : tabtable.getColumns()) {
-                    double colWidth = col.getWidth();
-                    colWidths.add(colWidth);
-                    tableHeight = tabtable.getItems().size() * 20; // Supposons que chaque ligne a une hauteur de 20
-                }
-
-                // Vérifie si la table dépasse la page actuelle et crée une nouvelle page si nécessaire
-                if (yStart - tableHeight < bottomMargin) {
-                    contentStream.close();
-                    page = new PDPage();
+            if (file != null) {
+                try (PDDocument document = new PDDocument()) {
+                    PDPage page = new PDPage();
                     document.addPage(page);
-                    contentStream = new PDPageContentStream(document, page);
-                    yStart = yStartNewPage;
-                }
 
-                // Dessine le titre
-                contentStream.setFont(PDType1Font.HELVETICA_BOLD_OBLIQUE, 16);
+                    PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-                contentStream.beginText();
+                    TableView<Tab> tableView = tabtable;
 
-// Calcule la position horizontale pour centrer le texte
-                float textWidth = PDType1Font.HELVETICA_BOLD_OBLIQUE.getStringWidth("Liste des Tables") / 1000f * 16;
-                float centerX = (page.getMediaBox().getWidth() - textWidth) / 2;
+                    double tableWidth = 500; // Largeur de la table
+                    double yStartNewPage = page.getMediaBox().getHeight() - 50; // Position de départ pour une nouvelle page
+                    double yStart = yStartNewPage;
+                    double bottomMargin = 70; // Marge inférieure
+                    float fontSize = 12; // Taille de police
+                    float borderWidth = 1.0f; // Épaisseur des bordures
+                    float[] borderColor = new float[] {0, 0, 0}; // Couleur des bordures (noir par défaut)
+                    float titleFontSize = 16; // Taille de police du titre
+                    float[] titleColor = new float[] {0, 0, 255}; // Couleur du titre (bleu par défaut)
 
-// Définit la matrice de transformation pour centrer le texte
-                contentStream.setTextMatrix(Matrix.getTranslateInstance(centerX, (float) yStart));
+                    List<Double> colWidths = new ArrayList<>(); // Liste des largeurs des colonnes
+                    double tableHeight = 0; // Hauteur de la table
 
+                    // Récupère les largeurs des colonnes et calcule la hauteur totale de la table
+                    for (TableColumn<Tab, ?> col : tabtable.getColumns()) {
+                        double colWidth = col.getWidth();
+                        colWidths.add(colWidth);
+                        tableHeight = tabtable.getItems().size() * 20; // Supposons que chaque ligne a une hauteur de 20
+                    }
 
-                contentStream.setFont(PDType1Font.HELVETICA_BOLD_OBLIQUE, 30); // Modifie la taille de police du titre
-                contentStream.showText("Liste des Tables");
-                contentStream.endText();
+                    // Vérifie si la table dépasse la page actuelle et crée une nouvelle page si nécessaire
+                    if (yStart - tableHeight < bottomMargin) {
+                        contentStream.close();
+                        page = new PDPage();
+                        document.addPage(page);
+                        contentStream = new PDPageContentStream(document, page);
+                        yStart = yStartNewPage;
+                    }
 
-                yStart -= 30; // Décale la position de départ après le titre
+                    // Dessine le titre
+                    contentStream.setFont(PDType1Font.HELVETICA_BOLD_OBLIQUE, titleFontSize);
+                    contentStream.setNonStrokingColor(titleColor[0], titleColor[1], titleColor[2]);
 
-                // Dessine les en-têtes de colonnes
-                contentStream.setFont(PDType1Font.HELVETICA_BOLD, fontSize);
-
-                double yPosition = yStart;
-                double xPosition = 50; // Position horizontale initiale
-                float acc= (float)xPosition;
-
-                for (int i = 0; i < tabtable.getColumns().size(); i++) {
-                    TableColumn<Tab, ?> col = tabtable.getColumns().get(i);
-                    double colWidth = colWidths.get(i);
-                    acc+=acc;
-
-                    // Dessine la bordure supérieure de la cellule d'en-tête
-                    contentStream.setLineWidth(borderWidth);
-                    contentStream.setStrokingColor(borderColor[0], borderColor[1], borderColor[2]);
-                    contentStream.moveTo((float) xPosition, (float) (yPosition - 15));
-                    contentStream.lineTo((float) (xPosition + colWidth), (float) (yPosition - 15));
-                    contentStream.stroke();
-
-                    // Dessine la bordure inférieure de la cellule d'en-tête
-                    contentStream.moveTo((float) xPosition, (float) (yPosition - 35));
-                    contentStream.lineTo((float) (xPosition + colWidth), (float) (yPosition - 35));
-                    contentStream.stroke();
-
-                    // Dessine le texte de l'en-tête
                     contentStream.beginText();
-                    contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yPosition - 25));
-                    contentStream.showText(col.getText());
+                    float textWidth = PDType1Font.HELVETICA_BOLD_OBLIQUE.getStringWidth("Liste des Tables") / 1000f * titleFontSize;
+                    float centerX = (page.getMediaBox().getWidth() - textWidth) / 2;
+                    contentStream.setTextMatrix(Matrix.getTranslateInstance(centerX, (float) yStart));
+
+                    contentStream.showText("Liste des Tables");
                     contentStream.endText();
 
-                    xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
-                }
+                    yStart -= 30; // Décale la position de départ après le titre
 
-                // Dessine les lignes de données
-                contentStream.setFont(PDType1Font.HELVETICA, fontSize);
-                yPosition -= 40; // Décale la position de départ pour les lignes de données
-                for (Tab item : tabtable.getItems()) {
-                    yPosition -= 20;
-                    xPosition = 50; // Réinitialise la position horizontale pour chaque ligne
+                    // Dessine les en-têtes de colonnes
+                    contentStream.setFont(PDType1Font.HELVETICA_BOLD, fontSize);
+                    contentStream.setLineWidth(borderWidth);
+
+                    yStart -= 15; // Ajuste la position pour les bordures supérieures de la cellule d'en-tête
+                    double xPosition = 50; // Position horizontale initiale
 
                     for (int i = 0; i < tabtable.getColumns().size(); i++) {
-                        TableColumn<Tab,?> col = tabtable.getColumns().get(i);
+                        TableColumn<Tab, ?> col = tabtable.getColumns().get(i);
                         double colWidth = colWidths.get(i);
 
-                        Object cellData = col.getCellData(item);
-                        String cellValue = (cellData != null) ? cellData.toString() : "";
-                        contentStream.beginText();
-                        contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) yPosition);
-                        contentStream.showText(cellValue);
-                        contentStream.endText();
-
-                        // Dessine la bordure supérieure de la cellule de données
-                        contentStream.setLineWidth(borderWidth);
+                        // Dessine la bordure supérieure de la cellule d'en-tête
                         contentStream.setStrokingColor(borderColor[0], borderColor[1], borderColor[2]);
-                        contentStream.moveTo((float) xPosition, (float) (yPosition - 5));
-                        contentStream.lineTo((float) (xPosition + colWidth), (float) (yPosition - 5));
+                        contentStream.moveTo((float) xPosition, (float) yStart);
+                        contentStream.lineTo((float) (xPosition + colWidth), (float) yStart);
                         contentStream.stroke();
 
-                        // Dessine la bordure inférieure de la cellule de données
-                        contentStream.moveTo((float) xPosition, (float) (yPosition - 25));
-                        contentStream.lineTo((float) (xPosition + colWidth), (float) (yPosition - 25));
+                        // Dessine la bordure inférieure de la cellule d'en-tête
+                        contentStream.moveTo((float) xPosition, (float) (yStart - 20));
+                        contentStream.lineTo((float) (xPosition + colWidth), (float) (yStart - 20));
                         contentStream.stroke();
+
+                        // Dessine le texte de l'en-tête
+                        contentStream.beginText();
+                        contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yStart - 10));
+                        contentStream.showText(col.getText());
+                        contentStream.endText();
 
                         xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
                     }
+
+                    // Dessine les lignes de données
+                    contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+                    yStart -= 20; // Décale la position de départ pour les lignes de données
+                    for (Tab item : tabtable.getItems()) {
+                        yStart -= 20;
+                        xPosition = 50; // Réinitialise la position horizontale pour chaque ligne
+
+                        for (int i = 0; i < tabtable.getColumns().size(); i++) {
+                            TableColumn<Tab,?> col = tabtable.getColumns().get(i);
+                            double colWidth = colWidths.get(i);
+
+                            Object cellData = col.getCellData(item);
+                            String cellValue = (cellData != null) ? cellData.toString() : "";
+
+                            // Dessine la bordure supérieure de la cellule de données
+                            contentStream.setStrokingColor(borderColor[0], borderColor[1], borderColor[2]);
+                            contentStream.moveTo((float) xPosition, (float) yStart);
+                            contentStream.lineTo((float) (xPosition + colWidth), (float) yStart);
+                            contentStream.stroke();
+
+                            // Dessine la bordure inférieure de la cellule de données
+                            contentStream.moveTo((float) xPosition, (float) (yStart - 20));
+                            contentStream.lineTo((float) (xPosition + colWidth), (float) (yStart - 20));
+                            contentStream.stroke();
+
+                            // Dessine le texte de la cellule de données
+                            contentStream.beginText();
+                            contentStream.newLineAtOffset((float) (xPosition + colWidth / 2), (float) (yStart - 10));
+                            contentStream.showText(cellValue);
+                            contentStream.endText();
+
+                            xPosition += colWidth; // Met à jour la position horizontale pour la prochaine colonne
+                        }
+                    }
+
+                    contentStream.close();
+                    document.save(file);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                contentStream.close();
-                document.save(file);
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        }
+
+
     }
     @FXML
     void searche(KeyEvent event) {
