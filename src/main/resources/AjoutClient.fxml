@@ -12,11 +12,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.AjoutClient">
     <children>
+        <BorderPane fx:id="webcamPane" layoutX="336.0" layoutY="104.0" onMouseClicked="#webcamPaneClicked" prefHeight="119.0" prefWidth="186.0">
+        </BorderPane>
         <AnchorPane layoutX="97.0" layoutY="104.0" opacity="0.18" prefHeight="314.0" prefWidth="450.0" style="-fx-background-color: #cc5a12;" />
-        <ImageView fitHeight="581.0" fitWidth="939.0" layoutX="-141.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-            </image>
-        </ImageView>
         <TextField fx:id="ftnom" layoutX="145.0" layoutY="140.0" promptText="nom" />
         <TextField fx:id="ftprenom" layoutX="145.0" layoutY="184.0" promptText="prenom" />
         <TextField fx:id="ftemail" layoutX="145.0" layoutY="274.0" promptText="email" />
@@ -26,13 +24,11 @@
                 <Font name="Algerian" size="13.0" />
             </font>
         </Button>
-        <Button layoutX="346.0" layoutY="230.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="26.0" prefWidth="120.0" text="Upload Image">
+        <Button layoutX="322.0" layoutY="230.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="26.0" prefWidth="84.0" text="Upload ">
             <font>
                 <Font name="Algerian" size="13.0" />
             </font>
         </Button>
-        <BorderPane fx:id="webcamPane" layoutX="336.0" layoutY="112.0" prefHeight="124.0" prefWidth="139.0">
-        </BorderPane>
 
         <AnchorPane layoutX="-6.0" prefHeight="99.0" prefWidth="679.0" style="-fx-background-color: #960000;">
             <children>
@@ -65,5 +61,10 @@
         </Button>
         <Label layoutX="339.0" layoutY="344.0" text="Already have an account" />
         <PasswordField fx:id="ftmot_de_passe" layoutX="146.0" layoutY="227.0" />
+      <Button layoutX="415.0" layoutY="230.0" mnemonicParsing="false" onAction="#OnResfresh" prefHeight="26.0" prefWidth="120.0" text="Refresh Cam">
+         <font>
+            <Font name="Algerian" size="13.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

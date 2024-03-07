@@ -117,11 +117,7 @@ public class AjoutClient implements Initializable  {
         // Ajouter l'utilisateur
         ServiceUtilisateurs su = new ServiceUtilisateurs();
         su.add(new Utilisateurs(nom, prenom, motDePasse, email,Role.CLIENT,imagePath));
-        Notifications.create()
-                .darkStyle()
-                .title("user added successfully")
-                .hideAfter(Duration.seconds(10))
-                .show();
+
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Utilisateur ajouté!");
@@ -173,18 +169,7 @@ public class AjoutClient implements Initializable  {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        webcam = Webcam.getDefault();
-        if (webcam != null) {
-            webcam.setViewSize(WebcamResolution.VGA.getSize());
-            WebcamPanel panel = new WebcamPanel(webcam);
-            panel.setFillArea(true);
-            SwingNode swingNode = new SwingNode();
-            swingNode.setContent(panel);
-            webcamPane.setCenter(swingNode);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "No webcam detected!", ButtonType.OK);
-            alert.showAndWait();
-        }
+        loadWebcamView();
     }
     public void uploadImage(ActionEvent event) {
         if (webcam != null) {
@@ -212,5 +197,33 @@ public class AjoutClient implements Initializable  {
                 alert.showAndWait();
             }
         }
+    }
+
+    @FXML
+    void webcamPaneClicked(MouseEvent event) {
+
+    }
+
+    private void loadWebcamView() {
+        if (webcam != null) {
+            webcam.close(); // Close the webcam if it's already open
+        }
+        webcam = Webcam.getDefault();
+        if (webcam != null) {
+            webcam.setViewSize(WebcamResolution.VGA.getSize());
+            WebcamPanel panel = new WebcamPanel(webcam);
+            panel.setFillArea(true);
+            SwingNode swingNode = new SwingNode();
+            swingNode.setContent(panel);
+            webcamPane.setCenter(swingNode);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No webcam detected!", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+
+    public void OnResfresh(ActionEvent actionEvent) {
+        loadWebcamView();
     }
 }
