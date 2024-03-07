@@ -70,7 +70,7 @@ public class ReservationClientController implements Initializable {
                 .title("Réservation ajoutée")
                 .position(Pos.CENTER)
                 .hideAfter(Duration.seconds(5))
-                .showConfirm();
+                .show();
 
 
 
