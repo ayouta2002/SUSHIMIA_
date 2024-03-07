@@ -64,44 +64,34 @@ public class ReservationClientController implements Initializable {
         int idTable = numtableList.getSelectionModel().getSelectedItem();
         LocalDate selectedDate = dateR.getValue();
         Date date = Date.valueOf(selectedDate);
-
+        rs.ajouter(new Reservation(idClient, Lnomzone.getText(), idTable, date));
         Notifications.create()
                 .darkStyle()
-                .title("Reservation Recu")
-                .text("Votre réservation a été envoyée avec succès.")
-                .hideCloseButton()
+                .title("Réservation ajoutée")
                 .position(Pos.CENTER)
-                .onAction(notificationEvent -> {
-                    // Handle the confirmation action here
-                    rs.ajouter(new Reservation(idClient, Lnomzone.getText(), idTable, date));
-                    Notifications.create()
-                            .darkStyle()
-                            .title("Réservation ajoutée")
-                            .position(Pos.CENTER)
-                            .hideAfter(Duration.seconds(5))
-                            .showInformation();
-                })
+                .hideAfter(Duration.seconds(5))
                 .showConfirm();
 
 
-            // Envoyer l'e-mail
-            String clientEmail = "eya.benslimen@esprit.tn"; // Remplacez par l'adresse e-mail du Admin
-            String subject = "réservation d'un client";
-            String message = "Veuillez approuver ou rejeter la réservation, s'il vous plaît.";
 
-            envoyerMail(clientEmail, subject, message);
+        // Envoyer l'e-mail
+        String clientEmail = "eya.benslimen@esprit.tn"; // Remplacez par l'adresse e-mail du Admin
+        String subject = "réservation d'un client";
+        String message = "Veuillez approuver ou rejeter la réservation, s'il vous plaît.";
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ConfirmationDeReservation.fxml"));
-            Parent root = loader.load();
-            dateR.getScene().setRoot(root);
+        envoyerMail(clientEmail, subject, message);
 
-            ConfirmationDeReservationController apc = loader.getController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ConfirmationDeReservation.fxml"));
+        Parent root = loader.load();
+        dateR.getScene().setRoot(root);
 
-            apc.setLdate(dateR.getValue().toString());
-            apc.setLtable_id(String.valueOf(idTable));
+        ConfirmationDeReservationController apc = loader.getController();
 
-            apc.setLzone(Lnomzone.getText());
-        }
+        apc.setLdate(dateR.getValue().toString());
+        apc.setLtable_id(String.valueOf(idTable));
+
+        apc.setLzone(Lnomzone.getText());
+    }
     public  void envoyerMail(String email,String Subject,String Object) {
 
         final String username = "oussama.sfaxi@esprit.tn";
