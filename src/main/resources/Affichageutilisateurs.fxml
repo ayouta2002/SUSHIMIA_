@@ -6,39 +6,30 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="555.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.Affichageutilisateurs">
+<AnchorPane prefHeight="662.0" prefWidth="1038.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.Affichageutilisateurs">
    <children>
-      <AnchorPane prefHeight="110.0" prefWidth="806.0" style="-fx-background-color: #960000;">
+      <AnchorPane prefHeight="110.0" prefWidth="1038.0" style="-fx-background-color: #960000;">
          <children>
-            <ImageView fitHeight="103.0" fitWidth="141.0" layoutX="617.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
-               </image>
-               <effect>
-                  <Blend />
-               </effect>
-            </ImageView>
-            <Label layoutX="246.0" layoutY="29.0" prefHeight="40.0" prefWidth="314.0" text="Affichage Utilisateurs" textFill="#2b2727" underline="true">
+            <Label layoutX="323.0" layoutY="29.0" prefHeight="40.0" prefWidth="382.0" text="Affichage Utilisateurs" textFill="#2b2727" underline="true">
                <font>
-                  <Font name="Algerian" size="22.0" />
+                  <Font name="Cooper Black" size="29.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
       <Label layoutX="123.0" layoutY="243.0" />
-      <TableView fx:id="tabutilisateurs" layoutX="103.0" layoutY="188.0" prefHeight="306.0" prefWidth="560.0">
+      <TableView fx:id="tabutilisateurs" layoutX="10.0" layoutY="188.0" prefHeight="448.0" prefWidth="830.0">
          <columns>
-            <TableColumn fx:id="NomColumn" prefWidth="75.0" text="NOM" />
-            <TableColumn fx:id="PrenomColumn" prefWidth="93.60003662109375" text="PRENOM" />
-            <TableColumn fx:id="EmailColumn" prefWidth="193.5999755859375" text="EMAIL" />
-            <TableColumn fx:id="RoleColumn" prefWidth="89.5999755859375" text="ROLE" />
-            <TableColumn fx:id="ActionColumn" minWidth="0.0" prefWidth="127.99996337890627" text="ACTIONS" />
+            <TableColumn fx:id="NomColumn" prefWidth="102.39999103546143" text="NAME" />
+            <TableColumn fx:id="PrenomColumn" prefWidth="124.79998779296875" text="LASTNAME" />
+            <TableColumn fx:id="EmailColumn" prefWidth="264.7999725341797" text="EMAIL" />
+            <TableColumn fx:id="RoleColumn" prefWidth="192.79998779296875" text="ROLE" />
+            <TableColumn fx:id="ActionColumn" minWidth="0.0" prefWidth="147.19989013671875" text="ACTIONS" />
          </columns>
       </TableView>
       <ImageView fitHeight="32.0" fitWidth="177.0" layoutX="628.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
@@ -61,7 +52,7 @@
       </AnchorPane>
       <Button layoutX="663.0" layoutY="132.0" mnemonicParsing="false" onAction="#OnSort" prefHeight="32.0" prefWidth="118.0" text="Sort Table">
          <font>
-            <Font name="Algerian" size="13.0" />
+            <Font name="Cooper Black" size="13.0" />
          </font>
       </Button>
       <ComboBox fx:id="FilterComboBox" layoutX="521.0" layoutY="132.0" prefHeight="32.0" prefWidth="133.0" />
@@ -70,22 +61,17 @@
             <Font name="Algerian" size="13.0" />
          </font>
       </Button>
-      <ImageView fx:id="PdfImage" fitHeight="78.0" fitWidth="103.0" layoutX="687.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="PdfImage" fitHeight="78.0" fitWidth="103.0" layoutX="896.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Capture%20d'écran%202024-03-04%20220636.png" />
          </image>
       </ImageView>
-      <Button layoutX="25.0" layoutY="148.0" mnemonicParsing="false" onAction="#OnAdd" prefHeight="32.0" prefWidth="118.0" text="NEW">
+      <Button layoutX="813.0" layoutY="132.0" mnemonicParsing="false" onAction="#OnAdd" prefHeight="32.0" prefWidth="118.0" text="+ ADD">
          <font>
-            <Font name="Algerian" size="13.0" />
+            <Font name="Cooper Black" size="15.0" />
          </font>
       </Button>
-      <ImageView fitHeight="46.0" fitWidth="50.0" layoutX="14.0" layoutY="496.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/nourriture.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="ExcelImage" fitHeight="78.0" fitWidth="88.0" layoutX="688.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="ExcelImage" fitHeight="78.0" fitWidth="88.0" layoutX="889.0" layoutY="373.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Excel.png" />
          </image>

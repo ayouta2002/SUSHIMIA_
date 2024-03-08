@@ -8,59 +8,44 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.ModifierProfil">
+<AnchorPane prefHeight="661.0" prefWidth="1039.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controllers.ModifierProfil">
 
    <children>
-      <ImageView fitHeight="26.0" fitWidth="42.0" layoutX="422.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="26.0" fitWidth="42.0" layoutX="589.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/poubelle.gif" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="149.0" layoutY="109.0" opacity="0.18" prefHeight="327.0" prefWidth="355.0" style="-fx-background-color: #cc5a12;" />
-      <ImageView fitHeight="443.0" fitWidth="735.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
+      <AnchorPane layoutX="149.0" layoutY="109.0" opacity="0.18" prefHeight="493.0" prefWidth="804.0" style="-fx-background-color: #cc5a12;" />
+      <ImageView fitHeight="663.0" fitWidth="1036.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
          <image>
          </image>
       </ImageView>
-      <TextField fx:id="ftnom" layoutX="240.0" layoutY="157.0" />
-      <TextField fx:id="ftemail" layoutX="236.0" layoutY="323.0" />
-      <TextField fx:id="ftmot_de_passe" layoutX="239.0" layoutY="274.0" />
-      <TextField fx:id="ftprenom" layoutX="240.0" layoutY="209.0" />
-      <Button layoutX="187.0" layoutY="370.0" mnemonicParsing="false" onAction="#modifier" prefHeight="37.0" prefWidth="98.0" text="Modifier" textFill="#0b0a20">
+      <TextField fx:id="ftnom" layoutX="244.0" layoutY="157.0" prefHeight="26.0" prefWidth="385.0" />
+      <TextField fx:id="ftemail" layoutX="246.0" layoutY="327.0" prefHeight="26.0" prefWidth="386.0" />
+      <TextField fx:id="ftmot_de_passe" layoutX="244.0" layoutY="269.0" prefHeight="26.0" prefWidth="386.0" />
+      <TextField fx:id="ftprenom" layoutX="245.0" layoutY="209.0" prefHeight="26.0" prefWidth="386.0" />
+      <Button layoutX="380.0" layoutY="388.0" mnemonicParsing="false" onAction="#modifier" prefHeight="37.0" prefWidth="98.0" text="UPDATE" textFill="#0b0a20">
          <font>
             <Font name="Algerian" size="15.0" />
          </font></Button>
-      <Label layoutX="240.0" layoutY="130.0" text="Nom" />
-      <Label layoutX="240.0" layoutY="191.0" text="Prenom" />
-      <Label layoutX="239.0" layoutY="300.0" prefHeight="18.0" prefWidth="42.0" text="Email" />
-      <Label layoutX="240.0" layoutY="248.0" text="Mot de Passe" />
-      <AnchorPane prefHeight="82.0" prefWidth="735.0" style="-fx-background-color: #960000;">
+      <Label layoutX="243.0" layoutY="132.0" text="Name" />
+      <Label layoutX="242.0" layoutY="188.0" text="LastName" />
+      <Label layoutX="246.0" layoutY="300.0" prefHeight="18.0" prefWidth="42.0" text="Email" />
+      <Label layoutX="243.0" layoutY="242.0" text="Password" />
+      <AnchorPane prefHeight="82.0" prefWidth="1039.0" style="-fx-background-color: #960000;">
          <children>
-            <ImageView fitHeight="98.0" fitWidth="150.0" layoutX="614.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/418025501_916964343338013_8117190284543088009_n.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="245.0" layoutY="36.0" prefHeight="26.0" prefWidth="270.0" text="MODIFIER VOTRE PROFIL" underline="true">
+            <Label layoutX="402.0" layoutY="28.0" prefHeight="26.0" prefWidth="270.0" text="MODIFIER VOTRE PROFIL" underline="true">
                <font>
-                  <Font name="Algerian" size="19.0" />
+                  <Font name="Cooper Black" size="18.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="49.0" fitWidth="71.0" layoutX="14.0" layoutY="384.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/nourriture.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="314.0" layoutY="369.0" mnemonicParsing="false" onAction="#supprimer" prefHeight="38.0" prefWidth="100.0" text="SUPPRIMER">
+      <Button layoutX="489.0" layoutY="387.0" mnemonicParsing="false" onAction="#supprimer" prefHeight="38.0" prefWidth="100.0" text="DELETE">
          <font>
             <Font name="Algerian" size="15.0" />
          </font>
       </Button>
-      <ImageView fitHeight="108.0" fitWidth="150.0" layoutX="559.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/profil.gif" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>
