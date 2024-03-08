@@ -1,0 +1,91 @@
+.search-box{
+    -fx-background-color:#FFFFFF;
+    -fx-background-radius: 100;
+}
+
+.transparent{
+    -fx-background-color: rgba(0,0,0,0);
+}
+
+.search-button{
+    -fx-background-color: #828282;
+    -fx-background-radius: 30;
+}
+
+.right-bar{
+    -fx-background-color: #D3D3D3;
+}
+.right-bar1{
+    -fx-background-color: #d2c3c3;
+}
+
+.shadow{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}
+
+.chosen-fruit-card{
+    -fx-background-color: #F16C31;
+    -fx-background-radius: 30;
+}
+
+.comboBox{
+    -fx-background-color: rgba(255,255,255,0.3);
+    -fx-background-radius: 30;
+}
+
+.add-btn{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 100;
+}
+.add-btn:hover {
+    -fx-background-color: #CCCCCC; /* Couleur de fond au survol */
+}
+
+.free-delivery-card{
+    -fx-background-color: #D3D3D3;
+    -fx-background-radius: 30;
+}
+
+.shopping-online-card{
+    -fx-background-color: #BAEAC3;
+    -fx-background-radius: 30;
+}
+
+.fruit-item{
+    -fx-background-color: #FFFFFF;
+        -fx-background-radius: 30;
+}
+/* Bouton italien */
+/* Bouton italien */
+.button-italian {
+    -fx-background-color: linear-gradient(to right, #009246, #FFFFFF, #CE2B37); /* Dégradation de vert à blanc à rouge */
+    -fx-text-fill: #f10202; /* Blanc */
+    -fx-font-weight: bold;
+    -fx-border-width: 2px;
+    -fx-font-family: "Segoe UI"; /* Police de caractères */
+    -fx-font-size: 2em; /* Taille de police agrandie */
+}
+
+.button-italian:hover {
+    -fx-background-color: linear-gradient(to right, #CE2B37, #FFFFFF, #009246); /* Dégradation de rouge à blanc à vert */
+    -fx-text-fill: #FFFFFF; /* Blanc */
+}
+
+/* Bouton japonais */
+.button-japanese {
+    -fx-background-color: linear-gradient(to right, #FFFFFF, #D30000); /* Dégradation de blanc à rouge */
+    -fx-text-fill: #4b1b1b; /* Noir */
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI"; /* Police de caractères */
+    -fx-font-size: 2em; /* Taille de police agrandie */
+}
+
+.button-japanese:hover {
+    -fx-background-color: linear-gradient(to right, #D30000, #FFFFFF); /* Dégradation de rouge à blanc */
+    -fx-text-fill: #FFFFFF; /* Blanc */
+}
+.contour {
+    -fx-border-color: #b99696; /* Couleur du contour */
+    -fx-border-width: 1px; /* Épaisseur du contour */
+    -fx-border-radius: 5px; /* Rayon de bordure */
+}

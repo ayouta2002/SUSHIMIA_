@@ -1,0 +1,113 @@
+.menu-bar {
+    -fx-background-color: linear-gradient(to right, #ffe8ac, #ffdf85, #ffdd57);
+}
+
+.menu-button {
+    -fx-background-color: linear-gradient(to bottom, #ffc107, #ffdd57);
+    -fx-text-fill: #fff;
+    -fx-border-color: transparent;
+    -fx-border-radius: 5;
+    -fx-padding: 5px 10px;
+}
+
+.menu-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #ffdf85, #ffe8ac);
+    -fx-text-fill: #333;
+    -fx-border-color: #ccc;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0, 0, 0);
+}
+
+
+.menu-barr {
+    -fx-background-color: linear-gradient(to right, #ffe8ac, #ffdf85, #ffdd57);
+}
+
+.contour-raduis {
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    /* Ajustez l'épaisseur de la bordure selon vos besoins */
+    -fx-border-radius: 10;
+    /* Ajustez le rayon pour les coins arrondis */
+    -fx-background-radius: 10;
+    /* Assure que le fond respecte également les coins arrondis */
+}
+
+.contour-normal {
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    /* Ajustez l'épaisseur d
+    /* Ajustez le rayon pour les
+    /* Assure que le fond respecte également les coins arrondis */
+}
+.button22 {
+    -fx-background-color: #f0b37e, linear-gradient(#fc8d25, #f4b15f), linear-gradient(#f9ab24, #f3980d 50%, #e68602 50%, #fd8e03);
+    -fx-background-insets: 0,1,2;
+    -fx-background-radius: 3px;
+    -fx-padding: 12px 30px 12px 30px;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-pref-width: 150px;  /* Ajustez à la largeur désirée */
+    -fx-pref-height: 20px;  /* Ajustez à la hauteur désirée */
+}
+
+.button22:hover {
+    -fx-background-color: #f3980d, linear-gradient(#f9ab24, #f4b15f), linear-gradient(#f9ab24, #f3980d 50%, #e68602 50%, #f9ab24);
+}
+
+.button22:pressed {
+    -fx-background-color: #e68602, linear-gradient(#f9ab24, #f4b15f), linear-gradient(#f9ab24, #f3980d 50%, #e68602 50%, #f9ab24);
+    -fx-padding: 10px 28px 14px 32px;
+}
+.other-button {
+    -fx-background-color: linear-gradient(from bottom, #ffc107, #ffdd57);
+    -fx-text-fill: #fff;
+    -fx-border-color: transparent;
+    -fx-border-radius: 5;
+    -fx-padding: 5px 10px;
+    -fx-pref-width: 100px;  /* Ajustez à la largeur désirée */
+    -fx-pref-height: 20px;  /* Ajustez à la hauteur désirée */
+}
+
+.other-button:hover {
+    -fx-background-color: linear-gradient(from bottom, #ffdf85, #ffe8ac);
+    -fx-text-fill: #333;
+    -fx-border-color: #ccc;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0, 0, 0);
+}
+.other-button:pressed{
+    -fx-background-color: #e68602, linear-gradient(#f9ab24, #f4b15f), linear-gradient(#f9ab24, #f3980d 50%, #e68602 50%, #f9ab24);
+    -fx-padding: 10px 28px 14px 32px;
+
+}
+.table-view {
+    -fx-background-color: #FFF0E5; /* Couleur de fond légère */
+    -fx-border-color: #FFA500; /* Couleur de la bordure */
+    -fx-border-width: 2; /* Épaisseur de la bordure */
+}
+
+.table-view .column-header {
+    -fx-background-color: #FFA500; /* Couleur de fond des en-têtes de colonne */
+    -fx-text-fill: white; /* Couleur du texte des en-têtes */
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 14px; /* Taille du texte des en-têtes */
+    -fx-font-weight: bold; /* Graisse du texte */
+}
+
+.table-view .table-row-cell {
+    -fx-border-color: black; /* Pas de bordure pour les cellules */
+    -fx-padding: 5px; /* Espacement intérieur pour les cellules */
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #FFD580; /* Couleur de fond pour les lignes sélectionnées */
+    -fx-text-fill: black; /* Couleur du texte pour les lignes sélectionnées */
+}
+
+.table-view .table-row-cell:filled:focused:selected, .table-view .table-row-cell:filled:focused:selected:hover {
+    -fx-background-color: #FFB732; /* Couleur de fond pour les lignes sélectionnées et focalisées */
+    -fx-text-fill: black; /* Couleur du texte pour les lignes sélectionnées et focalisées */
+}

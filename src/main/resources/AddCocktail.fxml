@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.controles.AddCocktail">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <BorderPane prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <left>
+                  <AnchorPane prefHeight="600.0" prefWidth="246.0" styleClass="menu-bar" stylesheets="@AddIngredient.css" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="button_dashboard" layoutX="14.0" layoutY="252.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0" styleClass="menu-button" stylesheets="@AddIngredient.css" text="DASHBOARD" />
+                        <Button fx:id="button_ingredient" layoutX="14.0" layoutY="302.0" mnemonicParsing="false" onAction="#AfficheInterfaceIngredient" prefHeight="40.0" prefWidth="210.0" styleClass="menu-button" stylesheets="@AddIngredient.css" text="INGREDIENT" />
+                        <Button fx:id="button_cocktail" layoutX="14.0" layoutY="352.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0" styleClass="menu-button" stylesheets="@AddIngredient.css" text="COCKTAIL" />
+                        <Button fx:id="button_customre" layoutX="14.0" layoutY="402.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0" styleClass="menu-button" stylesheets="@AddIngredient.css" text="CUSTOMORE" />
+                        <Button layoutX="14.0" layoutY="561.0" mnemonicParsing="false" text="LOG OUT" />
+                        <ImageView fitHeight="79.0" fitWidth="115.0" layoutX="80.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@logo.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="30.0" layoutY="138.0" text="Welcome," />
+                        <Label fx:id="username1" layoutX="119.0" layoutY="138.0" text="admin" />
+                     </children>
+                  </AnchorPane>
+               </left>
+               <center>
+                  <AnchorPane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@AddIngredient.css" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane layoutX="11.0" layoutY="76.0" prefHeight="271.0" prefWidth="830.0" styleClass="contour-normal" stylesheets="@AddIngredient.css" AnchorPane.bottomAnchor="253.0" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="76.0">
+                           <children>
+                              <TableView fx:id="TableCocktail" layoutX="19.0" layoutY="9.0" prefHeight="228.0" prefWidth="811.0" stylesheets="@AddIngredient.css" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="8.0">
+                                 <columns>
+                                    <TableColumn fx:id="colum_Id_cocktail" prefWidth="103.9999567270279" text="id_cocktail" />
+                                    <TableColumn fx:id="colum_Name" prefWidth="104.80003356933594" text="Name" />
+                                    <TableColumn fx:id="colum_Category" prefWidth="90.4000244140625" text="Category" />
+                                    <TableColumn fx:id="colum_Description" prefWidth="82.4000244140625" text="Description" />
+                                    <TableColumn fx:id="colum_Type" prefWidth="72.0" text="Type" />
+                                    <TableColumn fx:id="colum_Price" prefWidth="68.0" text="Price" />
+                                    <TableColumn fx:id="colum_Imageurl" maxWidth="500.0" prefWidth="91.0" text="Imageurl" />
+                                    <TableColumn fx:id="colum_Id_creator" prefWidth="82.0" text="Id_creator" />
+                                    <TableColumn fx:id="colum_action" maxWidth="199.20001220703125" minWidth="20.0" prefWidth="106.0" text="Action" />
+                                 </columns>
+                              </TableView>
+                              <TextField fx:id="recherche_cocktail" layoutX="666.0" layoutY="240.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="11.0" layoutY="354.0" prefHeight="231.0" prefWidth="834.0" styleClass="contour-normal" stylesheets="@AddIngredient.css">
+                           <children>
+                              <TextField fx:id="AddNameCO" layoutX="134.0" layoutY="15.0" AnchorPane.bottomAnchor="191.0" />
+                              <TextField fx:id="AddDescriptionCo" layoutX="134.0" layoutY="160.0" promptText="0" AnchorPane.bottomAnchor="110.0" />
+                              <TextField fx:id="AddPriceCO" layoutX="399.0" layoutY="74.0" promptText="0.0" AnchorPane.bottomAnchor="150.0" />
+                              <TextField fx:id="AddStatusCO" layoutX="399.0" layoutY="113.0" AnchorPane.bottomAnchor="110.0" />
+                              <Label layoutX="62.0" layoutY="58.0" text="category:" AnchorPane.bottomAnchor="156.0" />
+                              <Label layoutX="76.0" layoutY="23.0" text="Name:" AnchorPane.bottomAnchor="191.0" />
+                              <Label layoutX="50.0" layoutY="100.0" text="description:" AnchorPane.bottomAnchor="114.0" />
+                              <Label layoutX="388.0" layoutY="37.0" text="type:" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="350.0" />
+                              <Label layoutX="389.0" layoutY="82.0" text="Price:" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="350.0" />
+                              <Label layoutX="389.0" layoutY="164.0" text="Status:" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="350.0" />
+                              <AnchorPane fx:id="Image" layoutX="652.0" layoutY="15.0" prefHeight="143.0" prefWidth="140.0" styleClass="contour-normal" stylesheets="@AddIngredient.css">
+                                 <children>
+                                    <ImageView fitHeight="140.0" fitWidth="128.0" layoutX="6.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children></AnchorPane>
+                              <Button fx:id="ImportINbtn" layoutX="647.0" layoutY="166.0" mnemonicParsing="false" styleClass="button22" stylesheets="@AddIngredient.css" text="Import" />
+                              <Button fx:id="AddINbtn" layoutX="267.0" layoutY="166.0" mnemonicParsing="false" onAction="#AjouterCocktailT" styleClass="button22" stylesheets="@AddIngredient.css" text="Add" />
+                              <ComboBox fx:id="AddCategoryCO" layoutX="133.0" layoutY="55.0" prefWidth="150.0" promptText="choose category" />
+                              <ComboBox fx:id="AddTypeCO" layoutX="399.0" layoutY="16.0" prefWidth="150.0" promptText="choose type" />
+                              <ImageView fx:id="infoIconImageView" fitHeight="18.0" fitWidth="13.0" layoutX="558.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@question.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <Label layoutX="353.0" layoutY="37.0" prefHeight="17.0" prefWidth="112.0" text="Gestion Cocktail " />
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
